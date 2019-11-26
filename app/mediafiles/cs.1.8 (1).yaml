@@ -1,0 +1,171 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: CounterStrike Global Offensive linux server template
+Mappings:
+  AWSRegion2AMI:
+    eu-central-1:
+      AMI: ami-26c43149
+    eu-west-1:
+      AMI: ami-ed82e39e
+Parameters:
+  InstanceType:
+    AllowedValues:
+      - t2.nano
+      - t2.micro
+      - t2.medium
+      - c4.large
+    ConstraintDescription: must be a valid EC2 instance type.
+    Default: t2.micro
+    Description: Instance type for EC2 instance.
+    Type: String
+  KeyName:
+    ConstraintDescription: must be the name of an existing EC2 KeyPair.
+    Default: openvpn
+    Description: Name of an existing EC2 KeyPair to enable SSH access to the instances
+    Type: 'AWS::EC2::KeyPair::KeyName'
+  Project:
+    AllowedPattern: '[\x20-\x7E]*'
+    ConstraintDescription: can contain only ASCII characters.
+    Default: Counter-Strike
+    Description: CounterStrike
+    MaxLength: '255'
+    MinLength: '1'
+    Type: String
+  HostedZone:
+    AllowedPattern: '[\x20-\x7E]*'
+    ConstraintDescription: can contain only ASCII characters.
+    Default: example.com.
+    Description: zone name
+    MaxLength: '255'
+    MinLength: '1'
+    Type: String
+  GSLT:
+    AllowedPattern: '[\x20-\x7E]*'
+    ConstraintDescription: can contain only ASCII characters.
+    Default: 1111
+    Description: Game Server Login Token
+    MaxLength: '255'
+    MinLength: '1'
+    Type: String
+Resources:
+  Instance:
+    Properties:
+      ImageId: !FindInMap 
+        - AWSRegion2AMI
+        - !Ref 'AWS::Region'
+        - AMI
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      SecurityGroups:
+        - !Ref SecurityGroup
+      BlockDeviceMappings:
+        - DeviceName: /dev/sda1
+          Ebs:
+            VolumeSize: 50
+      Tags:
+        - Key: Name
+          Value: !Join 
+            - '-'
+            - - EC2-CSGO
+              - !Ref Project
+      UserData: !Base64 
+        'Fn::Sub': >
+          #!/bin/bash -ex
+          
+          if [ -z "$GSLT" ]; then GSLT="C516A308DC9FB7CBEDB958BB6AC98BF2"; else echo "GSLT is set to '$GSLT'"; fi
+          
+          if [ -z "$CS_USER" ]; then CS_USER="csgoserver"; else echo "CS_USER is set to '$CS_USER'"; fi
+          
+          if [ -z "$INSTALL_FILE" ]; then INSTALL_FILE="installation_successful"; else echo "INSTALL_FILE is set to '$INSTALL_FILE'"; fi
+          
+          if [ -f /home/$CS_USER/$INSTALL_FILE ]; then
+            echo "The server exists."
+            sudo -u $CS_USER -H bash -c "./csgoserver update"
+
+          else
+          
+          echo "The CS server  not found."
+   
+          sudo dpkg --add-architecture i386
+
+          sudo apt-get install lib32gcc1 -y
+
+          sudo debconf-set-selections <<< "postfix postfix/mailname string your.hostname.com"
+
+          sudo  debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
+
+          sudo dpkg --add-architecture i386; sudo apt update; sudo DEBIAN_FRONTEND=noninteractive apt-get install -y mailutils postfix curl wget file tar bzip2 gzip unzip bsdmainutils python util-linux ca-certificates binutils bc jq tmux lib32gcc1 libstdc++6 libstdc++6:i386
+
+          sudo adduser $CS_USER --disabled-password  --gecos ""
+
+          sudo -u $CS_USER -i -H bash -c "wget -O linuxgsm.sh https://linuxgsm.sh && chmod +x linuxgsm.sh && bash linuxgsm.sh csgoserver"
+
+          sudo -u $CS_USER -i -H bash -c "./csgoserver ai"
+
+          sudo -u $CS_USER -i -H bash -c "echo \"\" >> $HOME/lgsm/config-lgsm/csgoserver/csgoserver.cfg"
+
+          sudo -u $CS_USER -i -H bash -c "echo \"gslt=$GSLT\" >> $HOME/lgsm/config-lgsm/csgoserver/csgoserver.cfg"
+
+          sudo -u $CS_USER -i -H bash -c "touch /home/$CS_USER/$INSTALL_FILE"
+
+          fi
+          sudo -u $CS_USER -i -H bash -c "./csgoserver start"
+    Type: 'AWS::EC2::Instance'
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: 5e9280c9-cde4-4749-9ffe-f9a6bdfeda4b
+  SecurityGroup:
+    Properties:
+      GroupDescription: 'Enable access to the instance. '
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          FromPort: '22'
+          IpProtocol: tcp
+          ToPort: '22'
+        - CidrIp: 0.0.0.0/0
+          FromPort: '27015'
+          IpProtocol: tcp
+          ToPort: '27015'
+        - CidrIp: 0.0.0.0/0
+          FromPort: '26900'
+          IpProtocol: udp
+          ToPort: '27030'
+        - CidrIp: 0.0.0.0/0
+          FromPort: '27000'
+          IpProtocol: udp
+          ToPort: '27030'
+        - CidrIp: 0.0.0.0/0
+          FromPort: '4380'
+          IpProtocol: udp
+          ToPort: '4380'
+      Tags:
+        - Key: Name
+          Value: !Join 
+            - '-'
+            - - SG-CSGO
+              - !Ref Project
+    Type: 'AWS::EC2::SecurityGroup'
+    Metadata:
+      'AWS::CloudFormation::Designer':
+        id: d6462bca-61fd-4852-997c-57b2cf557eba
+Metadata:
+  'AWS::CloudFormation::Designer':
+    d6462bca-61fd-4852-997c-57b2cf557eba:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 60
+        'y': 90
+      z: 1
+      embeds: []
+    5e9280c9-cde4-4749-9ffe-f9a6bdfeda4b:
+      size:
+        width: 60
+        height: 60
+      position:
+        x: 180
+        'y': 90
+      z: 1
+      embeds: []
+      isassociatedwith:
+        - d6462bca-61fd-4852-997c-57b2cf557eba
