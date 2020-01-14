@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "meeting",
 ]
 
 MIDDLEWARE = [
@@ -83,7 +84,6 @@ DATABASES = {
         "PORT": os.environ.get("SQL_PORT", "5432"),
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
