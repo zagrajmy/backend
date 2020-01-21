@@ -1,0 +1,11 @@
+[run]
+source=
+  app
+branch=true
+omit=
+  app/*/migrations/*.py
+  app/manage.py
+  app/zagrajmy/*.py
+[report]
+skip_covered=true
+show_missing=true

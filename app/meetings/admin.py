@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from meetings.models import Guild, Meeting, Sphere
+
+admin.site.register(Guild)
+admin.site.register(Sphere)
+admin.site.register(Meeting)
