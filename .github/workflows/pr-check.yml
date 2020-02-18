@@ -1,6 +1,13 @@
 name: Zagrajmy PR Check
 
-on: [push, pull_request]
+on:
+  pull_request:
+    branches: 
+      - '**'
+  push:
+    branches:
+      - master
+      - release/*
 
 jobs:
   build:
