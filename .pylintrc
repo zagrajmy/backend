@@ -28,7 +28,7 @@ limit-inference-results=88
 
 # List of plugins (as comma separated values of python module names) to load,
 # usually to register additional checkers.
-load-plugins=pylint.extensions.mccabe
+load-plugins=pylint.extensions.mccabe,pylint_django
 
 max-complexity=10
 
