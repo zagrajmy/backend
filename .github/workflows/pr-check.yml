@@ -1,6 +1,6 @@
 name: Zagrajmy PR Check
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
