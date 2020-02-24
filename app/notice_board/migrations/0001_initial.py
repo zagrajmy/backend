@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        migrations.swappable_dependency('auth.User'),
     ]
 
     operations = [
@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                 ('updated_at', models.DateTimeField(auto_now=True)),
                 ('location', models.TextField(blank=True, null=True)),
                 ('guild', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='notice_board.Guild')),
-                ('organizer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('organizer', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='auth.User')),
             ],
             options={
                 'db_table': 'nb_meeting',
@@ -50,7 +50,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255)),
-                ('users', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                ('users', models.ManyToManyField(to='auth.User')),
             ],
             options={
                 'db_table': 'nb_sphere',
@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('status', models.CharField(max_length=31)),
                 ('meeting', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='notice_board.Meeting')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='auth.User')),
             ],
             options={
                 'db_table': 'nb_meeting_user',
@@ -76,7 +76,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='meeting',
             name='users',
-            field=models.ManyToManyField(related_name='meetings', through='notice_board.MeetingUser', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(related_name='meetings', through='notice_board.MeetingUser', to='auth.User'),
         ),
         migrations.CreateModel(
             name='GuildUser',
@@ -84,7 +84,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('membership_type', models.CharField(max_length=31)),
                 ('guild', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='notice_board.Guild')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='auth.User')),
             ],
             options={
                 'db_table': 'nb_guild_user',
@@ -93,6 +93,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='guild',
             name='members',
-            field=models.ManyToManyField(through='notice_board.GuildUser', to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(through='notice_board.GuildUser', to='auth.User'),
         ),
     ]

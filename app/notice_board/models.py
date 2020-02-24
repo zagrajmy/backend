@@ -1,5 +1,6 @@
-from django.contrib.auth.models import User
 from django.db import models
+
+from crowd.models import User
 
 
 class Guild(models.Model):
