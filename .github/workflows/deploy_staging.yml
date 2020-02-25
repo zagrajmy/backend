@@ -19,6 +19,7 @@ jobs:
         with:
           USER_AND_HOST: lukedev85@35.204.239.210
           DEST: ~/deployments/
+          SRC: .
           RSYNC_OPTIONS: -avzr --delete --exclude '.git*'
         env:
           DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
