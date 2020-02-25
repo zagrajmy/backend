@@ -1,0 +1,22 @@
+name: Zagrajmy deployment
+
+on:
+  push:
+    branches:
+      - release/*
+      - feature/cd
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.8]
+
+    steps:
+      uses: contention/rsync-deployments@v1.0.0
+    env:
+      DEPLOY_KEY: ${{secrets.DEPLOY_KEY}}
+    with:
+      args: "-avzr --delete lukedev85@35.204.239.21:~/deployments/"
