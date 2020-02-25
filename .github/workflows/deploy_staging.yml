@@ -13,10 +13,12 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8]
-
     steps:
-      uses: contention/rsync-deployments@v1.0.0
-    env:
-      DEPLOY_KEY: ${{secrets.DEPLOY_KEY}}
-    with:
-      args: "-avzr --delete lukedev85@35.204.239.21:~/deployments/"
+      - uses: actions/checkout@master
+      - uses: contention/rsync-deployments@master
+        with:
+          USER_AND_HOST: lukedev85@35.204.239.210
+          DEST: ~/deployments/
+          RSYNC_OPTIONS: -avzr --delete --exclude '.git*'
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
