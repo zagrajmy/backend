@@ -1,3 +1,5 @@
+![Tox (tests and lint)](https://github.com/zagrajmy/zm-backend/workflows/Tox%20(tests%20and%20lint)/badge.svg?branch=master)
+
 # Dockerizing Django with Postgres, Gunicorn, Nginx, and Hasura
 
 ## Want to learn how to build this?
