@@ -1,4 +1,4 @@
-name: Zagrajmy PR Check
+name: Tox (tests and lint)
 
 on:
   pull_request:
