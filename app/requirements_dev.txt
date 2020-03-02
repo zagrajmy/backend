@@ -1,0 +1,12 @@
+pytest
+pytest-cov
+pytest-django
+bandit
+black
+django-stubs
+isort
+mypy
+pycodestyle
+pydocstyle
+pylint
+pylint-django
