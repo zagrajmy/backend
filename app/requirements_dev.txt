@@ -3,7 +3,7 @@ pytest-cov==2.8.1
 pytest-django==3.8.0
 bandit==1.6.2
 black==19.10b0
-django-stubs
+django-stubs==1.4.0
 isort
 mypy
 pycodestyle
