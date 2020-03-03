@@ -7,6 +7,6 @@ django-stubs==1.4.0
 isort==4.3.21
 mypy==0.761
 pycodestyle==2.5.0
-pydocstyle
+pydocstyle==5.0.2
 pylint
 pylint-django
