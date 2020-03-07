@@ -31,7 +31,7 @@ services:
     depends_on:
       - web
   graphql-engine:
-    image: hasura/graphql-engine:v1.0.0-beta.10
+    image: hasura/graphql-engine:v1.1.0
     ports:
     - 8080:8080
     depends_on:
