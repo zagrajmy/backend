@@ -12,11 +12,13 @@ services:
       - POSTGRES_PASSWORD=hello_django
       - POSTGRES_DB=hello_django_dev
   web:
-    build: ./app
-    command: python manage.py runserver 0.0.0.0:8000
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    command: django-admin runserver 0.0.0.0:8000
     restart: always
     volumes:
-      - ./app/:/usr/src/app/
+      - .:/usr/src/
     ports:
       - 8000:8000
     env_file:
