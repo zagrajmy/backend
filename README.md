@@ -22,6 +22,43 @@ Uses the default Django development server.
 
     Test it out at [http://localhost:8000](http://localhost:8000). The "app" folder is mounted into the container and your code changes apply automatically.
     The Hasura interface for local development startsby default at [http://localhost:8080](http://localhost:8080).
+1. You could use make or tox to run commands in local environment on docker:
+    1. Make
+
+        `make` runs scripts in current virtual environment. Make sure you have one before you'll use it.
+
+        Make commands:
+        *  devinst - install all packages required for development tools
+        *  test - run pytest with coverage
+        *  lint - run lint tools (only check)
+        *  format - run formatting tools (will modify files)
+
+        **Attention!** Don't run `format` command inside docker!
+    2. Tox
+
+        `tox` uses make commands, but creates a virtualenv i `.tox` to run them.
+
+        Run `tox -e env1,env2,...`. Default envs are: `format,lint,test`.
+
+        Mode names correspond to make commands (except devinst).
+
+        **Attention!** Don't run tox inside docker!
+1. Aliases for docker commands
+
+    Local aliases file to include docker aliases in your shell:
+
+    `. .aliases`
+
+    Available aliases:
+    * `dexdj` - Run command in django container
+    * `dexgq` - Run command in hasura container
+    * `dexpg` - Run command in postgresql container
+    * `dd-admin` - Run django admin command in Django container
+    * `dd-ipython` - Run ipython in Django container
+    * `dd-make` - Run make in Django container
+    * `dg-hasura` - Run hasura cli
+    * `dp-psql` - Run psql
+
 
 ### Production
 
@@ -35,3 +72,11 @@ Uses gunicorn + nginx.
     ```
 
     Test it out at [http://localhost:1337](http://localhost:1337). No mounted folders. To apply changes, the image must be re-built.
+
+### Import/export metadata from Hasura
+
+With our current changes, docker is automatically loading metadata from `migrations/metadata.json`.
+
+We don't use Hasura migrations - we use Django migrations instead.
+
+If you want to update the metadata export it from Hasura admin and save in `migrations/metadata.json` file.

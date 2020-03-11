@@ -1,0 +1,123 @@
+- args:
+    tables:
+    - array_relationships:
+      - name: nb_guild_users
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table:
+              name: nb_guild_user
+              schema: public
+      - name: nb_meeting_users
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table:
+              name: nb_meeting_user
+              schema: public
+      - name: nb_meetings
+        using:
+          foreign_key_constraint_on:
+            column: organizer_id
+            table:
+              name: nb_meeting
+              schema: public
+      - name: nb_sphere_users
+        using:
+          foreign_key_constraint_on:
+            column: user_id
+            table:
+              name: nb_sphere_users
+              schema: public
+      table:
+        name: cr_user
+        schema: public
+    - array_relationships:
+      - name: nb_guild_users
+        using:
+          foreign_key_constraint_on:
+            column: guild_id
+            table:
+              name: nb_guild_user
+              schema: public
+      - name: nb_meetings
+        using:
+          foreign_key_constraint_on:
+            column: guild_id
+            table:
+              name: nb_meeting
+              schema: public
+      table:
+        name: nb_guild
+        schema: public
+    - object_relationships:
+      - name: cr_user
+        using:
+          foreign_key_constraint_on: user_id
+      - name: nb_guild
+        using:
+          foreign_key_constraint_on: guild_id
+      table:
+        name: nb_guild_user
+        schema: public
+    - array_relationships:
+      - name: nb_meeting_users
+        using:
+          foreign_key_constraint_on:
+            column: meeting_id
+            table:
+              name: nb_meeting_user
+              schema: public
+      object_relationships:
+      - name: cr_user
+        using:
+          foreign_key_constraint_on: organizer_id
+      - name: nb_guild
+        using:
+          foreign_key_constraint_on: guild_id
+      - name: nb_sphere
+        using:
+          foreign_key_constraint_on: sphere_id
+      table:
+        name: nb_meeting
+        schema: public
+    - object_relationships:
+      - name: cr_user
+        using:
+          foreign_key_constraint_on: user_id
+      - name: nb_meeting
+        using:
+          foreign_key_constraint_on: meeting_id
+      table:
+        name: nb_meeting_user
+        schema: public
+    - array_relationships:
+      - name: nb_meetings
+        using:
+          foreign_key_constraint_on:
+            column: sphere_id
+            table:
+              name: nb_meeting
+              schema: public
+      - name: nb_sphere_users
+        using:
+          foreign_key_constraint_on:
+            column: sphere_id
+            table:
+              name: nb_sphere_users
+              schema: public
+      table:
+        name: nb_sphere
+        schema: public
+    - object_relationships:
+      - name: cr_user
+        using:
+          foreign_key_constraint_on: user_id
+      - name: nb_sphere
+        using:
+          foreign_key_constraint_on: sphere_id
+      table:
+        name: nb_sphere_users
+        schema: public
+    version: 2
+  type: replace_metadata
