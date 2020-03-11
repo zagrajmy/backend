@@ -1,0 +1,2 @@
+admin_secret: dev_only_password
+endpoint: http://localhost:8080

@@ -47,6 +47,10 @@
             table:
               name: nb_meeting
               schema: public
+      object_relationships:
+      - name: nb_sphere
+        using:
+          foreign_key_constraint_on: sphere_id
       table:
         name: nb_guild
         schema: public
@@ -61,7 +65,7 @@
         name: nb_guild_user
         schema: public
     - array_relationships:
-      - name: nb_meeting_users
+      - name: participants
         using:
           foreign_key_constraint_on:
             column: meeting_id
@@ -69,15 +73,12 @@
               name: nb_meeting_user
               schema: public
       object_relationships:
-      - name: cr_user
-        using:
-          foreign_key_constraint_on: organizer_id
-      - name: nb_guild
+      - name: guild
         using:
           foreign_key_constraint_on: guild_id
-      - name: nb_sphere
+      - name: organizer
         using:
-          foreign_key_constraint_on: sphere_id
+          foreign_key_constraint_on: organizer_id
       table:
         name: nb_meeting
         schema: public
@@ -92,12 +93,12 @@
         name: nb_meeting_user
         schema: public
     - array_relationships:
-      - name: nb_meetings
+      - name: nb_guilds
         using:
           foreign_key_constraint_on:
             column: sphere_id
             table:
-              name: nb_meeting
+              name: nb_guild
               schema: public
       - name: nb_sphere_users
         using:

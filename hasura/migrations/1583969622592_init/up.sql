@@ -131,7 +131,8 @@ CREATE TABLE public.nb_guild (
     id integer NOT NULL,
     name character varying(255) NOT NULL,
     description text NOT NULL,
-    created_at timestamp with time zone NOT NULL
+    created_at timestamp with time zone NOT NULL,
+    sphere_id integer NOT NULL
 );
 CREATE SEQUENCE public.nb_guild_id_seq
     AS integer
@@ -162,12 +163,11 @@ CREATE TABLE public.nb_meeting (
     start_time timestamp with time zone,
     end_time timestamp with time zone,
     publication_time timestamp with time zone,
-    created_at timestamp with time zone NOT NULL,
-    updated_at timestamp with time zone NOT NULL,
+    created_at timestamp with time zone DEFAULT now() NOT NULL,
+    updated_at timestamp with time zone DEFAULT now() NOT NULL,
     location text,
     guild_id integer NOT NULL,
-    organizer_id uuid NOT NULL,
-    sphere_id integer NOT NULL
+    organizer_id uuid NOT NULL
 );
 CREATE SEQUENCE public.nb_meeting_id_seq
     AS integer
@@ -294,7 +294,6 @@ CREATE INDEX nb_guild_user_guild_id_40ea39d9 ON public.nb_guild_user USING btree
 CREATE INDEX nb_guild_user_user_id_8452bced ON public.nb_guild_user USING btree (user_id);
 CREATE INDEX nb_meeting_guild_id_da42998c ON public.nb_meeting USING btree (guild_id);
 CREATE INDEX nb_meeting_organizer_id_4db9cb61 ON public.nb_meeting USING btree (organizer_id);
-CREATE INDEX nb_meeting_sphere_id_6e9a5e38 ON public.nb_meeting USING btree (sphere_id);
 CREATE INDEX nb_meeting_user_meeting_id_bc74b8b8 ON public.nb_meeting_user USING btree (meeting_id);
 CREATE INDEX nb_meeting_user_user_id_df2ce87b ON public.nb_meeting_user USING btree (user_id);
 CREATE INDEX nb_sphere_users_sphere_id_61522e9b ON public.nb_sphere_users USING btree (sphere_id);
@@ -317,6 +316,8 @@ ALTER TABLE ONLY public.django_admin_log
     ADD CONSTRAINT django_admin_log_content_type_id_c4bce8eb_fk_django_co FOREIGN KEY (content_type_id) REFERENCES public.django_content_type(id) DEFERRABLE INITIALLY DEFERRED;
 ALTER TABLE ONLY public.django_admin_log
     ADD CONSTRAINT django_admin_log_user_id_c564eba6_fk_cr_user_uuid FOREIGN KEY (user_id) REFERENCES public.cr_user(uuid) DEFERRABLE INITIALLY DEFERRED;
+ALTER TABLE ONLY public.nb_guild
+    ADD CONSTRAINT nb_guild_sphere_id_fkey FOREIGN KEY (sphere_id) REFERENCES public.nb_sphere(id) ON UPDATE RESTRICT ON DELETE RESTRICT;
 ALTER TABLE ONLY public.nb_guild_user
     ADD CONSTRAINT nb_guild_user_guild_id_40ea39d9_fk_nb_guild_id FOREIGN KEY (guild_id) REFERENCES public.nb_guild(id) DEFERRABLE INITIALLY DEFERRED;
 ALTER TABLE ONLY public.nb_guild_user
@@ -325,8 +326,6 @@ ALTER TABLE ONLY public.nb_meeting
     ADD CONSTRAINT nb_meeting_guild_id_da42998c_fk_nb_guild_id FOREIGN KEY (guild_id) REFERENCES public.nb_guild(id) DEFERRABLE INITIALLY DEFERRED;
 ALTER TABLE ONLY public.nb_meeting
     ADD CONSTRAINT nb_meeting_organizer_id_4db9cb61_fk_cr_user_uuid FOREIGN KEY (organizer_id) REFERENCES public.cr_user(uuid) DEFERRABLE INITIALLY DEFERRED;
-ALTER TABLE ONLY public.nb_meeting
-    ADD CONSTRAINT nb_meeting_sphere_id_6e9a5e38_fk_nb_sphere_id FOREIGN KEY (sphere_id) REFERENCES public.nb_sphere(id) DEFERRABLE INITIALLY DEFERRED;
 ALTER TABLE ONLY public.nb_meeting_user
     ADD CONSTRAINT nb_meeting_user_meeting_id_bc74b8b8_fk_nb_meeting_id FOREIGN KEY (meeting_id) REFERENCES public.nb_meeting(id) DEFERRABLE INITIALLY DEFERRED;
 ALTER TABLE ONLY public.nb_meeting_user
