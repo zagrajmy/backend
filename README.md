@@ -72,3 +72,11 @@ Uses gunicorn + nginx.
     ```
 
     Test it out at [http://localhost:1337](http://localhost:1337). No mounted folders. To apply changes, the image must be re-built.
+
+### Import/export metadata from Hasura
+
+With our current changes, docker is automatically loading metadata from `migrations/metadata.json`.
+
+We don't use Hasura migrations - we use Django migrations instead.
+
+If you want to update the metadata export it from Hasura admin and save in `migrations/metadata.json` file.
