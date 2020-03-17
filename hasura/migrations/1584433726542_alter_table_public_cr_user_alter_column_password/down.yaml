@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."cr_user" ALTER COLUMN "password" TYPE character varying;
+  type: run_sql
