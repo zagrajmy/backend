@@ -1,0 +1,88 @@
+- args:
+    tables:
+    - array_relationships:
+      - name: guild_members
+        using:
+          foreign_key_constraint_on:
+            column: guild_id
+            table:
+              name: guild_member
+              schema: public
+      - name: meetings
+        using:
+          foreign_key_constraint_on:
+            column: guild_id
+            table:
+              name: meeting
+              schema: public
+      table:
+        name: guild
+        schema: public
+    - object_relationships:
+      - name: guild
+        using:
+          foreign_key_constraint_on: guild_id
+      - name: user
+        using:
+          foreign_key_constraint_on: member_id
+      table:
+        name: guild_member
+        schema: public
+    - array_relationships:
+      - name: participants
+        using:
+          foreign_key_constraint_on:
+            column: meeting_id
+            table:
+              name: meeting_participant
+              schema: public
+      object_relationships:
+      - name: guild
+        using:
+          foreign_key_constraint_on: guild_id
+      - name: organizer
+        using:
+          foreign_key_constraint_on: organizer_id
+      table:
+        name: meeting
+        schema: public
+    - object_relationships:
+      - name: meeting
+        using:
+          foreign_key_constraint_on: meeting_id
+      - name: participant
+        using:
+          foreign_key_constraint_on: participant_id
+      table:
+        name: meeting_participant
+        schema: public
+    - table:
+        name: sphere
+        schema: public
+    - array_relationships:
+      - name: guilds
+        using:
+          foreign_key_constraint_on:
+            column: member_id
+            table:
+              name: guild_member
+              schema: public
+      - name: meetings
+        using:
+          foreign_key_constraint_on:
+            column: participant_id
+            table:
+              name: meeting_participant
+              schema: public
+      - name: organized_meetings
+        using:
+          foreign_key_constraint_on:
+            column: organizer_id
+            table:
+              name: meeting
+              schema: public
+      table:
+        name: user
+        schema: public
+    version: 2
+  type: replace_metadata
