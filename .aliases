@@ -8,4 +8,4 @@ alias dd-make='dexweb make'
 
 alias dg-hasura='dexgql hasura-cli'
 
-alias dp-psql='dexpql psql -Uhello_django hello_django_dev'
+alias dp-psql='dexpql psql -Uhello_zm hello_zm_dev'
