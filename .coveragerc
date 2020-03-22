@@ -1,11 +1,8 @@
 [run]
-source=
-  app
+source =
+  zagrajmy
+  tests
 branch=true
-omit=
-  app/*/migrations/*.py
-  app/manage.py
-  app/zagrajmy/*.py
 [report]
-skip_covered=true
-show_missing=true
+show_missing = true
+skip_covered = true
