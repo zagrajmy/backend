@@ -1,11 +1,11 @@
-alias dexdj='docker exec -ti zm-backend_web_1'
-alias dexgq='docker exec -ti zm-backend_graphql-engine_1'
-alias dexpg='docker exec -ti zm-backend_postgres_1'
+alias dexweb='docker exec -ti zm-backend_web_1'
+alias dexgql='docker exec -ti zm-backend_graphql-engine_1'
+alias dexpql='docker exec -ti zm-backend_postgres_1'
 
-alias dd-admin='dexdj django-admin'
-alias dd-ipython='dexdj ipython'
-alias dd-make='dexdj make'
+alias dd-uvicorn='dexweb uvicorn'
+alias dd-ipython='dexweb ipython'
+alias dd-make='dexweb make'
 
-alias dg-hasura='dexgq hasura-cli'
+alias dg-hasura='dexgql hasura-cli'
 
-alias dp-psql='dexpg psql -Uhello_django hello_django_dev'
+alias dp-psql='dexpql psql -Uhello_django hello_django_dev'
