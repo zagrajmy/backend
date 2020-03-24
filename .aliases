@@ -1,3 +1,4 @@
+export COMPOSE_FILE="docker-compose.local.yml"
 alias dexweb='docker exec -ti zm-backend_web_1'
 alias dexgql='docker exec -ti zm-backend_graphql-engine_1'
 alias dexpql='docker exec -ti zm-backend_postgres_1'
@@ -8,4 +9,4 @@ alias dd-make='dexweb make'
 
 alias dg-hasura='dexgql hasura-cli'
 
-alias dp-psql='dexpql psql -Uhello_zm hello_zm_dev'
+alias dp-psql='dexpql psql -Uzagrajmy zagrajmy_dev'
