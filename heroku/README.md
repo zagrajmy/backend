@@ -1,29 +1,25 @@
-Oh right, we might move it somewhere else, but
-I kinda need the database to unblock myself.
-
-Since we're migrating out of `zm-backend` repo, and there's no db setup in `backend`, I'll just
-keep the database here.
-
----
+_Setting up Zagrajmy database on your own Heroku for development._
 
 # Setup
 
 ## Create the app
 
 ```
-heroku create zagrajmy-db-dev --stack=container
+heroku create your-zagrajmy-db --stack=container
 ```
 
 ## Add Postgres addon
 
 ```
-heroku addons:create heroku-postgresql:hobby-dev -a zagrajmy-db-dev
+heroku addons:create heroku-postgresql:hobby-dev -a your-zagrajmy-db
 ```
 
 ## Push to Heroku
 
+Ensure you have git remote `heroku` pointing to Heroku and run:
+
 ```
-yarn db:deploy
+sh heroku/deploy.sh
 ```
 
 ## Turn on the dyno
@@ -32,13 +28,13 @@ yarn db:deploy
 
 ## See the logs
 
-**https://dashboard.heroku.com/apps/zagrajmy-db-dev/logs**
+**https://dashboard.heroku.com/apps/your-zagrajmy-db/logs**
 
 ## Kill stuck builds
 
 ```
 heroku plugins:install heroku-builds
-heroku builds:cancel -a zagrajmy-db-dev
+heroku builds:cancel -a your-zagrajmy-db # your app name
 ```
 
 # Migrations with Hasura CLI
