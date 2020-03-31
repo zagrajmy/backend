@@ -8,7 +8,7 @@ class HasuraClient:
 
     INSERT_GUILD = """
 mutation insert_default_guild {
-  insert_nb_guild(
+  insert_guild(
     objects: {description: "%s", name: "%s"}
   ) {
     returning {
