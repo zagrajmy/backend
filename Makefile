@@ -7,6 +7,7 @@ test:
 	rm -rf .coverage .pytest_cache
 
 lint:
+	check-requirements
 	black --check zagrajmy tests
 	isort --recursive --check-only zagrajmy tests
 	pycodestyle zagrajmy tests
