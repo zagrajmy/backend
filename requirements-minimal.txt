@@ -1,0 +1,5 @@
+aiographql-client
+gunicorn>=20.0.0
+marshmallow>=3.2.2
+starlette
+uvicorn>=0.11.0

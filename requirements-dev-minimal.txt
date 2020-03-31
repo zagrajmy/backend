@@ -1,0 +1,13 @@
+bandit>=1.6.0
+black
+ipython>=7.3.0
+isort
+mypy
+pycodestyle
+pydocstyle
+pylint
+pytest-asyncio
+pytest-cov
+pytest
+tox
+requirements-tools
