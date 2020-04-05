@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: 'COMMENT ON COLUMN "public"."meeting"."image" IS E''{ kind: "background"
+      | "banner" | "small", src: string }'';'
+  type: run_sql

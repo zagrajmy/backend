@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE "public"."meeting" DROP COLUMN "image";
+  type: run_sql
