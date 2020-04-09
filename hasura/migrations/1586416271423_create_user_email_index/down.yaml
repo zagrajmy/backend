@@ -1,0 +1,6 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      DROP INDEX user_email_index;
+type: run_sql
