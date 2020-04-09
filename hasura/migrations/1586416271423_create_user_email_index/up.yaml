@@ -1,0 +1,7 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: |-
+      CREATE INDEX user_email_index
+      ON "public"."user" (email);
+  type: run_sql
