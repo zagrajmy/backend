@@ -1,0 +1,5 @@
+- args:
+    cascade: false
+    read_only: false
+    sql: ALTER TABLE ONLY "public"."user" ALTER COLUMN "locale" SET DEFAULT ''"en"'::text';
+  type: run_sql
