@@ -1,9 +1,4 @@
-###########
-# BUILDER #
-###########
-
-# pull official base image
-FROM python:3.8.0-alpine as builder
+FROM python:3.8.0-slim-buster
 
 # set work directory
 WORKDIR /usr/src/app
@@ -12,59 +7,18 @@ WORKDIR /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-# install build dependencies
-RUN apk update \
-    && apk add gcc python3-dev musl-dev
-
-# lint
-RUN pip install --upgrade pip
-COPY . /usr/src/
-# Temporary switched off - should be moved to CI
+# install psycopg2 dependencies
+RUN apt-get update && apt-get upgrade -y  && apt-get install -y gcc python-psycopg2 libpq-dev python-dev curl
 
 # install dependencies
-COPY requirements.txt .
-RUN pip wheel --no-cache-dir --no-deps --wheel-dir /usr/src/app/wheels -r requirements.txt
-
-
-#########
-# FINAL #
-#########
-
-# pull official base image
-FROM python:3.8.0-alpine
-
-# create directory for the app user
-RUN mkdir -p /home/app
-
-# create the app user
-RUN addgroup -S app && adduser -S app -G app
-
-# create the appropriate directories
-ENV HOME=/home/app
-ENV APP_HOME=/home/app/web
-RUN mkdir $APP_HOME
-RUN mkdir $APP_HOME/staticfiles
-RUN mkdir $APP_HOME/mediafiles
-WORKDIR $APP_HOME
-
-# install dependencies
-RUN apk update && apk add libpq
-COPY --from=builder /usr/src/app/wheels /wheels
-COPY --from=builder /usr/src/app/requirements.txt .
+RUN curl -L https://cli.hasura.io/install/linux-amd64 -o hasura
 RUN pip install --upgrade pip
-RUN pip install --no-cache /wheels/*
+COPY ./requirements.txt /usr/src/app/requirements.txt
+RUN pip install -r requirements.txt
 
-# copy entrypoint-prod.sh
-COPY ./entrypoint.prod.sh $APP_HOME
-
+# copy entrypoint.sh
+COPY ./docker/app/entrypoint.sh /usr/src/app/entrypoint.sh
 # copy project
-COPY . $APP_HOME
-
-# chown all the files to the app user
-RUN chown -R app:app $APP_HOME
-
-# change to the app user
-USER app
-
+COPY ./ /usr/src/app/
 # run entrypoint.prod.sh
-ENTRYPOINT ["/home/app/web/entrypoint.prod.sh"]
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]

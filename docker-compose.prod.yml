@@ -7,18 +7,10 @@ services:
       dockerfile: docker/compose/prod/api/Dockerfile
     expose:
       - 8000
-  db:
-    image: postgres:12.0-alpine
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    env_file:
-      - ./docker/envs/prod/db
   graphql-engine:
     image: hasura/graphql-engine:v1.1.0.cli-migrations
     ports:
     - 8080:8080
-    depends_on:
-    - db
     restart: always
     env_file:
       - ./docker/envs/prod/hasura
