@@ -11,6 +11,7 @@ then
     echo "PostgreSQL started"
 fi
 
-python manage.py migrate
+django-admin migrate
+django-admin collectstatic --no-input --clear
 
 exec "$@"
