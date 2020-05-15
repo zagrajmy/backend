@@ -9,6 +9,7 @@ test:
 	rm -rf .coverage .pytest_cache
 
 lint:
+	check-requirements
 	black --check app
 	isort --recursive --check-only app
 	pycodestyle app
