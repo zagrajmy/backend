@@ -52,7 +52,7 @@ WORKDIR $APP_HOME
 # install dependencies
 RUN apk update && apk add libpq
 COPY --from=builder /usr/src/app/wheels /wheels
-COPY --from=builder /usr/src/app/requirements.txt .
+COPY --from=builder /usr/src/requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache /wheels/*
 

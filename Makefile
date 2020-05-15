@@ -1,8 +1,8 @@
 export PYTHONPATH=app
 
 devinst:
-	pip install -r app/requirements.txt
-	pip install -r app/requirements_dev.txt
+	pip install -r app/check-requirements.txt
+	pip install -r requirements-dev.txt
 
 test:
 	pytest --cov

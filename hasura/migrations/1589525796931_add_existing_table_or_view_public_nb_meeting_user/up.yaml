@@ -1,0 +1,4 @@
+- args:
+    name: nb_meeting_user
+    schema: public
+  type: add_existing_table_or_view
