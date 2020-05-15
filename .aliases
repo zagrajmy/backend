@@ -1,6 +1,6 @@
-alias dexdj='docker exec -ti zm-backend_web_1'
-alias dexgq='docker exec -ti zm-backend_graphql-engine_1'
-alias dexpg='docker exec -ti zm-backend_postgres_1'
+alias dexdj='docker exec -ti backend_web_1'
+alias dexgq='docker exec -ti backend_graphql-engine_1'
+alias dexpg='docker exec -ti backend_postgres_1'
 
 alias dd-admin='dexdj django-admin'
 alias dd-ipython='dexdj ipython'
