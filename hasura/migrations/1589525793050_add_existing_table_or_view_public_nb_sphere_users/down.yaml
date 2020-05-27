@@ -1,0 +1,5 @@
+- args:
+    table:
+      name: nb_sphere_users
+      schema: public
+  type: untrack_table

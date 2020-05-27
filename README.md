@@ -1,4 +1,4 @@
-![Tox (tests and lint)](https://github.com/zagrajmy/zm-backend/workflows/Tox%20(tests%20and%20lint)/badge.svg?branch=master)
+![Tox (tests and lint)](https://github.com/zagrajmy/backend/workflows/Tox%20(tests%20and%20lint)/badge.svg?branch=master)
 
 # Dockerizing Django with Postgres, Gunicorn, Nginx, and Hasura
 
@@ -75,8 +75,9 @@ Uses gunicorn + nginx.
 
 ### Import/export metadata from Hasura
 
-With our current changes, docker is automatically loading metadata from `migrations/metadata.json`.
+Run Hasura Console with Hasura CLI, migrations are saved automatically.
 
-We don't use Hasura migrations - we use Django migrations instead.
-
-If you want to update the metadata export it from Hasura admin and save in `migrations/metadata.json` file.
+Remote databases can be migrated with
+```
+hasura migrate apply --endpoint https://my-hasura.herokuapp.com
+```
