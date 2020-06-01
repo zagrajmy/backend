@@ -5,7 +5,6 @@ ipython
 isort
 mypy
 pycodestyle
-pydocstyle
 pylint-django
 pylint
 pytest-cov

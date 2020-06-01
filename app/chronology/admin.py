@@ -1,14 +1,14 @@
 from django.contrib import admin
+
 from chronology.models import (
     Festival,
+    Helper,
+    Proposal,
     Room,
     TimeSlot,
-    Helper,
     TimeTable,
     WaitList,
-    Proposal,
 )
-
 
 admin.site.register(Festival)
 admin.site.register(Room)

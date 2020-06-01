@@ -13,7 +13,6 @@ lint:
 	black --check app
 	isort --recursive --check-only app
 	pycodestyle app
-	pydocstyle app
 	bandit app
 	mypy app
 	pylint app

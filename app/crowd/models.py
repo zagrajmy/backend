@@ -17,5 +17,5 @@ class User(AbstractUser):
         verbose_name_plural = _("users")
         db_table = "cr_user"
 
-    def __str__(self) -> None:
+    def __str__(self) -> str:
         return self.get_full_name()

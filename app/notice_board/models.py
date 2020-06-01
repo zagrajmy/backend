@@ -1,8 +1,8 @@
-from django.db import models
 from django.contrib.postgres.fields import JSONField
+from django.contrib.sites.models import Site
+from django.db import models
 
 from crowd.models import User
-from django.contrib.sites.models import Site
 
 
 class DescribedModel(models.Model):
@@ -14,6 +14,9 @@ class DescribedModel(models.Model):
 
     class Meta:
         abstract = True
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class Guild(DescribedModel):
@@ -39,7 +42,7 @@ class GuildMember(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:  # noqa D106
-        db_table = "nb_guild_user"
+        db_table = "nb_guild_member"
 
 
 class Sphere(models.Model):
@@ -76,6 +79,3 @@ class Meeting(DescribedModel):
 
     class Meta:  # noqa D106
         db_table = "nb_meeting"
-
-    def __str__(self) -> str:
-        return self.title

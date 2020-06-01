@@ -1,8 +1,8 @@
-from django.db import models
-from notice_board.models import Meeting, Sphere
-from crowd.models import User
-
 from django.contrib.postgres.fields import JSONField
+from django.db import models
+
+from crowd.models import User
+from notice_board.models import Meeting, Sphere
 
 
 class Festival(models.Model):
@@ -18,7 +18,7 @@ class Festival(models.Model):
     class Meta:
         db_table = "ch_festival"
 
-    def __str__(self) -> None:
+    def __str__(self) -> str:
         return self.name
 
 
@@ -29,7 +29,7 @@ class Room(models.Model):
     class Meta:
         db_table = "ch_room"
 
-    def __str__(self) -> None:
+    def __str__(self) -> str:
         return self.name
 
 
@@ -40,7 +40,7 @@ class TimeSlot(models.Model):
     class Meta:
         db_table = "ch_time_slot"
 
-    def __str__(self) -> None:
+    def __str__(self) -> str:
         return f"From {self.start_time} to {self.end_time}"
 
 
@@ -52,7 +52,7 @@ class Helper(models.Model):
     class Meta:
         db_table = "ch_helper"
 
-    def __str__(self) -> None:
+    def __str__(self) -> str:
         return str(self.user)
 
 
@@ -76,7 +76,7 @@ class WaitList(models.Model):
     class Meta:
         db_table = "ch_wait_list"
 
-    def __str__(self) -> None:
+    def __str__(self) -> str:
         return self.name
 
 
@@ -96,5 +96,5 @@ class Proposal(models.Model):
     class Meta:
         db_table = "ch_proposal"
 
-    def __str__(self) -> None:
+    def __str__(self) -> str:
         return self.title
