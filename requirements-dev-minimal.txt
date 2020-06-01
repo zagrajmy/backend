@@ -6,7 +6,7 @@ isort
 mypy
 pycodestyle
 pylint-django
-pylint
+pylint>=2.5.0
 pytest-cov
 pytest-django
 pytest
