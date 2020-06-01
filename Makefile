@@ -22,3 +22,6 @@ lint:
 format:
 	black app
 	isort --recursive app
+
+graph:
+	docker exec -ti backend_web_1 django-admin graph_models chronology crowd notice_board -g -o docs/models.png

@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3.8.0-alpine
+FROM python:3.8.0-buster
 
 # set work directory
 WORKDIR /usr/src
@@ -11,8 +11,8 @@ ENV PYTHONPATH /usr/src/app/
 ENV DJANGO_SETTINGS_MODULE zagrajmy.settings
 
 # install psycopg2 dependencies
-RUN apk update \
-    && apk add postgresql-dev gcc python3-dev musl-dev bash make
+RUN apt-get update \
+    && apt-get install -y libpq-dev build-essential python3-dev bash libjpeg-dev netcat libgraphviz-dev
 
 # install dependencies
 RUN pip install --upgrade pip

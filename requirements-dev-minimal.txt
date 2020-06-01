@@ -13,3 +13,5 @@ pytest-django
 pytest
 requirements-tools
 tox
+django-extensions
+pygraphviz
