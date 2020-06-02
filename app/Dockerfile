@@ -12,7 +12,7 @@ ENV DJANGO_SETTINGS_MODULE zagrajmy.settings
 
 # install psycopg2 dependencies
 RUN apt-get update \
-    && apt-get install -y libpq-dev build-essential python3-dev bash libjpeg-dev netcat libgraphviz-dev
+    && apt-get install -y libpq-dev build-essential python3-dev bash libjpeg-dev netcat libgraphviz-dev graphviz
 
 # install dependencies
 RUN pip install --upgrade pip
