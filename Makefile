@@ -13,7 +13,6 @@ lint:
 	black --check app
 	isort --recursive --check-only app
 	pycodestyle app
-	pydocstyle app
 	bandit app
 	mypy app
 	pylint app
@@ -22,3 +21,6 @@ lint:
 format:
 	black app
 	isort --recursive app
+
+graph:
+	docker exec -ti backend_web_1 django-admin graph_models chronology crowd notice_board -g -o docs/models.png
