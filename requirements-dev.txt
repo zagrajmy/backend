@@ -3,6 +3,8 @@ astroid==2.4.1
 attrs==19.3.0
 backcall==0.1.0
 bandit==1.6.2
+behave==1.2.6
+behave-django==1.3.0
 black==19.10b0
 click==7.1.2
 coverage==5.1
@@ -23,6 +25,8 @@ more-itertools==8.3.0
 mypy==0.770
 mypy-extensions==0.4.3
 packaging==20.4
+parse==1.15.0
+parse-type==0.5.2
 parso==0.7.0
 pathspec==0.8.0
 pbr==5.4.5
@@ -39,7 +43,7 @@ pylint==2.5.2
 pylint-django==2.0.15
 pylint-plugin-utils==0.6
 pyparsing==2.4.7
-pytest==5.4.2
+pytest==5.4.3
 pytest-cov==2.9.0
 pytest-django==3.9.0
 PyYAML==5.3.1
@@ -47,12 +51,12 @@ regex==2020.5.14
 requirements-tools==1.2.3
 six==1.15.0
 smmap==3.0.4
-stevedore==1.32.0
+stevedore==2.0.0
 toml==0.10.1
-tox==3.15.1
+tox==3.15.2
 traitlets==4.3.3
 typed-ast==1.4.1
 typing-extensions==3.7.4.2
 virtualenv==20.0.21
-wcwidth==0.2.2
+wcwidth==0.2.3
 wrapt==1.12.1

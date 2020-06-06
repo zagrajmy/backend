@@ -1,3 +1,4 @@
+export DJANGO_SETTINGS_MODULE=zagrajmy.settings.development
 export PYTHONPATH=app
 
 devinst:
