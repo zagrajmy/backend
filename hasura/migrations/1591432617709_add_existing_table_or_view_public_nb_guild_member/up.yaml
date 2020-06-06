@@ -1,0 +1,4 @@
+- args:
+    name: nb_guild_member
+    schema: public
+  type: add_existing_table_or_view
