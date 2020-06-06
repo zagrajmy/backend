@@ -1,4 +1,4 @@
-FROM hasura/graphql-engine:v1.2.0-beta.2.cli-migrations
+FROM hasura/graphql-engine:v1.2.2.cli-migrations
 
 ENV HASURA_GRAPHQL_MIGRATIONS_DATABASE_ENV_VAR="DATABASE_URL"
 ENV HASURA_GRAPHQL_ENABLE_CONSOLE="true"
