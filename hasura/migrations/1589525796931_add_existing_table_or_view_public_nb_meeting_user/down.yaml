@@ -1,5 +1,0 @@
-- args:
-    table:
-      name: nb_meeting_user
-      schema: public
-  type: untrack_table

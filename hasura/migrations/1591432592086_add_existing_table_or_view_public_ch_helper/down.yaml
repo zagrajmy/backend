@@ -1,0 +1,5 @@
+- args:
+    table:
+      name: ch_helper
+      schema: public
+  type: untrack_table

@@ -1,0 +1,4 @@
+- args:
+    name: django_site
+    schema: public
+  type: add_existing_table_or_view

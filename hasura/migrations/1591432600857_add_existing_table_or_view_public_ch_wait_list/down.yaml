@@ -1,0 +1,5 @@
+- args:
+    table:
+      name: ch_wait_list
+      schema: public
+  type: untrack_table

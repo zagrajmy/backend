@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   web:
@@ -31,11 +31,11 @@ services:
     depends_on:
       - web
   graphql-engine:
-    image: hasura/graphql-engine:v1.1.0.cli-migrations
+    image: hasura/graphql-engine:v1.2.2.cli-migrations
     ports:
-    - 8080:8080
+      - 8081:8080
     depends_on:
-    - db
+      - db
     restart: always
     environment:
       HASURA_GRAPHQL_DATABASE_URL: postgres://hello_django:hello_django@db:5432/hello_django_dev

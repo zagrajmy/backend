@@ -1,0 +1,482 @@
+- args:
+    name: ch_helpers
+    table:
+      name: cr_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: ch_helper
+          schema: public
+  type: create_array_relationship
+- args:
+    name: ch_proposals
+    table:
+      name: cr_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: ch_proposal
+          schema: public
+  type: create_array_relationship
+- args:
+    name: nb_meetings
+    table:
+      name: cr_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: organizer_id
+        table:
+          name: nb_meeting
+          schema: public
+  type: create_array_relationship
+- args:
+    name: nb_guild_members
+    table:
+      name: cr_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: nb_guild_member
+          schema: public
+  type: create_array_relationship
+- args:
+    name: nb_meeting_participants
+    table:
+      name: cr_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: nb_meeting_participants
+          schema: public
+  type: create_array_relationship
+- args:
+    name: nb_sphere_managers
+    table:
+      name: cr_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: nb_sphere_managers
+          schema: public
+  type: create_array_relationship
+- args:
+    name: nb_meetings
+    table:
+      name: nb_guild
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: guild_id
+        table:
+          name: nb_meeting
+          schema: public
+  type: create_array_relationship
+- args:
+    name: nb_guild_members
+    table:
+      name: nb_guild
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: guild_id
+        table:
+          name: nb_guild_member
+          schema: public
+  type: create_array_relationship
+- args:
+    name: nb_guild
+    table:
+      name: nb_meeting
+      schema: public
+    using:
+      foreign_key_constraint_on: guild_id
+  type: create_object_relationship
+- args:
+    name: cr_user
+    table:
+      name: nb_meeting
+      schema: public
+    using:
+      foreign_key_constraint_on: organizer_id
+  type: create_object_relationship
+- args:
+    name: nb_sphere
+    table:
+      name: nb_meeting
+      schema: public
+    using:
+      foreign_key_constraint_on: sphere_id
+  type: create_object_relationship
+- args:
+    name: ch_time_table
+    table:
+      name: nb_meeting
+      schema: public
+    using:
+      manual_configuration:
+        column_mapping:
+          id: meeting_id
+        remote_table:
+          name: ch_time_table
+          schema: public
+  type: create_object_relationship
+- args:
+    name: nb_meeting_participants
+    table:
+      name: nb_meeting
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: meeting_id
+        table:
+          name: nb_meeting_participants
+          schema: public
+  type: create_array_relationship
+- args:
+    name: django_site
+    table:
+      name: nb_sphere
+      schema: public
+    using:
+      foreign_key_constraint_on: site_id
+  type: create_object_relationship
+- args:
+    name: nb_meetings
+    table:
+      name: nb_sphere
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: sphere_id
+        table:
+          name: nb_meeting
+          schema: public
+  type: create_array_relationship
+- args:
+    name: ch_festivals
+    table:
+      name: nb_sphere
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: sphere_id
+        table:
+          name: ch_festival
+          schema: public
+  type: create_array_relationship
+- args:
+    name: nb_sphere_managers
+    table:
+      name: nb_sphere
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: sphere_id
+        table:
+          name: nb_sphere_managers
+          schema: public
+  type: create_array_relationship
+- args:
+    name: nb_sphere
+    table:
+      name: ch_festival
+      schema: public
+    using:
+      foreign_key_constraint_on: sphere_id
+  type: create_object_relationship
+- args:
+    name: ch_helpers
+    table:
+      name: ch_festival
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: festival_id
+        table:
+          name: ch_helper
+          schema: public
+  type: create_array_relationship
+- args:
+    name: ch_rooms
+    table:
+      name: ch_festival
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: festival_id
+        table:
+          name: ch_room
+          schema: public
+  type: create_array_relationship
+- args:
+    name: ch_wait_lists
+    table:
+      name: ch_festival
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: festival_id
+        table:
+          name: ch_wait_list
+          schema: public
+  type: create_array_relationship
+- args:
+    name: ch_festival
+    table:
+      name: ch_helper
+      schema: public
+    using:
+      foreign_key_constraint_on: festival_id
+  type: create_object_relationship
+- args:
+    name: cr_user
+    table:
+      name: ch_helper
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: ch_time_tables
+    table:
+      name: ch_helper
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: helper_id
+        table:
+          name: ch_time_table
+          schema: public
+  type: create_array_relationship
+- args:
+    name: ch_helper_time_slots
+    table:
+      name: ch_helper
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: helper_id
+        table:
+          name: ch_helper_time_slots
+          schema: public
+  type: create_array_relationship
+- args:
+    name: ch_festival
+    table:
+      name: ch_room
+      schema: public
+    using:
+      foreign_key_constraint_on: festival_id
+  type: create_object_relationship
+- args:
+    name: ch_time_tables
+    table:
+      name: ch_room
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: room_id
+        table:
+          name: ch_time_table
+          schema: public
+  type: create_array_relationship
+- args:
+    name: ch_proposal_time_slots
+    table:
+      name: ch_time_slot
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: timeslot_id
+        table:
+          name: ch_proposal_time_slots
+          schema: public
+  type: create_array_relationship
+- args:
+    name: ch_helper_time_slots
+    table:
+      name: ch_time_slot
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: timeslot_id
+        table:
+          name: ch_helper_time_slots
+          schema: public
+  type: create_array_relationship
+- args:
+    name: ch_festival
+    table:
+      name: ch_wait_list
+      schema: public
+    using:
+      foreign_key_constraint_on: festival_id
+  type: create_object_relationship
+- args:
+    name: ch_proposals
+    table:
+      name: ch_wait_list
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: waitlist_id
+        table:
+          name: ch_proposal
+          schema: public
+  type: create_array_relationship
+- args:
+    name: ch_helper
+    table:
+      name: ch_time_table
+      schema: public
+    using:
+      foreign_key_constraint_on: helper_id
+  type: create_object_relationship
+- args:
+    name: nb_meeting
+    table:
+      name: ch_time_table
+      schema: public
+    using:
+      foreign_key_constraint_on: meeting_id
+  type: create_object_relationship
+- args:
+    name: ch_room
+    table:
+      name: ch_time_table
+      schema: public
+    using:
+      foreign_key_constraint_on: room_id
+  type: create_object_relationship
+- args:
+    name: cr_user
+    table:
+      name: ch_proposal
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: ch_wait_list
+    table:
+      name: ch_proposal
+      schema: public
+    using:
+      foreign_key_constraint_on: waitlist_id
+  type: create_object_relationship
+- args:
+    name: ch_proposal_time_slots
+    table:
+      name: ch_proposal
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: proposal_id
+        table:
+          name: ch_proposal_time_slots
+          schema: public
+  type: create_array_relationship
+- args:
+    name: ch_proposal
+    table:
+      name: ch_proposal_time_slots
+      schema: public
+    using:
+      foreign_key_constraint_on: proposal_id
+  type: create_object_relationship
+- args:
+    name: ch_time_slot
+    table:
+      name: ch_proposal_time_slots
+      schema: public
+    using:
+      foreign_key_constraint_on: timeslot_id
+  type: create_object_relationship
+- args:
+    name: ch_helper
+    table:
+      name: ch_helper_time_slots
+      schema: public
+    using:
+      foreign_key_constraint_on: helper_id
+  type: create_object_relationship
+- args:
+    name: ch_time_slot
+    table:
+      name: ch_helper_time_slots
+      schema: public
+    using:
+      foreign_key_constraint_on: timeslot_id
+  type: create_object_relationship
+- args:
+    name: nb_sphere
+    table:
+      name: django_site
+      schema: public
+    using:
+      manual_configuration:
+        column_mapping:
+          id: site_id
+        remote_table:
+          name: nb_sphere
+          schema: public
+  type: create_object_relationship
+- args:
+    name: nb_guild
+    table:
+      name: nb_guild_member
+      schema: public
+    using:
+      foreign_key_constraint_on: guild_id
+  type: create_object_relationship
+- args:
+    name: cr_user
+    table:
+      name: nb_guild_member
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: nb_meeting
+    table:
+      name: nb_meeting_participants
+      schema: public
+    using:
+      foreign_key_constraint_on: meeting_id
+  type: create_object_relationship
+- args:
+    name: cr_user
+    table:
+      name: nb_meeting_participants
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship
+- args:
+    name: nb_sphere
+    table:
+      name: nb_sphere_managers
+      schema: public
+    using:
+      foreign_key_constraint_on: sphere_id
+  type: create_object_relationship
+- args:
+    name: cr_user
+    table:
+      name: nb_sphere_managers
+      schema: public
+    using:
+      foreign_key_constraint_on: user_id
+  type: create_object_relationship

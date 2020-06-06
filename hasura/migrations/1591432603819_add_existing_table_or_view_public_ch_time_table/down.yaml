@@ -1,0 +1,5 @@
+- args:
+    table:
+      name: ch_time_table
+      schema: public
+  type: untrack_table
