@@ -113,3 +113,7 @@ MEDIA_URL = "/mediafiles/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "mediafiles")
 
 AUTH_USER_MODEL = "crowd.User"
+
+MIGRATION_MODULES = {"sites": "contrib.sites.migrations"}
+
+SITE_ID = 1

@@ -10,7 +10,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("sites", "0002_alter_domain_unique"),
+        ("sites", "0001_initial"),
         ("notice_board", "0002_default_value_for_created_at_fields"),
     ]
 
