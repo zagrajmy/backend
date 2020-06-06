@@ -1,0 +1,21 @@
+name: Hasura migration, app deploy
+
+on:
+  push:
+    branches:
+      - master
+      - release/*
+
+jobs:
+
+  build:
+    name: Rebuild and upstart dockers
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.DEPLOY_KEY }}
+        script: cd deploy/; git fetch --all; git pull; git checkout $GITHUB_REF; git branch; cat docker/compose/prod/api/Dockerfile; docker-compose -f docker-compose.prod.yml down; docker-compose -f docker-compose.prod.yml build; docker-compose -f docker-compose.prod.yml up -d
