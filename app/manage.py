@@ -6,7 +6,7 @@ import sys
 
 def main() -> None:
     """Django admin runner."""
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "zagrajmy.settings")
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "zagrajmy.settings.base")
     try:
         # pylint: disable=import-outside-toplevel
         from django.core.management import execute_from_command_line
