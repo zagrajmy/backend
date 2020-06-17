@@ -8,7 +8,7 @@ from django.utils.translation import gettext_lazy as _
 class User(AbstractUser):
     """Zagrajmy user model."""
 
-    auth0_id = models.PositiveIntegerField(blank=True, null=True)
+    auth0_id = models.CharField(blank=True, max_length=255)
     locale = models.CharField(max_length=20, default="en")
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
