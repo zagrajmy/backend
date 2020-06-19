@@ -1,0 +1,7 @@
+- args:
+    name: ch_proposals
+    new_name: proposals
+    table:
+      name: cr_user
+      schema: public
+  type: rename_relationship

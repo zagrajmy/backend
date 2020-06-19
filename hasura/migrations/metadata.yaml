@@ -164,41 +164,41 @@ tables:
         table:
           schema: public
           name: ch_helper
-  - name: ch_proposals
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          schema: public
-          name: ch_proposal
-  - name: nb_guild_members
+  - name: guilds
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
           name: nb_guild_member
-  - name: nb_meeting_participants
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          schema: public
-          name: nb_meeting_participants
-  - name: nb_meetings
-    using:
-      foreign_key_constraint_on:
-        column: organizer_id
-        table:
-          schema: public
-          name: nb_meeting
-  - name: nb_sphere_managers
+  - name: managed_spheres
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
           name: nb_sphere_managers
+  - name: meetings
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: nb_meeting_participants
+  - name: organized_meetings
+    using:
+      foreign_key_constraint_on:
+        column: organizer_id
+        table:
+          schema: public
+          name: nb_meeting
+  - name: proposals
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: ch_proposal
 - table:
     schema: public
     name: django_site
