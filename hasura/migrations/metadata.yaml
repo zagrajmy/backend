@@ -243,7 +243,16 @@ tables:
     schema: public
     name: nb_meeting
   object_relationships:
-  - name: ch_time_table
+  - name: guild
+    using:
+      foreign_key_constraint_on: guild_id
+  - name: organizer
+    using:
+      foreign_key_constraint_on: organizer_id
+  - name: sphere
+    using:
+      foreign_key_constraint_on: sphere_id
+  - name: time_table
     using:
       manual_configuration:
         remote_table:
@@ -251,17 +260,8 @@ tables:
           name: ch_time_table
         column_mapping:
           id: meeting_id
-  - name: cr_user
-    using:
-      foreign_key_constraint_on: organizer_id
-  - name: nb_guild
-    using:
-      foreign_key_constraint_on: guild_id
-  - name: nb_sphere
-    using:
-      foreign_key_constraint_on: sphere_id
   array_relationships:
-  - name: nb_meeting_participants
+  - name: participants
     using:
       foreign_key_constraint_on:
         column: meeting_id

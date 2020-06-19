@@ -1,0 +1,7 @@
+- args:
+    name: participants
+    new_name: nb_meeting_participants
+    table:
+      name: nb_meeting
+      schema: public
+  type: rename_relationship

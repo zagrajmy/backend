@@ -1,0 +1,7 @@
+- args:
+    name: cr_user
+    new_name: organizer
+    table:
+      name: nb_meeting
+      schema: public
+  type: rename_relationship

@@ -1,0 +1,7 @@
+- args:
+    name: sphere
+    new_name: nb_sphere
+    table:
+      name: nb_meeting
+      schema: public
+  type: rename_relationship
