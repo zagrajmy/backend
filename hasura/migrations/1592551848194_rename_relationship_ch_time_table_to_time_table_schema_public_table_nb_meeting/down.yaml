@@ -1,0 +1,7 @@
+- args:
+    name: time_table
+    new_name: ch_time_table
+    table:
+      name: nb_meeting
+      schema: public
+  type: rename_relationship
