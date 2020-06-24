@@ -34,8 +34,8 @@ services:
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   graphql-engine:
     image: hasura/graphql-engine:v1.2.2.cli-migrations
-    ports:
-      - 8081:8080
+    expose:
+      - 8080
     restart: always
     env_file:
       - ./compose/production/.env.hasura
