@@ -31,7 +31,8 @@ services:
       - 8081:8080
     depends_on:
       - postgres
-    restart: always
+      - web
+    restart: on-failure
     env_file:
       - ./compose/development/.env.hasura
     volumes:

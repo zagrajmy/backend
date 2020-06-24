@@ -1,4 +1,4 @@
-name: Tox (tests and lint)
+name: Run linters and tests
 
 on:
   pull_request:

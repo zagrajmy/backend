@@ -1,4 +1,4 @@
-name: Hasura migration, app deploy
+name: Deploy on production
 
 on:
   push:
