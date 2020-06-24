@@ -1,5 +1,6 @@
 export DJANGO_SETTINGS_MODULE=zagrajmy.settings.development
 export PYTHONPATH=app
+export COMPOSE_PROJECT_NAME=zagrajmy
 
 devinst:
 	pip install -r app/check-requirements.txt
@@ -25,3 +26,15 @@ format:
 
 graph:
 	docker exec -ti backend_web_1 django-admin graph_models chronology crowd notice_board -g -o docs/models.png
+
+dc-dev-down:
+	docker-compose -f docker-compose.yml down
+
+dc-dev-up:
+	docker-compose -f docker-compose.yml up -d --build
+
+dc-prod-down:
+	docker-compose -f docker-compose.prod.yml down
+
+dc-prod-up:
+	docker-compose -f docker-compose.prod.yml up -d --build

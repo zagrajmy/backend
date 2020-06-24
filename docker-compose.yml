@@ -14,7 +14,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: ./app/Dockerfile
+      dockerfile: compose/development/Dockerfile
     command: django-admin runserver 0.0.0.0:8000
     restart: always
     volumes:
@@ -22,7 +22,7 @@ services:
     ports:
       - 8000:8000
     env_file:
-      - ./.env.dev
+      - ./compose/development/.env.web
     depends_on:
       - postgres
   graphql-engine:
@@ -32,11 +32,8 @@ services:
     depends_on:
       - postgres
     restart: always
-    environment:
-      HASURA_GRAPHQL_DATABASE_URL: postgres://hello_django:hello_django@postgres:5432/hello_django_dev
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "false"
-      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log, websocket-log, query-log
-      HASURA_GRAPHQL_ADMIN_SECRET: dev_only_password
+    env_file:
+      - ./compose/production/.env.hasura
     volumes:
       - ./hasura/migrations:/hasura-migrations
 
