@@ -26,6 +26,7 @@ services:
       - 443:443
     depends_on:
       - web
+      - graphql-engine
   certbot:
     image: certbot/certbot
     volumes:
