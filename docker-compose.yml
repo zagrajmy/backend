@@ -33,7 +33,7 @@ services:
       - postgres
     restart: always
     env_file:
-      - ./compose/production/.env.hasura
+      - ./compose/development/.env.hasura
     volumes:
       - ./hasura/migrations:/hasura-migrations
 

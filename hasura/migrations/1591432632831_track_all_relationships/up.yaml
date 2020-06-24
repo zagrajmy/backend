@@ -11,18 +11,6 @@
           schema: public
   type: create_array_relationship
 - args:
-    name: ch_proposals
-    table:
-      name: cr_user
-      schema: public
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          name: ch_proposal
-          schema: public
-  type: create_array_relationship
-- args:
     name: nb_meetings
     table:
       name: cr_user
@@ -358,14 +346,6 @@
       schema: public
     using:
       foreign_key_constraint_on: room_id
-  type: create_object_relationship
-- args:
-    name: cr_user
-    table:
-      name: ch_proposal
-      schema: public
-    using:
-      foreign_key_constraint_on: user_id
   type: create_object_relationship
 - args:
     name: ch_wait_list

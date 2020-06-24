@@ -71,9 +71,9 @@ tables:
   - name: ch_wait_list
     using:
       foreign_key_constraint_on: waitlist_id
-  - name: cr_user
+  - name: meeting
     using:
-      foreign_key_constraint_on: user_id
+      foreign_key_constraint_on: meeting_id
   array_relationships:
   - name: ch_proposal_time_slots
     using:
@@ -192,13 +192,6 @@ tables:
         table:
           schema: public
           name: nb_meeting
-  - name: proposals
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          schema: public
-          name: ch_proposal
 - table:
     schema: public
     name: django_site

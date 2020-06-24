@@ -5,12 +5,6 @@
       schema: public
   type: drop_relationship
 - args:
-    relationship: ch_proposals
-    table:
-      name: cr_user
-      schema: public
-  type: drop_relationship
-- args:
     relationship: nb_meetings
     table:
       name: cr_user
@@ -200,12 +194,6 @@
     relationship: ch_room
     table:
       name: ch_time_table
-      schema: public
-  type: drop_relationship
-- args:
-    relationship: cr_user
-    table:
-      name: ch_proposal
       schema: public
   type: drop_relationship
 - args:
