@@ -56,14 +56,12 @@ class Helper(models.Model):
         return str(self.user)
 
 
-class TimeTable(models.Model):
-    end_time = models.DateTimeField()
+class AgendaItem(models.Model):
     helper = models.ForeignKey(Helper, on_delete=models.SET_NULL, null=True)
     helper_confirmed = models.BooleanField(default=False)
     meeting = models.OneToOneField(Meeting, on_delete=models.SET_NULL, null=True)
     meeting_confirmed = models.BooleanField(default=False)
     room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
-    start_time = models.DateTimeField()
 
     class Meta:
         db_table = "ch_time_table"
@@ -83,18 +81,16 @@ class WaitList(models.Model):
 class Proposal(models.Model):
     city = models.CharField(max_length=255)
     club = models.CharField(max_length=255)
-    description = models.TextField()
+    meeting = models.OneToOneField(Meeting, on_delete=models.CASCADE)
     needs = models.TextField()
     other_contact = models.TextField()
     other_data = models.TextField()
     phone = models.CharField(max_length=255)
     time_slots = models.ManyToManyField(TimeSlot)
-    title = models.CharField(max_length=255)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
     waitlist = models.ForeignKey(WaitList, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "ch_proposal"
 
     def __str__(self) -> str:
-        return self.title
+        return self.meeting.name
