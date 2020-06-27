@@ -1,0 +1,27 @@
+name: Check Django and Hasura migrations
+
+on:
+  pull_request:
+    branches:
+      - '**'
+  push:
+    branches:
+      - master
+      - release/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Build the docker-compose stack
+        run: |
+          cp compose/development/.env.web-sample compose/development/.env.web
+          cp compose/development/.env.hasura-sample compose/development/.env.hasura
+          docker-compose up --build -d
+      - name: Wait for containers to start
+        run: sleep 60
+      - name: Show logs
+        run: docker-compose logs
+      - name: Check hasura health
+        run: docker-compose exec -T graphql-engine wget http://localhost:8080/healthz
