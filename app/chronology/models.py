@@ -1,14 +1,24 @@
-from django.contrib.postgres.fields import JSONField
+from typing import Dict, TypedDict
+
 from django.db import models
 
+from common.json_field import JSONField
 from crowd.models import User
 from notice_board.models import Meeting, Sphere
+
+
+class EmptyDict(TypedDict):
+    pass
+
+
+def default_festival_settings() -> Dict[str, EmptyDict]:
+    return {"theme": {}, "forms": {}}
 
 
 class Festival(models.Model):
     end_time = models.DateTimeField()
     name = models.CharField(max_length=255)
-    settings = JSONField(null=True)
+    settings = JSONField(default=default_festival_settings)
     slug = models.SlugField(blank=True)
     sphere = models.ForeignKey(Sphere, on_delete=models.CASCADE)
     start_proposal = models.DateTimeField()

@@ -1,7 +1,9 @@
-from django.contrib.postgres.fields import JSONField
+from typing import Dict, TypedDict
+
 from django.contrib.sites.models import Site
 from django.db import models
 
+from common.json_field import JSONField
 from crowd.models import User
 
 
@@ -45,13 +47,21 @@ class GuildMember(models.Model):
         db_table = "nb_guild_member"
 
 
+class EmptyDict(TypedDict):
+    pass
+
+
+def default_sphere_settings() -> Dict[str, EmptyDict]:
+    return {"theme": {}}
+
+
 class Sphere(models.Model):
     """Big group for whole provinces, topics, organizations or big events."""
 
     is_open = models.BooleanField(default=True)
     managers = models.ManyToManyField(User)
     name = models.CharField(max_length=255)
-    settings = JSONField(null=True)
+    settings = JSONField(default=default_sphere_settings)
     site = models.OneToOneField(Site, on_delete=models.PROTECT, null=True)
 
     class Meta:  # noqa D106
@@ -66,7 +76,7 @@ class Meeting(DescribedModel):
 
     end_time = models.DateTimeField(null=True)
     guild = models.ForeignKey("Guild", on_delete=models.CASCADE)
-    image = models.ImageField(null=True)
+    image = models.ImageField(null=True, blank=True)
     location = models.TextField(blank=True, null=True)
     meeting_url = models.URLField(blank=True)
     organizer = models.ForeignKey(
