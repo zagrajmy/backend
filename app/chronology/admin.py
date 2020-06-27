@@ -1,4 +1,5 @@
 from django.contrib import admin
+from notice_board.admin import SphereManagersAdmin
 
 from chronology.models import (
     AgendaItem,
@@ -10,10 +11,10 @@ from chronology.models import (
     WaitList,
 )
 
-admin.site.register(Festival)
-admin.site.register(Room)
-admin.site.register(TimeSlot)
-admin.site.register(Helper)
-admin.site.register(AgendaItem)
-admin.site.register(WaitList)
-admin.site.register(Proposal)
+admin.site.register(AgendaItem, SphereManagersAdmin)
+admin.site.register(Festival, SphereManagersAdmin)
+admin.site.register(Helper, SphereManagersAdmin)
+admin.site.register(Proposal, SphereManagersAdmin)
+admin.site.register(Room, SphereManagersAdmin)
+admin.site.register(TimeSlot, SphereManagersAdmin)
+admin.site.register(WaitList, SphereManagersAdmin)

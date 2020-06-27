@@ -3,7 +3,7 @@ export PYTHONPATH=app
 export COMPOSE_PROJECT_NAME=zagrajmy
 
 devinst:
-	pip install -r app/check-requirements.txt
+	pip install -r requirements.txt
 	pip install -r requirements-dev.txt
 
 test:
@@ -38,3 +38,6 @@ dc-prod-down:
 
 dc-prod-up:
 	docker-compose -f docker-compose.prod.yml up -d --build
+
+behave:
+	django-admin behave app/features --no-capture

@@ -30,6 +30,9 @@ class Guild(DescribedModel):
     class Meta:  # noqa D106
         db_table = "nb_guild"
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class GuildMember(models.Model):
     """Membership model for guilds."""
@@ -75,7 +78,7 @@ class Meeting(DescribedModel):
     """Meeting model."""
 
     end_time = models.DateTimeField(null=True)
-    guild = models.ForeignKey("Guild", on_delete=models.CASCADE)
+    guild = models.ForeignKey("Guild", null=True, on_delete=models.CASCADE)
     image = models.ImageField(null=True, blank=True)
     location = models.TextField(blank=True, null=True)
     meeting_url = models.URLField(blank=True)

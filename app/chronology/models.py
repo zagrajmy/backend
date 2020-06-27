@@ -46,6 +46,7 @@ class Room(models.Model):
 class TimeSlot(models.Model):
     end_time = models.DateTimeField()
     start_time = models.DateTimeField()
+    festival = models.ForeignKey(Festival, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "ch_time_slot"
