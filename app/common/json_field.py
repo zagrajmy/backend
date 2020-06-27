@@ -17,7 +17,7 @@ class SQLiteJSONField(Field):  # type: ignore
     def db_type(self, connection: BaseDatabaseWrapper) -> str:
         return "text"
 
-    def from_db_value(  # type: ignore
+    def from_db_value(
         self,
         value: Optional[str],
         expression: Expression,  # pylint: disable=unused-argument
@@ -27,7 +27,7 @@ class SQLiteJSONField(Field):  # type: ignore
             return self.to_python(value)
         return value
 
-    def to_python(self, value: Optional[str]) -> Any:  # type: ignore
+    def to_python(self, value: Optional[str]) -> Any:
         if value is not None:
             try:
                 return json.loads(value)
@@ -35,14 +35,12 @@ class SQLiteJSONField(Field):  # type: ignore
                 return value
         return value
 
-    def get_prep_value(  # type: ignore
-        self, value: Optional[Dict[str, Any]]
-    ) -> Optional[str]:
+    def get_prep_value(self, value: Optional[Dict[str, Any]]) -> Optional[str]:
         if value is not None:
             return str(json.dumps(value))
         return value
 
-    def value_to_string(self, obj: Model) -> Any:  # type: ignore
+    def value_to_string(self, obj: Model) -> Any:
         return self.value_from_object(obj)
 
 

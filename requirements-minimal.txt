@@ -1,7 +1,6 @@
 Django
-freezegun
-gunicorn
-psycopg2-binary
-pillow
-django-rest-framework
+django-json-widget
 djangorestframework
+gunicorn
+pillow
+psycopg2-binary

@@ -1,0 +1,26 @@
+[
+  {
+    "model": "auth.group",
+    "pk": 1,
+    "fields": {
+      "name": "Sphere Manager",
+      "permissions": [
+        ["add_festival", "chronology", "festival"],
+        ["change_festival", "chronology", "festival"],
+        ["change_meeting", "notice_board", "meeting"],
+        ["change_sphere", "notice_board", "sphere"],
+        ["delete_festival", "chronology", "festival"],
+        ["delete_meeting", "notice_board", "meeting"],
+        ["view_agendaitem", "chronology", "agendaitem"],
+        ["view_festival", "chronology", "festival"],
+        ["view_helper", "chronology", "helper"],
+        ["view_meeting", "notice_board", "meeting"],
+        ["view_proposal", "chronology", "proposal"],
+        ["view_room", "chronology", "room"],
+        ["view_sphere", "notice_board", "sphere"],
+        ["view_timeslot", "chronology", "timeslot"],
+        ["view_waitlist", "chronology", "waitlist"]
+      ]
+    }
+  }
+]

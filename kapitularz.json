@@ -1,0 +1,112 @@
+{
+	"forms": [
+		{
+			"title": "Zgłoś program na Kapitularz 2020!".
+			"description": "",
+			"waitlist": "prelekcje",
+			"fieldsets": [
+				{
+					"name": "O Twoim punkcie programu",
+					"fields": [
+						{
+							"name": "Tytuł",
+							"type": "line",
+							"target": "proposal__title",
+							"required": true,
+							"description": "Tytuł twojego punktu programu",
+						},
+						{
+							"name": "Opis",
+							"type": "text",
+							"required": true,
+							"target": "proposal__description",
+							"description": "Opisz swój punkt programu"
+						},
+						{
+							"name": "Czas trwania",
+							"required": true,
+							"target": "proposal__duration",
+							"choices": {
+								"25 minut": 25,
+								"55 minut": 55,
+								"1h i 25 minut": 85,
+								"1h i 55 minut": 115,
+							}
+						},
+						{
+							"name": "Kiedy masz czas?",
+							"required": true,
+							"target": "proposal__time_slots",
+							"choices": [
+								"Piątek 18-22",
+								"Sobota 10-14",
+								"Sobota 14-18",
+								"Sobota 18-22",
+								"Niedziela 10-14",
+							],
+							"multiple": True
+						}
+					]
+				},
+				{
+					"name": "O Tobie",
+					"fields": [
+						{
+							"name": "Imię i nazwisko",
+							"type": "line",
+							"required": true,
+							"description": "Do wiadomości organizatorów",
+							"target": "user__first_name,user__last_name",
+						},
+						{
+							"name": "Prowadzący",
+							"type": "line",
+							"required": true,
+							"description": "Nazwa prowadzącego do opisu wydarzenia",
+							"target": "proposal__name"
+						},
+						{
+							"name": "Adres email",
+							"type": "email",
+							"required": true,
+							"target": "user__email",
+						},
+						{
+							"name": "Nick na Discordzie",
+							"type": "discord",
+							"required": true,
+							"description": "Do kontaktu z prowadzącym."
+							"target": "proposal__other_contact",
+						},
+						{
+							"name": "Numer telefonu",
+							"type": "phone",
+							"required": false,
+							"target": "proposal__phone",
+						},
+						{
+							"name": "Organizacja",
+							"type": "line",
+							"required": false,
+							"description": "Nazwa Twojej organizacji, klubu, bloga etc."
+							"target": "proposal__club"
+						},
+						{
+							"name": "Zapoznałem się z informacją o przetwarzaniu danych osobowych",
+							"type": "check",
+							"required": true,
+							"description": "https://drive.google.com/open?id=1LyPNIex_nU6Q1gRk0JYx1fJWq4BNI3_rp7scUCFigvo"
+						},
+						{
+							"name": "Zapoznałem się i akceptuję regulamin Kapitularza 2020",
+							"type": "check",
+							"required": true,
+							"description": "https://drive.google.com/open?id=19IN6ndmCthLLk-sOsqWzHUwlLbDUeOfU2jR7lwrjRII"
+						}
+					]
+				}
+			]
+		}
+	]
+}
+

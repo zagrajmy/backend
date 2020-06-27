@@ -38,3 +38,6 @@ dc-prod-down:
 
 dc-prod-up:
 	docker-compose -f docker-compose.prod.yml up -d --build
+
+behave:
+	django-admin behave app/features --no-capture
