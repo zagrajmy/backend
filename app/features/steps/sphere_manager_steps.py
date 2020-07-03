@@ -1,12 +1,14 @@
+from collections import defaultdict
+from random import random
+
 from behave import given, step, then, when
+from chronology.models import Room
 from crowd.models import User
 from django.contrib.auth.models import Group
 from django.urls import reverse
-from notice_board.models import Sphere
-from random import random
 from factories import FACTORIES
 from lxml import html
-from chronology.models import Room
+from notice_board.models import Sphere
 
 
 @given("a set of staff users")
@@ -37,6 +39,7 @@ SPHERE_ARG = {
     "agendaitem": "room__festival__sphere",
     "festival": "sphere",
     "helper": "festival__sphere",
+    "meeting": "sphere",
     "proposal": "waitlist__festival__sphere",
     "room": "festival__sphere",
     "timeslot": "festival__sphere",
@@ -86,6 +89,14 @@ def step_impl(context, instance1, instance2):
         ), "Shouldn't see not mine instance"
 
 
+@then("He can access only '{instance1}', not '{instance2}'")
+def step_impl(context, instance1, instance2):
+    for response in context.responses[instance1]:
+        assert response.status_code == 200
+    for response in context.responses[instance2]:
+        assert response.status_code == 302
+        assert response['Location'] == '/admin/'
+
 @then("The result is error code {status}")
 def step_impl(context, status):
     for __, response in context.responses:
@@ -120,3 +131,14 @@ def step_impl(context, action, model, app):
             reverse(f"admin:{app}_{model}_{action}", args=args if needs_args else [])
         )
         context.responses.append((action, response))
+
+
+@when("User tries {action} on instance '{instance}' of model {model} in app {app}")
+def step_impl(context, action, instance, model, app):
+    pages = PAGES[action]
+    context.responses = defaultdict(list)
+    for action, method, needs_args in pages:
+        response = getattr(context.test.client, method)(
+            reverse(f"admin:{app}_{model}_{action}", args=[context.instances[instance].pk])
+        )
+        context.responses[instance].append(response)

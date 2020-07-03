@@ -1,6 +1,6 @@
 Feature: Sphere manager permissions
 
-  Scenario Outline: Sphere manager can list his spheres
+  Scenario Outline: Sphere manager has list permission
   	Given a set of staff users:
   		| username | groups         |
   		| Sam      | Sphere Manager |
@@ -21,6 +21,31 @@ Feature: Sphere manager permissions
       | chronology   | helper     | list   |
       | chronology   | timeslot   | list   |
       | chronology   | proposal   | list   |
+
+  Scenario Outline: Sphere manager has read permission
+    Given a set of staff users:
+      | username | groups         |
+      | Sam      | Sphere Manager |
+      | Max      | Sphere Manager |
+    Given 'visible' instance of <model> connected to Sam's sphere
+    Given 'not_visible' instance of <model> connected to Max's sphere
+    Given Sam is logged in
+    When User tries <action> on instance 'visible' of model <model> in app <app>
+    When User tries <action> on instance 'not_visible' of model <model> in app <app>
+    Then He can access only 'visible', not 'not_visible'
+
+    Examples: Django Admin
+      | app          | model      | action |
+      | chronology   | room       | read   |
+      | chronology   | agendaitem | read   |
+      | chronology   | festival   | read   |
+      | chronology   | waitlist   | read   |
+      | chronology   | helper     | read   |
+      | chronology   | timeslot   | read   |
+      | chronology   | proposal   | read   |
+      | notice_board | meeting    | read   |
+      | notice_board | sphere     | read   |
+
 
 
   Scenario Outline: No access for Sphere Manager to list views

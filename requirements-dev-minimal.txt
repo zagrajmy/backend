@@ -3,8 +3,11 @@ behave-django
 black
 django-extensions
 django-stubs
+factory_boy
+ipdb
 ipython
 isort
+lxml
 mypy<0.780,>=0.770
 pycodestyle
 pygraphviz
@@ -15,5 +18,3 @@ pytest-cov
 pytest-django
 requirements-tools
 tox
-factory_boy
-lxml

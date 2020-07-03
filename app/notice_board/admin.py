@@ -1,11 +1,11 @@
 """Django admin customizations."""
 
+from typing import Tuple
+
 from django.contrib import admin
 from django.db.models import QuerySet  # pylint: disable=unused-import
 from django.http import HttpRequest
-
 from notice_board.models import Guild, Meeting, Sphere
-from typing import Tuple
 
 
 class SphereManagersAdmin(admin.ModelAdmin):
