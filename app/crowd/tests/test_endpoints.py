@@ -21,6 +21,7 @@ class TestCrowd(APITestCase):
         )
         user = User.objects.first()
         self.assertEqual(user.first_name, res.json().get("first_name"))
+        self.assertEqual(str(user.uuid), res.json().get("uuid"))
         self.assertEqual(user.last_name, "ze Skrzynna")
         self.assertEqual(user.locale, "en-GB")
         self.assertEqual(user.auth0_id, "test_token")
