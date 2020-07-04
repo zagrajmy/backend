@@ -1,3 +1,5 @@
+from django.contrib import admin
+
 from chronology.models import (
     AgendaItem,
     Festival,
@@ -7,7 +9,6 @@ from chronology.models import (
     TimeSlot,
     WaitList,
 )
-from django.contrib import admin
 
 admin.site.register(Festival)
 admin.site.register(Room)

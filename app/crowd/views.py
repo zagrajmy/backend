@@ -1,7 +1,7 @@
-from rest_framework import response, status, viewsets
+from rest_framework import viewsets
 
-from .models import User
-from .serializers import UserSerializer
+from crowd.models import User
+from crowd.serializers import UserSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):

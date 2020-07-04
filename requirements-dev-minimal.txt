@@ -3,8 +3,9 @@ behave-django
 black
 django-extensions
 django-stubs
+djangorestframework-stubs
 ipython
-isort
+isort<5
 mypy<0.780,>=0.770
 pycodestyle
 pygraphviz

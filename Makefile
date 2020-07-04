@@ -13,7 +13,7 @@ test:
 lint:
 	check-requirements
 	black --check app
-	isort --check-only app
+	isort --recursive --check-only app
 	pycodestyle app
 	bandit app
 	mypy app
@@ -22,7 +22,7 @@ lint:
 
 format:
 	black app
-	isort app
+	isort --recursive app
 
 graph:
 	docker exec -ti backend_web_1 django-admin graph_models chronology crowd notice_board -g -o docs/models.png

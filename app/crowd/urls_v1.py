@@ -1,6 +1,6 @@
 from rest_framework import routers
 
-from .views import UserViewSet
+from crowd.views import UserViewSet
 
 router = routers.SimpleRouter()
 
