@@ -3,7 +3,7 @@ export PYTHONPATH=app
 export COMPOSE_PROJECT_NAME=zagrajmy
 
 devinst:
-	pip install -r app/check-requirements.txt
+	pip install -r requirements.txt
 	pip install -r requirements-dev.txt
 
 test:

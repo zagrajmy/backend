@@ -1,4 +1,7 @@
 Django
+freezegun
 gunicorn
 psycopg2-binary
 pillow
+django-rest-framework
+djangorestframework

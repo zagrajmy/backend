@@ -1,8 +1,13 @@
-asgiref==3.2.7
-Django==3.0.7
+asgiref==3.2.10
+Django==3.0.8
+django-rest-framework==0.1.0
+djangorestframework==3.11.0
+freezegun==0.3.15
 gunicorn==20.0.4
-Pillow==7.1.2
+Pillow==7.2.0
 psycopg2-binary==2.8.5
+python-dateutil==2.8.1
 pytz==2020.1
-setuptools==47.1.1
+setuptools==49.1.0
+six==1.15.0
 sqlparse==0.3.1
