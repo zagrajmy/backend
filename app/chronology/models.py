@@ -1,9 +1,8 @@
 from typing import Dict, TypedDict
 
-from django.db import models
-
 from common.json_field import JSONField
 from crowd.models import User
+from django.db import models
 from notice_board.models import Meeting, Sphere
 
 
