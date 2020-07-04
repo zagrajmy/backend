@@ -95,7 +95,8 @@ def step_impl(context, instance1, instance2):
         assert response.status_code == 200
     for response in context.responses[instance2]:
         assert response.status_code == 302
-        assert response['Location'] == '/admin/'
+        assert response["Location"] == "/admin/"
+
 
 @then("The result is error code {status}")
 def step_impl(context, status):
@@ -139,6 +140,8 @@ def step_impl(context, action, instance, model, app):
     context.responses = defaultdict(list)
     for action, method, needs_args in pages:
         response = getattr(context.test.client, method)(
-            reverse(f"admin:{app}_{model}_{action}", args=[context.instances[instance].pk])
+            reverse(
+                f"admin:{app}_{model}_{action}", args=[context.instances[instance].pk]
+            )
         )
         context.responses[instance].append(response)

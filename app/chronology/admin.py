@@ -1,6 +1,3 @@
-from django.contrib import admin
-from notice_board.admin import SphereManagersAdmin
-
 from chronology.models import (
     AgendaItem,
     Festival,
@@ -10,6 +7,8 @@ from chronology.models import (
     TimeSlot,
     WaitList,
 )
+from django.contrib import admin
+from notice_board.admin import SphereManagersAdmin
 
 admin.site.register(AgendaItem, SphereManagersAdmin)
 admin.site.register(Festival, SphereManagersAdmin)

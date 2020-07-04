@@ -13,14 +13,14 @@ Feature: Sphere manager permissions
 
     Examples: Django Admin
       | app          | model      | action |
-      | notice_board | sphere     | list   |
-      | chronology   | room       | list   |
       | chronology   | agendaitem | list   |
       | chronology   | festival   | list   |
-      | chronology   | waitlist   | list   |
       | chronology   | helper     | list   |
-      | chronology   | timeslot   | list   |
       | chronology   | proposal   | list   |
+      | chronology   | room       | list   |
+      | chronology   | timeslot   | list   |
+      | chronology   | waitlist   | list   |
+      | notice_board | sphere     | list   |
 
   Scenario Outline: Sphere manager has read permission
     Given a set of staff users:
@@ -36,16 +36,15 @@ Feature: Sphere manager permissions
 
     Examples: Django Admin
       | app          | model      | action |
-      | chronology   | room       | read   |
       | chronology   | agendaitem | read   |
       | chronology   | festival   | read   |
-      | chronology   | waitlist   | read   |
       | chronology   | helper     | read   |
-      | chronology   | timeslot   | read   |
       | chronology   | proposal   | read   |
+      | chronology   | room       | read   |
+      | chronology   | timeslot   | read   |
+      | chronology   | waitlist   | read   |
       | notice_board | meeting    | read   |
       | notice_board | sphere     | read   |
-
 
 
   Scenario Outline: No access for Sphere Manager to list views
@@ -64,7 +63,6 @@ Feature: Sphere manager permissions
       | notice_board | guild   | list   | 403    |
       | notice_board | meeting | create | 403    |
       | notice_board | sphere  | create | 403    |
-
 
 
   Scenario Outline: No access for Sphere Manager to detail views

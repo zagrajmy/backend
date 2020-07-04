@@ -1,11 +1,10 @@
 """Django admin customizations."""
-
 from typing import Tuple
 
 from django.contrib import admin
 from django.db.models import QuerySet  # pylint: disable=unused-import
 from django.http import HttpRequest
-from notice_board.models import Guild, Meeting, Sphere
+from notice_board.models import Guild, GuildMember, Meeting, Sphere
 
 
 class SphereManagersAdmin(admin.ModelAdmin):
@@ -14,13 +13,16 @@ class SphereManagersAdmin(admin.ModelAdmin):
     permission_keys = {
         "AgendaItem": "room__festival__sphere__managers",
         "Festival": "sphere__managers",
+        "Guild": "*",
         "Helper": "festival__sphere__managers",
         "Meeting": "sphere__managers",
+        "Proposal": "waitlist__festival__sphere__managers",
         "Room": "festival__sphere__managers",
+        "Site": "sphere__managers",
         "Sphere": "managers",
         "TimeSlot": "festival__sphere__managers",
+        "User": "*",
         "WaitList": "festival__sphere__managers",
-        "Proposal": "waitlist__festival__sphere__managers",
     }
 
     def get_list_display(self, request: HttpRequest) -> Tuple[str]:
@@ -51,11 +53,46 @@ class SphereManagersAdmin(admin.ModelAdmin):
     def _get_queryset(self, user, queryset, model_name):
         if not user.is_superuser:
             key = self.permission_keys[model_name]
-            if key:
+            if key and key != '*':
                 return queryset.filter(**{key: user})
         return queryset
 
 
-admin.site.register(Guild)
+class GuildMemberInline(admin.TabularInline):
+    fields = ('user', 'membership_type')
+    model = GuildMember
+
+
+class GuildAdmin(admin.ModelAdmin):
+    inlines = [GuildMemberInline]
+
+
+class MeetingAdmin(SphereManagersAdmin):
+    fieldsets = (
+        ("Basic info", {"fields": (
+            'name',
+            'slug',
+            'description',
+            'sphere',
+            'guild',
+            'organizer',
+            'image',
+        )}),
+        ("Location", {"fields": (
+            'location',
+            'meeting_url',
+        )}),
+        ("Time", {"fields": (
+            'start_time',
+            'end_time',
+            'publication_time',
+        )}),
+        ("Participants", {"fields": (
+            "participants",
+        )})
+    )
+
+
+admin.site.register(Guild, GuildAdmin)
 admin.site.register(Sphere, SphereManagersAdmin)
-admin.site.register(Meeting, SphereManagersAdmin)
+admin.site.register(Meeting, MeetingAdmin)

@@ -1,18 +1,19 @@
 from datetime import datetime
+
 import factory
-from crowd.models import User
-from notice_board.models import Guild, Sphere, Meeting
+import pytz
 from chronology.models import (
-    Room,
-    Festival,
     AgendaItem,
+    Festival,
     Helper,
     Proposal,
+    Room,
     TimeSlot,
     WaitList,
 )
+from crowd.models import User
 from django.utils import timezone
-import pytz
+from notice_board.models import Guild, Meeting, Sphere
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -114,6 +115,7 @@ FACTORIES = {
     "festival": FestivalFactory,
     "guild": GuildFactory,
     "helper": HelperFactory,
+    "meeting": MeetingFactory,
     "proposal": ProposalFactory,
     "room": RoomFactory,
     "sphere": SphereFactory,

@@ -1,10 +1,9 @@
 from typing import Dict, TypedDict
 
-from django.contrib.sites.models import Site
-from django.db import models
-
 from common.json_field import JSONField
 from crowd.models import User
+from django.contrib.sites.models import Site
+from django.db import models
 
 
 class DescribedModel(models.Model):
@@ -65,7 +64,7 @@ class Sphere(models.Model):
     managers = models.ManyToManyField(User)
     name = models.CharField(max_length=255)
     settings = JSONField(default=default_sphere_settings)
-    site = models.OneToOneField(Site, on_delete=models.PROTECT, null=True)
+    site = models.OneToOneField(Site, on_delete=models.PROTECT, null=True, related_name='sphere')
 
     class Meta:  # noqa D106
         db_table = "nb_sphere"
