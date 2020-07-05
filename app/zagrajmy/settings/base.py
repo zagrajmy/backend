@@ -33,9 +33,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.sites",
     "django.contrib.staticfiles",
-    "notice_board",
-    "crowd",
     "chronology",
+    "crowd",
+    "notice_board",
+    "django_json_widget",
 ]
 
 MIDDLEWARE = [

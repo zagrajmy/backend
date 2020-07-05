@@ -1,8 +1,9 @@
 from typing import Dict, TypedDict
 
+from django.db import models
+
 from common.json_field import JSONField
 from crowd.models import User
-from django.db import models
 from notice_board.models import Meeting, Sphere
 
 
@@ -74,7 +75,7 @@ class AgendaItem(models.Model):
     room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        db_table = "ch_time_table"
+        db_table = "ch_agenda_item"
 
 
 class WaitList(models.Model):
@@ -88,13 +89,17 @@ class WaitList(models.Model):
         return self.name
 
 
+def default_json_field() -> EmptyDict:
+    return {}
+
+
 class Proposal(models.Model):
     city = models.CharField(max_length=255)
     club = models.CharField(max_length=255)
     meeting = models.OneToOneField(Meeting, on_delete=models.CASCADE)
     needs = models.TextField()
-    other_contact = models.TextField()
-    other_data = models.TextField()
+    other_contact = JSONField(null=True, default=default_json_field)
+    other_data = JSONField(null=True, default=default_json_field)
     phone = models.CharField(max_length=255)
     time_slots = models.ManyToManyField(TimeSlot)
     waitlist = models.ForeignKey(WaitList, on_delete=models.CASCADE)

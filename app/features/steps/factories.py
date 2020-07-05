@@ -2,6 +2,8 @@ from datetime import datetime
 
 import factory
 import pytz
+from django.utils import timezone
+
 from chronology.models import (
     AgendaItem,
     Festival,
@@ -12,7 +14,6 @@ from chronology.models import (
     WaitList,
 )
 from crowd.models import User
-from django.utils import timezone
 from notice_board.models import Guild, Meeting, Sphere
 
 

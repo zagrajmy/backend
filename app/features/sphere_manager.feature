@@ -17,8 +17,6 @@ Feature: Sphere manager permissions
       | chronology   | festival   | list   |
       | chronology   | helper     | list   |
       | chronology   | proposal   | list   |
-      | chronology   | room       | list   |
-      | chronology   | timeslot   | list   |
       | chronology   | waitlist   | list   |
       | notice_board | sphere     | list   |
 
@@ -40,8 +38,6 @@ Feature: Sphere manager permissions
       | chronology   | festival   | read   |
       | chronology   | helper     | read   |
       | chronology   | proposal   | read   |
-      | chronology   | room       | read   |
-      | chronology   | timeslot   | read   |
       | chronology   | waitlist   | read   |
       | notice_board | meeting    | read   |
       | notice_board | sphere     | read   |

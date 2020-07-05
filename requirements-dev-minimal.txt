@@ -6,7 +6,7 @@ django-stubs
 factory_boy
 ipdb
 ipython
-isort
+isort<5
 lxml
 mypy<0.780,>=0.770
 pycodestyle

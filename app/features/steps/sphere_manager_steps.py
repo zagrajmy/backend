@@ -2,12 +2,13 @@ from collections import defaultdict
 from random import random
 
 from behave import given, step, then, when
-from chronology.models import Room
-from crowd.models import User
 from django.contrib.auth.models import Group
 from django.urls import reverse
-from factories import FACTORIES
 from lxml import html
+
+from chronology.models import Room
+from crowd.models import User
+from factories import FACTORIES
 from notice_board.models import Sphere
 
 

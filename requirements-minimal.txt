@@ -1,5 +1,6 @@
 Django
-gunicorn
-psycopg2-binary
-pillow
+django-json-widget
 django-stubs
+gunicorn
+pillow
+psycopg2-binary
