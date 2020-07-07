@@ -12,215 +12,114 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("notice_board", "0002_default_value_for_created_at_fields"),
+        ('notice_board', '0002_default_value_for_created_at_fields'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name="Festival",
+            name='Festival',
             fields=[
-                (
-                    "id",
-                    models.AutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("end_time", models.DateTimeField()),
-                ("name", models.CharField(max_length=255)),
-                ("settings", django.contrib.postgres.fields.jsonb.JSONField(null=True)),
-                ("slug", models.SlugField(blank=True)),
-                ("start_proposal", models.DateTimeField()),
-                ("start_publication", models.DateTimeField()),
-                ("start_time", models.DateTimeField()),
-                (
-                    "sphere",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="notice_board.Sphere",
-                    ),
-                ),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('end_time', models.DateTimeField()),
+                ('name', models.CharField(max_length=255)),
+                ('settings', django.contrib.postgres.fields.jsonb.JSONField(null=True)),
+                ('slug', models.SlugField(blank=True)),
+                ('start_proposal', models.DateTimeField()),
+                ('start_publication', models.DateTimeField()),
+                ('start_time', models.DateTimeField()),
+                ('sphere', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='notice_board.Sphere')),
             ],
-            options={"db_table": "ch_festival",},
+            options={
+                'db_table': 'ch_festival',
+            },
         ),
         migrations.CreateModel(
-            name="Helper",
+            name='Helper',
             fields=[
-                (
-                    "id",
-                    models.AutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                (
-                    "festival",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="chronology.Festival",
-                    ),
-                ),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('festival', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='chronology.Festival')),
             ],
-            options={"db_table": "ch_helper",},
+            options={
+                'db_table': 'ch_helper',
+            },
         ),
         migrations.CreateModel(
-            name="Room",
+            name='Room',
             fields=[
-                (
-                    "id",
-                    models.AutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=255)),
-                (
-                    "festival",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="chronology.Festival",
-                    ),
-                ),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=255)),
+                ('festival', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='chronology.Festival')),
             ],
-            options={"db_table": "ch_room",},
+            options={
+                'db_table': 'ch_room',
+            },
         ),
         migrations.CreateModel(
-            name="TimeSlot",
+            name='TimeSlot',
             fields=[
-                (
-                    "id",
-                    models.AutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("end_time", models.DateTimeField()),
-                ("start_time", models.DateTimeField()),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('end_time', models.DateTimeField()),
+                ('start_time', models.DateTimeField()),
             ],
-            options={"db_table": "ch_time_slot",},
+            options={
+                'db_table': 'ch_time_slot',
+            },
         ),
         migrations.CreateModel(
-            name="WaitList",
+            name='WaitList',
             fields=[
-                (
-                    "id",
-                    models.AutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("name", models.CharField(max_length=255)),
-                (
-                    "festival",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="chronology.Festival",
-                    ),
-                ),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=255)),
+                ('festival', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='chronology.Festival')),
             ],
-            options={"db_table": "ch_wait_list",},
+            options={
+                'db_table': 'ch_wait_list',
+            },
         ),
         migrations.CreateModel(
-            name="TimeTable",
+            name='TimeTable',
             fields=[
-                (
-                    "id",
-                    models.AutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("end_time", models.DateTimeField()),
-                ("helper_confirmed", models.BooleanField(default=False)),
-                ("meeting_confirmed", models.BooleanField(default=False)),
-                ("start_time", models.DateTimeField()),
-                (
-                    "helper",
-                    models.ForeignKey(
-                        null=True,
-                        on_delete=django.db.models.deletion.SET_NULL,
-                        to="chronology.Helper",
-                    ),
-                ),
-                (
-                    "meeting",
-                    models.OneToOneField(
-                        null=True,
-                        on_delete=django.db.models.deletion.SET_NULL,
-                        to="notice_board.Meeting",
-                    ),
-                ),
-                (
-                    "room",
-                    models.ForeignKey(
-                        null=True,
-                        on_delete=django.db.models.deletion.SET_NULL,
-                        to="chronology.Room",
-                    ),
-                ),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('end_time', models.DateTimeField()),
+                ('helper_confirmed', models.BooleanField(default=False)),
+                ('meeting_confirmed', models.BooleanField(default=False)),
+                ('start_time', models.DateTimeField()),
+                ('helper', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='chronology.Helper')),
+                ('meeting', models.OneToOneField(null=True, on_delete=django.db.models.deletion.SET_NULL, to='notice_board.Meeting')),
+                ('room', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='chronology.Room')),
             ],
-            options={"db_table": "ch_time_table",},
+            options={
+                'db_table': 'ch_time_table',
+            },
         ),
         migrations.CreateModel(
-            name="Proposal",
+            name='Proposal',
             fields=[
-                (
-                    "id",
-                    models.AutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
-                    ),
-                ),
-                ("city", models.CharField(max_length=255)),
-                ("club", models.CharField(max_length=255)),
-                ("description", models.TextField()),
-                ("needs", models.TextField()),
-                ("other_contact", models.TextField()),
-                ("other_data", models.TextField()),
-                ("phone", models.CharField(max_length=255)),
-                ("title", models.CharField(max_length=255)),
-                ("time_slots", models.ManyToManyField(to="chronology.TimeSlot")),
-                (
-                    "user",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to=settings.AUTH_USER_MODEL,
-                    ),
-                ),
-                (
-                    "waitlist",
-                    models.ForeignKey(
-                        on_delete=django.db.models.deletion.CASCADE,
-                        to="chronology.WaitList",
-                    ),
-                ),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('city', models.CharField(max_length=255)),
+                ('club', models.CharField(max_length=255)),
+                ('description', models.TextField()),
+                ('needs', models.TextField()),
+                ('other_contact', models.TextField()),
+                ('other_data', models.TextField()),
+                ('phone', models.CharField(max_length=255)),
+                ('title', models.CharField(max_length=255)),
+                ('time_slots', models.ManyToManyField(to='chronology.TimeSlot')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                ('waitlist', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='chronology.WaitList')),
             ],
-            options={"db_table": "ch_proposal",},
+            options={
+                'db_table': 'ch_proposal',
+            },
         ),
         migrations.AddField(
-            model_name="helper",
-            name="time_slots",
-            field=models.ManyToManyField(to="chronology.TimeSlot"),
+            model_name='helper',
+            name='time_slots',
+            field=models.ManyToManyField(to='chronology.TimeSlot'),
         ),
         migrations.AddField(
-            model_name="helper",
-            name="user",
-            field=models.ForeignKey(
-                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
-            ),
+            model_name='helper',
+            name='user',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
         ),
     ]
