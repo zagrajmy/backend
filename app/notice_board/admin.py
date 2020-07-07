@@ -36,8 +36,8 @@ class SphereManagersAdmin(admin.ModelAdmin):
 
     def get_list_display_links(
         self, request: HttpRequest, list_display: Sequence[str]
-    ) -> str:
-        return list_display[1]
+    ) -> List[str]:
+        return [list_display[1]]
 
     def get_queryset(self, request: HttpRequest) -> "QuerySet[Any]":
         """Limit querset to show only spheres that user is managing."""

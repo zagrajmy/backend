@@ -9,22 +9,23 @@ import common.json_field
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('chronology', '0005_timeslot_festival'),
+        ("chronology", "0005_add_timeslot_festival_fk"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='proposal',
-            name='other_contact',
-            field=common.json_field.PostgreSQLJSONField(default=chronology.models.default_json_field, null=True),
+            model_name="proposal",
+            name="other_contact",
+            field=common.json_field.PostgreSQLJSONField(
+                default=chronology.models.default_json_field, null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='proposal',
-            name='other_data',
-            field=common.json_field.PostgreSQLJSONField(default=chronology.models.default_json_field, null=True),
+            model_name="proposal",
+            name="other_data",
+            field=common.json_field.PostgreSQLJSONField(
+                default=chronology.models.default_json_field, null=True
+            ),
         ),
-        migrations.AlterModelTable(
-            name='agendaitem',
-            table='ch_agenda_item',
-        ),
+        migrations.AlterModelTable(name="agendaitem", table="ch_agenda_item",),
     ]

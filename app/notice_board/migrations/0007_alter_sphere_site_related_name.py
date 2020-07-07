@@ -7,14 +7,19 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('sites', '0002_update_default_site'),
-        ('notice_board', '0006_auto_20200626_0018'),
+        ("sites", "0002_update_default_site"),
+        ("notice_board", "0006_alter_meeting_guild_nullable"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='sphere',
-            name='site',
-            field=models.OneToOneField(null=True, on_delete=django.db.models.deletion.PROTECT, related_name='sphere', to='sites.Site'),
+            model_name="sphere",
+            name="site",
+            field=models.OneToOneField(
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                related_name="sphere",
+                to="sites.Site",
+            ),
         ),
     ]
