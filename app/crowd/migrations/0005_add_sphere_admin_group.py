@@ -38,7 +38,7 @@ def delete_sphere_manager(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("crowd", "0004_auto_20200617_0959"),
+        ("crowd", "0004_add_superuser"),
         ("chronology", "0001_initial"),
     ]
 

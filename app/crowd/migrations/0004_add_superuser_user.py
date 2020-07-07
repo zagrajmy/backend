@@ -28,7 +28,7 @@ def delete_superuser(apps, schema_editor):
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("crowd", "0002_auto_20200601_2106"),
+        ("crowd", "0003_auto_20200617_0959"),
     ]
 
     operations = [migrations.RunPython(add_superuser, delete_superuser)]

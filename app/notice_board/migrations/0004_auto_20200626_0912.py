@@ -8,15 +8,13 @@ import notice_board.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("notice_board", "0003_auto_20200601_2151"),
+        ('notice_board', '0003_auto_20200601_2151'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name="sphere",
-            name="settings",
-            field=common.json_field.JSONField(
-                default=notice_board.models.default_sphere_settings
-            ),
+            model_name='sphere',
+            name='settings',
+            field=common.json_field.JSONField(default=notice_board.models.default_sphere_settings),
         ),
     ]

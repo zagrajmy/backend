@@ -6,13 +6,14 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("crowd", "0003_add_superuser"),
+        ('crowd', '0002_auto_20200601_2106'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name="user",
-            name="auth0_id",
-            field=models.CharField(blank=True, default="", max_length=255),
+            model_name='user',
+            name='auth0_id',
+            field=models.CharField(blank=True, default='', max_length=255),
+            preserve_default=False,
         ),
     ]
