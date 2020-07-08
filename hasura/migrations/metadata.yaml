@@ -47,13 +47,13 @@ tables:
         table:
           schema: public
           name: ch_helper_time_slots
-  - name: ch_time_tables
+  - name: ch_agenda_items
     using:
       foreign_key_constraint_on:
         column: helper_id
         table:
           schema: public
-          name: ch_time_table
+          name: ch_agenda_item
 - table:
     schema: public
     name: ch_helper_time_slots
@@ -100,13 +100,13 @@ tables:
     using:
       foreign_key_constraint_on: festival_id
   array_relationships:
-  - name: ch_time_tables
+  - name: ch_agenda_items
     using:
       foreign_key_constraint_on:
         column: room_id
         table:
           schema: public
-          name: ch_time_table
+          name: ch_agenda_item
 - table:
     schema: public
     name: ch_time_slot
@@ -127,7 +127,7 @@ tables:
           name: ch_proposal_time_slots
 - table:
     schema: public
-    name: ch_time_table
+    name: ch_agenda_item
   object_relationships:
   - name: ch_helper
     using:
@@ -250,7 +250,7 @@ tables:
       manual_configuration:
         remote_table:
           schema: public
-          name: ch_time_table
+          name: ch_agenda_item
         column_mapping:
           id: meeting_id
   array_relationships:

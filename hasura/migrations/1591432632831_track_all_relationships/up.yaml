@@ -107,7 +107,7 @@
       foreign_key_constraint_on: sphere_id
   type: create_object_relationship
 - args:
-    name: ch_time_table
+    name: ch_agenda_item
     table:
       name: nb_meeting
       schema: public
@@ -116,7 +116,7 @@
         column_mapping:
           id: meeting_id
         remote_table:
-          name: ch_time_table
+          name: ch_agenda_item
           schema: public
   type: create_object_relationship
 - args:
@@ -236,7 +236,7 @@
       foreign_key_constraint_on: user_id
   type: create_object_relationship
 - args:
-    name: ch_time_tables
+    name: ch_agenda_items
     table:
       name: ch_helper
       schema: public
@@ -244,7 +244,7 @@
       foreign_key_constraint_on:
         column: helper_id
         table:
-          name: ch_time_table
+          name: ch_agenda_item
           schema: public
   type: create_array_relationship
 - args:
@@ -268,7 +268,7 @@
       foreign_key_constraint_on: festival_id
   type: create_object_relationship
 - args:
-    name: ch_time_tables
+    name: ch_agenda_items
     table:
       name: ch_room
       schema: public
@@ -276,7 +276,7 @@
       foreign_key_constraint_on:
         column: room_id
         table:
-          name: ch_time_table
+          name: ch_agenda_item
           schema: public
   type: create_array_relationship
 - args:
@@ -326,7 +326,7 @@
 - args:
     name: ch_helper
     table:
-      name: ch_time_table
+      name: ch_agenda_item
       schema: public
     using:
       foreign_key_constraint_on: helper_id
@@ -334,7 +334,7 @@
 - args:
     name: nb_meeting
     table:
-      name: ch_time_table
+      name: ch_agenda_item
       schema: public
     using:
       foreign_key_constraint_on: meeting_id
@@ -342,7 +342,7 @@
 - args:
     name: ch_room
     table:
-      name: ch_time_table
+      name: ch_agenda_item
       schema: public
     using:
       foreign_key_constraint_on: room_id

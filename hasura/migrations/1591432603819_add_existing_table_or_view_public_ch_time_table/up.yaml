@@ -1,4 +1,4 @@
 - args:
-    name: ch_time_table
+    name: ch_agenda_item
     schema: public
   type: add_existing_table_or_view

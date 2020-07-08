@@ -1,5 +1,5 @@
 - args:
     table:
-      name: ch_time_table
+      name: ch_agenda_item
       schema: public
   type: untrack_table
