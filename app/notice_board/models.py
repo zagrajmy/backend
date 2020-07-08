@@ -30,9 +30,6 @@ class Guild(DescribedModel):
     class Meta:  # noqa D106
         db_table = "nb_guild"
 
-    def __str__(self) -> str:
-        return self.name
-
 
 class GuildMember(models.Model):
     """Membership model for guilds."""

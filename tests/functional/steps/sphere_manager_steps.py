@@ -2,13 +2,12 @@ from collections import defaultdict
 from random import random
 
 from behave import given, then, when  # pylint: disable=no-name-in-module
+from crowd.models import User
 from django.contrib.auth.models import Group
 from django.urls import reverse
 from lxml import html
-
-from crowd.models import User
-from factories import FACTORIES
 from notice_board.models import Sphere
+from tests.factories import FACTORIES
 
 
 @given("a set of staff users")
@@ -23,16 +22,6 @@ def __(context):
         user.groups.add(sphere_manager_group)
         user.save()
         context.users[user.username] = user, password
-
-
-@given("a set of spheres")
-def __(context):
-    context.spheres = {}
-
-    for row in context.table:
-        sphere = Sphere.objects.create(name=row["name"])
-        sphere.managers.add(context.users[row["managers"]][0])
-        context.spheres["sphere.name"] = sphere
 
 
 SPHERE_ARG = {
@@ -105,7 +94,7 @@ def __(context, status):
 
 
 @given("there is any {model}")
-def step_imp(context, model):
+def __(context, model):
     context.model_obj = FACTORIES[model].create()
 
 
@@ -139,7 +128,8 @@ def __(context, action, model, app):
 @when("User tries {action} on instance '{instance}' of model {model} in app {app}")
 def __(context, action, instance, model, app):
     pages = PAGES[action]
-    context.responses = defaultdict(list)
+    if not hasattr(context, "responses"):
+        context.responses = defaultdict(list)
     for admin_action, method, __ in pages:
         response = getattr(context.test.client, method)(
             reverse(
