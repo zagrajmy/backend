@@ -15,7 +15,7 @@ lint:
 	black --check app
 	isort --recursive --check-only app
 	pycodestyle app
-	bandit app
+	bandit -r app
 	mypy app
 	pylint app
 	rm -rf .mypy_cache

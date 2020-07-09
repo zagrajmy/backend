@@ -1,7 +1,6 @@
 import factory
-from django.utils import timezone
-
 from crowd.models import User
+from django.utils import timezone
 from notice_board.models import Guild, Meeting, Sphere
 
 
@@ -82,6 +81,7 @@ class ProposalFactory(factory.DjangoModelFactory):
     other_data = factory.Faker("text")
     phone = factory.Faker("phone_number")
     waitlist = factory.SubFactory(WaitListFactory)
+    duration_minutes = factory.Faker("pyint", min_value=25)
 
 
 class RoomFactory(factory.DjangoModelFactory):

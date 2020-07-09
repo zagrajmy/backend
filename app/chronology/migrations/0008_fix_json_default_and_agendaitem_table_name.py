@@ -9,7 +9,7 @@ import common.json_field
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("chronology", "0005_add_timeslot_festival_fk"),
+        ("chronology", "0007_add_timeslot_festival_fk"),
     ]
 
     operations = [

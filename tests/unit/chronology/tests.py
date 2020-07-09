@@ -42,7 +42,7 @@ def test_chronlogy_config():
             "From 2020-07-01 12:00:00 to 2020-07-01 13:00:00",
         ),
         (Helper, {"user": User(username="bob")}, "bob"),
-        (Proposal, {"meeting": Meeting(name="Spotkanie")}, "Spotkanie"),
+        (Proposal, {"name": "Spotkanie"}, "Spotkanie"),
     ),
 )
 def test_str(model, kwargs, expected):
