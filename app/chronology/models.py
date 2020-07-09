@@ -1,9 +1,8 @@
 from typing import Dict, TypedDict
 
-from django.db import models
-
 from common.json_field import JSONField
 from crowd.models import User
+from django.db import models
 from notice_board.models import Meeting, Sphere
 
 
@@ -112,10 +111,11 @@ class Proposal(models.Model):
     phone = models.CharField(max_length=255)
     time_slots = models.ManyToManyField(TimeSlot)
     waitlist = models.ForeignKey(WaitList, on_delete=models.CASCADE)
-    organizer = models.ForeignKey(
+    speaker_user = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="proposals", null=True
     )
     created_at = models.DateTimeField(auto_now_add=True, null=True)
+    speaker_name = models.CharField(max_length=255)
 
     class Meta:
         db_table = "ch_proposal"
