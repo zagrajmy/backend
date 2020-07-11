@@ -1,6 +1,6 @@
 - args:
     name: time_table
-    new_name: ch_time_table
+    new_name: ch_agenda_item
     table:
       name: nb_meeting
       schema: public

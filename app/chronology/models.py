@@ -46,6 +46,7 @@ class Room(models.Model):
 class TimeSlot(models.Model):
     end_time = models.DateTimeField()
     start_time = models.DateTimeField()
+    festival = models.ForeignKey(Festival, on_delete=models.CASCADE)
 
     class Meta:
         db_table = "ch_time_slot"
@@ -74,7 +75,7 @@ class AgendaItem(models.Model):
     room = models.ForeignKey(Room, on_delete=models.SET_NULL, null=True)
 
     class Meta:
-        db_table = "ch_time_table"
+        db_table = "ch_agenda_item"
 
 
 class WaitList(models.Model):
@@ -86,6 +87,10 @@ class WaitList(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+
+def default_json_field() -> EmptyDict:
+    return {}
 
 
 class Proposal(models.Model):
@@ -107,8 +112,8 @@ class Proposal(models.Model):
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default=CREATED,)
     meeting = models.OneToOneField(Meeting, on_delete=models.CASCADE, null=True)
     needs = models.TextField()
-    other_contact = models.TextField()
-    other_data = models.TextField()
+    other_contact = JSONField(null=True, default=default_json_field)
+    other_data = JSONField(null=True, default=default_json_field)
     phone = models.CharField(max_length=255)
     time_slots = models.ManyToManyField(TimeSlot)
     waitlist = models.ForeignKey(WaitList, on_delete=models.CASCADE)

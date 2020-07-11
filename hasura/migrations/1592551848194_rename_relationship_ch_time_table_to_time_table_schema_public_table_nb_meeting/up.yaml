@@ -1,5 +1,5 @@
 - args:
-    name: ch_time_table
+    name: ch_agenda_item
     new_name: time_table
     table:
       name: nb_meeting

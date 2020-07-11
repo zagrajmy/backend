@@ -62,7 +62,9 @@ class Sphere(models.Model):
     managers = models.ManyToManyField(User)
     name = models.CharField(max_length=255)
     settings = JSONField(default=default_sphere_settings)
-    site = models.OneToOneField(Site, on_delete=models.PROTECT, null=True)
+    site = models.OneToOneField(
+        Site, on_delete=models.PROTECT, null=True, related_name="sphere"
+    )
 
     class Meta:  # noqa D106
         db_table = "nb_sphere"
@@ -75,7 +77,7 @@ class Meeting(DescribedModel):
     """Meeting model."""
 
     end_time = models.DateTimeField(null=True)
-    guild = models.ForeignKey("Guild", on_delete=models.CASCADE)
+    guild = models.ForeignKey("Guild", null=True, on_delete=models.CASCADE)
     image = models.ImageField(null=True, blank=True)
     location = models.TextField(blank=True, null=True)
     meeting_url = models.URLField(blank=True)

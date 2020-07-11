@@ -15,7 +15,7 @@ lint:
 	black --check app
 	isort --recursive --check-only app
 	pycodestyle app
-	bandit app
+	bandit -r app
 	mypy app
 	pylint app
 	rm -rf .mypy_cache
@@ -38,3 +38,11 @@ dc-prod-down:
 
 dc-prod-up:
 	docker-compose -f docker-compose.prod.yml up -d --build
+
+behave:
+	django-admin behave tests/functional --no-capture
+
+coverage:
+	coverage run --source=app,tests/functional -m manage behave tests/functional --no-capture
+	coverage report
+	pytest --cov=app --cov=tests/unit

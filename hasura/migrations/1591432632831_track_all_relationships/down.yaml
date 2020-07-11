@@ -59,7 +59,7 @@
       schema: public
   type: drop_relationship
 - args:
-    relationship: ch_time_table
+    relationship: ch_agenda_item
     table:
       name: nb_meeting
       schema: public
@@ -131,7 +131,7 @@
       schema: public
   type: drop_relationship
 - args:
-    relationship: ch_time_tables
+    relationship: ch_agenda_items
     table:
       name: ch_helper
       schema: public
@@ -149,7 +149,7 @@
       schema: public
   type: drop_relationship
 - args:
-    relationship: ch_time_tables
+    relationship: ch_agenda_items
     table:
       name: ch_room
       schema: public
@@ -181,19 +181,19 @@
 - args:
     relationship: ch_helper
     table:
-      name: ch_time_table
+      name: ch_agenda_item
       schema: public
   type: drop_relationship
 - args:
     relationship: nb_meeting
     table:
-      name: ch_time_table
+      name: ch_agenda_item
       schema: public
   type: drop_relationship
 - args:
     relationship: ch_room
     table:
-      name: ch_time_table
+      name: ch_agenda_item
       schema: public
   type: drop_relationship
 - args:
