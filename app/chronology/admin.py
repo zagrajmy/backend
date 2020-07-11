@@ -20,13 +20,16 @@ from notice_board.admin import SphereManagersAdmin
 class WaitListInline(admin.TabularInline):
     model = WaitList
 
-    fields = ("name",)
+    fields = (
+        "id",
+        "name",
+    )
 
 
 class TimeSlotInline(admin.TabularInline):
     model = TimeSlot
 
-    fields = ("start_time", "end_time")
+    fields = ("id", "start_time", "end_time")
 
 
 class RoomInline(admin.TabularInline):
