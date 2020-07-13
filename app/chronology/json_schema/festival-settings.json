@@ -73,7 +73,7 @@
                                 ]
                               }
                             },
-                            "required": ["type", "choices"]
+                            "required": ["type"]
                           },
                           {
                             "title": "ChoiceField",
@@ -83,13 +83,21 @@
                                 "enum": ["single-choice", "multiple-choice"]
                               },
                               "choices": {
-                                "type": "object",
-                                "additionalProperties": {
-                                  "anyOf": [
+                                "items": {
+                                  "type": "array",
+                                  "items": [
                                     { "type": "string" },
-                                    { "type": "number" }
-                                  ]
-                                }
+                                    {
+                                      "anyOf": [
+                                        { "type": "string" },
+                                        { "type": "number" }
+                                      ]
+                                    }
+                                  ],
+                                  "minItems": 2,
+                                  "maxItems": 2
+                                },
+                                "type": "array"
                               }
                             },
                             "required": ["type", "choices"]

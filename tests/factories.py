@@ -2,6 +2,7 @@ import factory
 from crowd.models import User
 from django.utils import timezone
 from notice_board.models import Guild, Meeting, Sphere
+from django.utils.timezone import get_default_timezone
 
 
 class UserFactory(factory.DjangoModelFactory):
@@ -49,9 +50,9 @@ class TimeSlotFactory(factory.DjangoModelFactory):
     class Meta:
         model = "chronology.TimeSlot"
 
-    end_time = factory.Faker("date_time_this_century")
+    end_time = factory.Faker("date_time_this_century", tzinfo=get_default_timezone())
     festival = factory.SubFactory(FestivalFactory)
-    start_time = factory.Faker("date_time_this_century")
+    start_time = factory.Faker("date_time_this_century", tzinfo=get_default_timezone())
 
 
 class HelperFactory(factory.DjangoModelFactory):
