@@ -120,8 +120,8 @@ SITE_ID = 1
 # CORS Whitelist
 
 CORS_ORIGIN_REGEX_WHITELIST = [
-    r"^https://\w+\.zagrajmy\.net$",
-    r"^https://\w+\.kobolds\.club$",
+    r"^https://[a-zA-Z0-9_\-]+\.zagrajmy\.net$",
+    r"^https://[a-zA-Z0-9_\-]+\.kobolds\.club$",
     r"^http://localhost:3000$",
-    r"^https://\w+.zagrajmy.vercel.app$",
+    r"^https://[a-zA-Z0-9_\-]+.zagrajmy.vercel.app$",
 ]
