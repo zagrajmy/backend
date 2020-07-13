@@ -73,7 +73,7 @@
                                 ]
                               }
                             },
-                            "required": ["type", "choices"]
+                            "required": ["type"]
                           },
                           {
                             "title": "ChoiceField",
