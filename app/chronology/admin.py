@@ -17,7 +17,7 @@ from chronology.models import (
 from common.json_field import JSONField
 from notice_board.admin import SphereManagersAdmin
 
-with open("app/common/jsonschema/settings.json", "r") as schema_fd:
+with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
     SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
 
 

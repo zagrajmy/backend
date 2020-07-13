@@ -14,7 +14,7 @@ from common.json_field import JSONField
 from crowd.models import User
 from notice_board.models import Guild, GuildMember, Meeting, Sphere
 
-with open("app/common/jsonschema/settings.json", "r") as schema_fd:
+with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
     SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
 
 
