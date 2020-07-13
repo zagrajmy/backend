@@ -1,3 +1,4 @@
+import json
 from typing import Any
 
 from django.contrib import admin
@@ -15,6 +16,9 @@ from chronology.models import (
 )
 from common.json_field import JSONField
 from notice_board.admin import SphereManagersAdmin
+
+with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
+    SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
 
 
 class WaitListInline(admin.TabularInline):
@@ -49,7 +53,9 @@ class FestivalAdmin(SphereManagersAdmin):
         ),
     )
     formfield_overrides = {
-        JSONField: {"widget": JSONEditorWidget},
+        JSONField: {
+            "widget": JSONEditorWidget(options={"schema": SETTINGS_JSON_SCHEMA})
+        }
     }
     inlines = (
         WaitListInline,
@@ -88,9 +94,7 @@ class ProposalTimeSlotInline(admin.TabularInline):
 
 class ProposalAdmin(SphereManagersAdmin):
     inlines = [ProposalTimeSlotInline]
-    formfield_overrides = {
-        JSONField: {"widget": JSONEditorWidget},
-    }
+    formfield_overrides = {JSONField: {"widget": JSONEditorWidget}}
 
 
 admin.site.register(AgendaItem, SphereManagersAdmin)
