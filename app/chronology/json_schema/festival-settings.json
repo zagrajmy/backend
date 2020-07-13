@@ -85,6 +85,15 @@
                               "choices": {
                                 "items": {
                                   "type": "array",
+                                  "items": [
+                                    { "type": "string" },
+                                    {
+                                      "anyOf": [
+                                        { "type": "string" },
+                                        { "type": "number" }
+                                      ]
+                                    }
+                                  ],
                                   "minItems": 2,
                                   "maxItems": 2
                                 },
