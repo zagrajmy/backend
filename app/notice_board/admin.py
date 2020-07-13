@@ -1,4 +1,5 @@
 """Django admin customizations."""
+import json
 from typing import Any, List, Optional, Sequence  # pylint: disable=unused-import
 
 from django.contrib import admin
@@ -7,9 +8,14 @@ from django.db.models.fields.related import (  # pylint: disable=unused-import
     RelatedField,
 )
 from django.http import HttpRequest
+from django_json_widget.widgets import JSONEditorWidget
 
+from common.json_field import JSONField
 from crowd.models import User
 from notice_board.models import Guild, GuildMember, Meeting, Sphere
+
+with open("app/common/jsonschema/settings.json", "r") as schema_fd:
+    SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
 
 
 class SphereManagersAdmin(admin.ModelAdmin):
@@ -104,6 +110,14 @@ class MeetingAdmin(SphereManagersAdmin):
     )
 
 
+class SphereAdmin(SphereManagersAdmin):
+    formfield_overrides = {
+        JSONField: {
+            "widget": JSONEditorWidget(options={"schema": SETTINGS_JSON_SCHEMA})
+        },
+    }
+
+
 admin.site.register(Guild, GuildAdmin)
-admin.site.register(Sphere, SphereManagersAdmin)
+admin.site.register(Sphere, SphereAdmin)
 admin.site.register(Meeting, MeetingAdmin)

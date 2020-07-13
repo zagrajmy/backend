@@ -1,0 +1,137 @@
+{
+  "$schema": "http://json-schema.org/schema#",
+  "title": "FormsSettings",
+  "additionalProperties": true,
+  "type": "object",
+  "properties": {
+    "forms": {
+      "type": "array",
+      "items": {
+        "title": "Form",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "introText": {
+            "type": "string"
+          },
+          "footerText": {
+            "type": "string"
+          },
+          "waitlist": {
+            "anyOf": [{ "type": "string" }, { "type": "number" }]
+          },
+          "fieldsets": {
+            "type": "array",
+            "items": {
+              "title": "Fieldset",
+              "additionalProperties": false,
+              "type": "object",
+              "properties": {
+                "description": {
+                  "type": "string"
+                },
+                "fields": {
+                  "type": "array",
+                  "items": {
+                    "allOf": [
+                      {
+                        "title": "BaseField",
+                        "type": "object",
+                        "properties": {
+                          "label": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "required": {
+                            "type": "boolean"
+                          },
+                          "description": {
+                            "type": "string"
+                          }
+                        },
+                        "required": ["label", "type", "name"]
+                      },
+                      {
+                        "anyOf": [
+                          {
+                            "title": "SingleValueField",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "enum": [
+                                  "line",
+                                  "text",
+                                  "email",
+                                  "phone",
+                                  "discord",
+                                  "checkbox"
+                                ]
+                              }
+                            },
+                            "required": ["type", "choices"]
+                          },
+                          {
+                            "title": "ChoiceField",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "enum": ["single-choice", "multiple-choice"]
+                              },
+                              "choices": {
+                                "type": "object",
+                                "additionalProperties": {
+                                  "anyOf": [
+                                    { "type": "string" },
+                                    { "type": "number" }
+                                  ]
+                                }
+                              }
+                            },
+                            "required": ["type", "choices"]
+                          },
+                          {
+                            "title": "NumberField",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "enum": ["number"]
+                              },
+                              "max": {
+                                "type": "number"
+                              },
+                              "min": {
+                                "type": "number"
+                              },
+                              "step": {
+                                "type": "number"
+                              }
+                            },
+                            "required": ["type"]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "required": ["description", "fields"]
+            }
+          }
+        },
+        "required": [
+          "title",
+          "introText",
+          "footerText",
+          "waitlist",
+          "fieldsets"
+        ]
+      }
+    }
+  },
+  "required": ["forms"]
+}
