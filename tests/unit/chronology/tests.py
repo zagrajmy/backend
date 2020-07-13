@@ -31,15 +31,16 @@ def test_chronlogy_config():
     "model, kwargs, expected",
     (
         (Festival, {"name": "Konwencik"}, "Konwencik"),
-        (Room, {"name": "Sala 301"}, "Sala 301"),
-        (WaitList, {"name": "Sesje RPG"}, "Sesje RPG"),
+        (Room, {"name": "Sala 301", "id": 7}, "Sala 301 (7)"),
+        (WaitList, {"name": "Sesje RPG", "id": 8}, "Sesje RPG (8)"),
         (
             TimeSlot,
             {
                 "start_time": datetime(2020, 7, 1, 12, 0, 0),
                 "end_time": datetime(2020, 7, 1, 13, 0, 0),
+                "id": 9
             },
-            "From 2020-07-01 12:00:00 to 2020-07-01 13:00:00",
+            "From 2020-07-01 12:00:00 to 2020-07-01 13:00:00 (9)",
         ),
         (Helper, {"user": User(username="bob")}, "bob"),
         (Proposal, {"name": "Spotkanie"}, "Spotkanie"),
