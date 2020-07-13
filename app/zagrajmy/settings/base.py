@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.staticfiles",
     # Third-party apps
+    "corsheaders",
     "django_json_widget",
     # Project apps
     "chronology",
@@ -44,6 +45,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -114,3 +116,12 @@ AUTH_USER_MODEL = "crowd.User"
 MIGRATION_MODULES = {"sites": "contrib.sites.migrations"}
 
 SITE_ID = 1
+
+# CORS Whitelist
+
+CORS_ORIGIN_REGEX_WHITELIST = [
+    r"^https://\w+\.zagrajmy\.net$",
+    r"^https://\w+\.kobolds\.club$",
+    r"^http://localhost:3000$",
+    r"^https://\w+.zagrajmy.vercel.app$",
+]

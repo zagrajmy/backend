@@ -83,13 +83,12 @@
                                 "enum": ["single-choice", "multiple-choice"]
                               },
                               "choices": {
-                                "type": "object",
-                                "additionalProperties": {
-                                  "anyOf": [
-                                    { "type": "string" },
-                                    { "type": "number" }
-                                  ]
-                                }
+                                "items": {
+                                  "type": "array",
+                                  "minItems": 2,
+                                  "maxItems": 2
+                                },
+                                "type": "array"
                               }
                             },
                             "required": ["type", "choices"]

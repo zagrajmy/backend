@@ -4,6 +4,6 @@ from crowd.views import UserViewSet
 
 router = routers.SimpleRouter()
 
-router.register("users/", UserViewSet, basename="users")
+router.register("users", UserViewSet, basename="users")
 
 urlpatterns = router.urls
