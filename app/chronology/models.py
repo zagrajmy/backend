@@ -108,7 +108,6 @@ class Proposal(models.Model):
     duration_minutes = models.PositiveIntegerField()
     city = models.CharField(max_length=255, blank=True, null=True)
     club = models.CharField(max_length=255, blank=True, null=True)
-    contact_info = models.CharField(max_length=255)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, default=CREATED,)
     meeting = models.OneToOneField(Meeting, on_delete=models.CASCADE, null=True)
     needs = models.TextField(blank=True, null=True)
