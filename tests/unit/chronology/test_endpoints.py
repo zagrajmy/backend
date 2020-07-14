@@ -37,7 +37,6 @@ class TestProposals(APITestCase):
                 "duration_minutes": 600,
                 "city": "Toruń",
                 "club": "A",
-                "contact_info": "poczta",
                 "phone": "+4812",
                 "needs": "no",
                 "waitlist": self.wait_list.id,
@@ -55,8 +54,6 @@ class TestProposals(APITestCase):
         self.assertEqual(res_data.get("city"), "Toruń")
         self.assertEqual(proposal.club, "A")
         self.assertEqual(res_data.get("club"), "A")
-        self.assertEqual(proposal.contact_info, "poczta")
-        self.assertEqual(res_data.get("contact_info"), "poczta")
         self.assertEqual(proposal.phone, "+4812")
         self.assertEqual(res_data.get("phone"), "+4812")
         self.assertEqual(proposal.speaker_name, "Mszczuj ze Skzynna")
@@ -71,7 +68,6 @@ class TestProposals(APITestCase):
                 "duration_minutes": 600,
                 "city": "Toruń",
                 "club": "A",
-                "contact_info": "poczta",
                 "phone": "+4812",
                 "needs": "no",
                 "waitlist": self.wait_list.id,
@@ -89,8 +85,6 @@ class TestProposals(APITestCase):
         self.assertEqual(res_data.get("city"), "Toruń")
         self.assertEqual(proposal.club, "A")
         self.assertEqual(res_data.get("club"), "A")
-        self.assertEqual(proposal.contact_info, "poczta")
-        self.assertEqual(res_data.get("contact_info"), "poczta")
         self.assertEqual(proposal.phone, "+4812")
         self.assertEqual(res_data.get("phone"), "+4812")
         self.assertEqual(proposal.speaker_name, "Mr Mszczuj")
@@ -105,7 +99,6 @@ class TestProposals(APITestCase):
                 "duration_minutes": 600,
                 "city": "Toruń",
                 "club": "A",
-                "contact_info": "pidgeon mail accepted",
                 "phone": "+4812",
                 "needs": "no",
                 "waitlist": self.wait_list.id,
