@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('chronology', '0008_fix_json_default_and_agendaitem_table_name'),
+        ('chronology', '0009_auto_20200714_0919'),
     ]
 
     operations = [
