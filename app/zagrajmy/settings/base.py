@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     # Third-party apps
     "corsheaders",
     "django_json_widget",
+    "simple_history",
     # Project apps
     "chronology.apps.ChronologyConfig",
     "crowd.apps.CrowdConfig",
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
     "django.middleware.locale.LocaleMiddleware",
+    "simple_history.middleware.HistoryRequestMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",

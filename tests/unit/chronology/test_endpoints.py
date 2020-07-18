@@ -2,9 +2,8 @@ from django.urls import reverse
 from freezegun import freeze_time
 from rest_framework.test import APITestCase
 
-from crowd.models import User
 from chronology.models import Proposal
-
+from crowd.models import User
 from tests.factories import (
     FestivalFactory,
     ProposalFactory,
@@ -50,7 +49,7 @@ class TestProposals(APITestCase):
         assert proposal.description == res_data.pop("description") == ""
         assert proposal.duration_minutes == res_data.pop("duration_minutes") == 600
         assert proposal.id == res_data.pop("id") == 1
-        assert proposal.meeting == res_data.pop("meeting") == None
+        assert proposal.meeting is res_data.pop("meeting") is None
         assert proposal.name == res_data.pop("name") == "O obrotach sfer niebieskich"
         assert proposal.needs == res_data.pop("needs") == "no"
         assert proposal.other_contact == res_data.pop("other_contact") == {}
@@ -100,14 +99,14 @@ class TestProposals(APITestCase):
         assert proposal.description == res_data.pop("description") == ""
         assert proposal.duration_minutes == res_data.pop("duration_minutes") == 600
         assert proposal.id == res_data.pop("id") == 1
-        assert proposal.meeting == res_data.pop("meeting") == None
+        assert proposal.meeting is res_data.pop("meeting") is None
         assert proposal.name == res_data.pop("name") == "O obrotach sfer niebieskich"
         assert proposal.needs == res_data.pop("needs") == "no"
         assert proposal.other_contact == res_data.pop("other_contact") == {}
         assert proposal.other_data == res_data.pop("other_data") == {}
         assert proposal.phone == res_data.pop("phone") == "+4812"
         assert proposal.speaker_name == res_data.pop("speaker_name") == "Mr Mszczuj"
-        assert proposal.speaker_user == res_data.pop("speaker_user") == None
+        assert proposal.speaker_user is res_data.pop("speaker_user") is None
         assert proposal.status == res_data.pop("status") == "CREATED"
         assert (
             list(proposal.time_slots.values_list("id", flat=True))

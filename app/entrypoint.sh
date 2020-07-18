@@ -12,6 +12,7 @@ then
 fi
 
 django-admin migrate
+django-admin compilemessages
 django-admin collectstatic --no-input --clear
 
 exec "$@"

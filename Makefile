@@ -12,17 +12,17 @@ test:
 
 lint:
 	check-requirements
-	black --check app
-	isort --recursive --check-only app
-	pycodestyle app
+	black --check app tests stubs
+	isort --recursive --check-only app tests stubs
+	pycodestyle app tests
 	bandit -r app
 	mypy app
-	pylint app
+	pylint app tests
 	rm -rf .mypy_cache
 
 format:
-	black app
-	isort --recursive app
+	black app tests stubs
+	isort --recursive app tests stubs
 
 graph:
 	docker exec -ti backend_web_1 django-admin graph_models chronology crowd notice_board -g -o docs/models.png
@@ -46,3 +46,8 @@ coverage:
 	coverage run --source=app,tests/functional -m manage behave tests/functional --no-capture
 	coverage report
 	pytest --cov=app --cov=tests/unit
+
+upgrade:
+	upgrade-requirements
+	pip install -r requirements.txt
+	pip install -r requirements-dev.txt

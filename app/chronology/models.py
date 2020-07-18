@@ -2,6 +2,7 @@ from typing import Dict, TypedDict
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from simple_history.models import HistoricalRecords
 
 from common.json_field import JSONField
 from crowd.models import User
@@ -18,6 +19,10 @@ def default_festival_settings() -> Dict[str, EmptyDict]:
 
 class Festival(models.Model):
     end_time = models.DateTimeField(verbose_name=_("end time"))
+    history = HistoricalRecords(
+        table_name="ch_festival_history",
+        history_change_reason_field=models.TextField(null=True),
+    )
     name = models.CharField(max_length=255, verbose_name=_("name"))
     settings = JSONField(default=default_festival_settings, verbose_name=_("settings"))
     slug = models.SlugField(blank=True, verbose_name=_("slug"))

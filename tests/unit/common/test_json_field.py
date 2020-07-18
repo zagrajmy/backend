@@ -1,6 +1,7 @@
 from unittest.mock import Mock
 
 import pytest
+
 from common.json_field import SQLiteJSONField
 
 

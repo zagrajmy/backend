@@ -1,7 +1,8 @@
-from crowd.models import User
 from django.urls import reverse
 from freezegun import freeze_time
 from rest_framework.test import APITestCase
+
+from crowd.models import User
 
 
 class TestCrowd(APITestCase):
