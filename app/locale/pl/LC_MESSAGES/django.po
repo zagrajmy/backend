@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-07-17 17:00+0200\n"
+"POT-Creation-Date: 2020-07-19 15:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -190,11 +190,15 @@ msgstr "czas utworzenia"
 msgid "speaker name"
 msgstr "imię i nazwisko prelegenta"
 
-#: app/chronology/models.py:184
+#: app/chronology/models.py:181
+msgid "topic"
+msgstr "temat"
+
+#: app/chronology/models.py:185
 msgid "proposal"
 msgstr "zgłoszony punkt programu"
 
-#: app/chronology/models.py:185
+#: app/chronology/models.py:186
 msgid "proposals"
 msgstr "zgłoszone punkty programu"
 
@@ -311,10 +315,10 @@ msgstr "data publikacji"
 msgid "meetings"
 msgstr "spotkania"
 
-#: app/zagrajmy/settings/base.py:97
+#: app/zagrajmy/settings/base.py:98
 msgid "English"
 msgstr "Angielski"
 
-#: app/zagrajmy/settings/base.py:98
+#: app/zagrajmy/settings/base.py:99
 msgid "Polish"
 msgstr "Polski"

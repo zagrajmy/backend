@@ -178,6 +178,7 @@ class Proposal(models.Model):
         auto_now_add=True, null=True, verbose_name=_("created at")
     )
     speaker_name = models.CharField(max_length=255, verbose_name=_("speaker name"))
+    topic = models.CharField(max_length=255, blank=True, verbose_name=_("topic"))
 
     class Meta:
         db_table = "ch_proposal"
