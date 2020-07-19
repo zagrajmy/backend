@@ -1,8 +1,9 @@
 import factory
-from crowd.models import User
 from django.utils import timezone
-from notice_board.models import Guild, Meeting, Sphere
 from django.utils.timezone import get_default_timezone
+
+from crowd.models import User
+from notice_board.models import Guild, Meeting, Sphere
 
 
 class UserFactory(factory.DjangoModelFactory):

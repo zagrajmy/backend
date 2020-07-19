@@ -1,6 +1,7 @@
 Django
 django-cors-headers
 django-json-widget
+django-simple-history
 djangorestframework
 gunicorn
 pillow

@@ -1,6 +1,12 @@
 """Django admin customizations."""
 import json
-from typing import Any, List, Optional, Sequence  # pylint: disable=unused-import
+from typing import (  # pylint: disable=unused-import
+    TYPE_CHECKING,
+    Any,
+    List,
+    Optional,
+    Sequence,
+)
 
 from django.contrib import admin
 from django.db.models import QuerySet  # pylint: disable=unused-import
@@ -9,6 +15,7 @@ from django.db.models.fields.related import (  # pylint: disable=unused-import
 )
 from django.http import HttpRequest
 from django_json_widget.widgets import JSONEditorWidget
+from simple_history.admin import SimpleHistoryAdmin
 
 from common.json_field import JSONField
 from crowd.models import User
@@ -17,8 +24,13 @@ from notice_board.models import Guild, GuildMember, Meeting, Sphere
 with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
     SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
 
+if TYPE_CHECKING:
+    _BASE = admin.ModelAdmin
+else:
+    _BASE = object
 
-class SphereManagersAdmin(admin.ModelAdmin):
+
+class SphereManagersAdminMixin(_BASE):
     """Limits queryset by sphere manager."""
 
     permission_keys = {
@@ -43,7 +55,12 @@ class SphereManagersAdmin(admin.ModelAdmin):
     def get_list_display_links(
         self, request: HttpRequest, list_display: Sequence[str]
     ) -> List[str]:
-        return [list_display[1]]
+        list_display_links = super().get_list_display_links(request, list_display)
+        list_display_links = list(list_display_links or [])
+        print(list_display_links)
+        if list_display[1] not in list_display_links:
+            list_display_links.append(list_display[1])
+        return list_display_links
 
     def get_queryset(self, request: HttpRequest) -> "QuerySet[Any]":
         """Limit querset to show only spheres that user is managing."""
@@ -88,7 +105,7 @@ class GuildAdmin(admin.ModelAdmin):
     inlines = [GuildMemberInline]
 
 
-class MeetingAdmin(SphereManagersAdmin):
+class MeetingAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
     fieldsets = (
         (
             "Basic info",
@@ -129,7 +146,7 @@ class MeetingAdmin(SphereManagersAdmin):
     )
 
 
-class SphereAdmin(SphereManagersAdmin):
+class SphereAdmin(SphereManagersAdminMixin, SimpleHistoryAdmin):
     formfield_overrides = {
         JSONField: {
             "widget": JSONEditorWidget(options={"schema": SETTINGS_JSON_SCHEMA})

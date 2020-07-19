@@ -4,6 +4,7 @@ from typing import Any
 from django.contrib import admin
 from django.http import HttpRequest
 from django_json_widget.widgets import JSONEditorWidget
+from simple_history.admin import SimpleHistoryAdmin
 
 from chronology.models import (
     AgendaItem,
@@ -15,7 +16,7 @@ from chronology.models import (
     WaitList,
 )
 from common.json_field import JSONField
-from notice_board.admin import SphereManagersAdmin
+from notice_board.admin import SphereManagersAdminMixin
 
 with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
     SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
@@ -37,7 +38,7 @@ class RoomInline(admin.TabularInline):
     model = Room
 
 
-class FestivalAdmin(SphereManagersAdmin):
+class FestivalAdmin(SphereManagersAdminMixin, SimpleHistoryAdmin):
     fieldsets = (
         ("Basic info", {"fields": ["sphere", "name", "slug", "settings"]}),
         (
@@ -99,7 +100,7 @@ class ProposalInline(admin.TabularInline):
         return False
 
 
-class WaitListAdmin(SphereManagersAdmin):
+class WaitListAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
     inlines = [ProposalInline]
     list_display = ("name", "festival")
     list_filter = ("festival",)
@@ -109,7 +110,7 @@ class ProposalTimeSlotInline(admin.TabularInline):
     model = Proposal.time_slots.through
 
 
-class ProposalAdmin(SphereManagersAdmin):
+class ProposalAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
     inlines = [ProposalTimeSlotInline]
     formfield_overrides = {JSONField: {"widget": JSONEditorWidget}}
     list_display = (
@@ -134,7 +135,7 @@ class ProposalAdmin(SphereManagersAdmin):
     )
 
 
-class AgendaItemAdmin(SphereManagersAdmin):
+class AgendaItemAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
     list_display = (
         "room",
         "meeting",
@@ -154,7 +155,7 @@ class AgendaItemAdmin(SphereManagersAdmin):
     )
 
 
-class HelperAdmin(SphereManagersAdmin):
+class HelperAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
     list_display = ("user",)
     list_filter = ("festival",)
 

@@ -3,6 +3,7 @@ from typing import Dict, TypedDict
 from django.contrib.sites.models import Site
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from simple_history.models import HistoricalRecords
 
 from common.json_field import JSONField
 from crowd.models import User
@@ -75,6 +76,10 @@ def default_sphere_settings() -> Dict[str, EmptyDict]:
 class Sphere(models.Model):
     """Big group for whole provinces, topics, organizations or big events."""
 
+    history = HistoricalRecords(
+        table_name="nb_sphere_history",
+        history_change_reason_field=models.TextField(null=True),
+    )
     is_open = models.BooleanField(default=True, verbose_name=_("is open"))
     managers = models.ManyToManyField(User, verbose_name=_("managers"))
     name = models.CharField(max_length=255, verbose_name=_("name"))

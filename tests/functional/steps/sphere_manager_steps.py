@@ -2,11 +2,11 @@ from collections import defaultdict
 from random import random
 
 from behave import given, then, when  # pylint: disable=no-name-in-module
-from crowd.models import User
 from django.contrib.auth.models import Group
 from django.urls import reverse
 from lxml import html
-from notice_board.models import Sphere
+
+from crowd.models import User
 from tests.factories import FACTORIES
 
 
@@ -61,7 +61,7 @@ def __(context, username):
 XPATH = {
     "changelist": (
         '//form[@id="changelist-form"]/div/table/tbody/tr/'
-        'td[@class="field-id"][text()="{}"]'
+        'th[@class="field-id"]/a[text()="{}"]'
     )
 }
 
