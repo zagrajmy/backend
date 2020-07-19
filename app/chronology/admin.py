@@ -114,6 +114,7 @@ class ProposalAdmin(SphereManagersAdmin):
     formfield_overrides = {JSONField: {"widget": JSONEditorWidget}}
     list_display = (
         "name",
+        "topic",
         "speaker_name",
         "city",
         "club",
