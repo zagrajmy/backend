@@ -13,6 +13,7 @@ ENV DJANGO_SETTINGS_MODULE zagrajmy.settings.production
 # install dependencies
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 	build-essential \
+	gettext \
 	libjpeg-dev \
 	libpq-dev \
 	netcat \

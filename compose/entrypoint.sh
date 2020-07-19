@@ -11,6 +11,7 @@ then
     echo "PostgreSQL started"
 fi
 
+django-admin compilemessages
 django-admin migrate
 django-admin loaddata sphere-manager.json
 django-admin collectstatic --no-input --clear
