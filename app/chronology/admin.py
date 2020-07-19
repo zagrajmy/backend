@@ -4,6 +4,7 @@ from typing import Any
 from django.contrib import admin
 from django.db.models import JSONField
 from django.http import HttpRequest
+from django.utils.translation import gettext_lazy as _
 from django_json_widget.widgets import JSONEditorWidget
 from simple_history.admin import SimpleHistoryAdmin
 
@@ -16,7 +17,9 @@ from chronology.models import (
     TimeSlot,
     WaitList,
 )
+from crowd.models import User
 from notice_board.admin import SphereManagersAdminMixin
+from notice_board.models import Meeting
 
 with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
     SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
@@ -146,6 +149,33 @@ class ProposalAdmin(
         "status",
         "waitlist",
     )
+    actions = ["accept_proposals"]
+
+    def accept_proposals(self, request, queryset):
+        stats = {"total": 0, "accepted": 0, "skipped": 0}
+        for proposal in queryset:
+            stats["total"] += 1
+            if proposal.meeting:
+                stats["skipped"] += 1
+                continue
+            if proposal.speaker_user:
+                user = proposal.speaker_user
+            else:
+                user = User.objects.first()
+            meeting = Meeting.objects.create(
+                name=proposal.name,
+                description=proposal.description,
+                organizer=user,
+                sphere=proposal.waitlist.festival.sphere,
+            )
+            proposal.meeting = meeting
+            proposal.save()
+            stats["accepted"] += 1
+        self.message_user(
+            request, _("Total processed: %(total)d, accepted: %(accepted)d") % stats
+        )
+
+    accept_proposals.short_description = _("Accept Proposals")
 
 
 class AgendaItemAdmin(
