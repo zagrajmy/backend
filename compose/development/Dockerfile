@@ -19,7 +19,8 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 	libjpeg-dev \
 	libpq-dev \
 	netcat \
-	python3-dev
+	python3-dev \
+	gettext
 
 # install dependencies
 RUN pip install --upgrade pip
