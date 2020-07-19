@@ -108,6 +108,25 @@ class MeetingAdmin(SphereManagersAdmin):
         ("Time", {"fields": ("start_time", "end_time", "publication_time",)}),
         ("Participants", {"fields": ("participants",)}),
     )
+    list_display = (
+        "name",
+        "organizer",
+        "created_at",
+        "publication_time",
+        "start_time",
+        "end_time",
+        "sphere",
+        "guild",
+    )
+    list_filter = (
+        "created_at",
+        "end_time",
+        "guild",
+        "publication_time",
+        "sphere",
+        "start_time",
+        "updated_at",
+    )
 
 
 class SphereAdmin(SphereManagersAdmin):
@@ -116,6 +135,8 @@ class SphereAdmin(SphereManagersAdmin):
             "widget": JSONEditorWidget(options={"schema": SETTINGS_JSON_SCHEMA})
         },
     }
+    list_display = ("name", "site", "is_open")
+    list_filter = ("is_open",)
 
 
 admin.site.register(Guild, GuildAdmin)

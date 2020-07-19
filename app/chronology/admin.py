@@ -62,6 +62,21 @@ class FestivalAdmin(SphereManagersAdmin):
         TimeSlotInline,
         RoomInline,
     )
+    list_display = (
+        "name",
+        "sphere",
+        "start_proposal",
+        "start_publication",
+        "start_time",
+        "end_time",
+    )
+    list_filter = (
+        "sphere",
+        "start_proposal",
+        "start_publication",
+        "start_time",
+        "end_time",
+    )
 
 
 class ProposalInline(admin.TabularInline):
@@ -86,6 +101,8 @@ class ProposalInline(admin.TabularInline):
 
 class WaitListAdmin(SphereManagersAdmin):
     inlines = [ProposalInline]
+    list_display = ("name", "festival")
+    list_filter = ("festival",)
 
 
 class ProposalTimeSlotInline(admin.TabularInline):
@@ -95,10 +112,54 @@ class ProposalTimeSlotInline(admin.TabularInline):
 class ProposalAdmin(SphereManagersAdmin):
     inlines = [ProposalTimeSlotInline]
     formfield_overrides = {JSONField: {"widget": JSONEditorWidget}}
+    list_display = (
+        "name",
+        "speaker_name",
+        "city",
+        "club",
+        "created_at",
+        "duration_minutes",
+        "phone",
+        "status",
+        "waitlist",
+    )
+    list_filter = (
+        "city",
+        "club",
+        "created_at",
+        "duration_minutes",
+        "status",
+        "waitlist",
+    )
 
 
-admin.site.register(AgendaItem, SphereManagersAdmin)
+class AgendaItemAdmin(SphereManagersAdmin):
+    list_display = (
+        "room",
+        "meeting",
+        "helper",
+        "meeting_confirmed",
+        "helper_confirmed",
+    )
+    list_filter = (
+        "room",
+        "helper",
+        "meeting_confirmed",
+        "helper_confirmed",
+    )
+    list_editable = (
+        "meeting_confirmed",
+        "helper_confirmed",
+    )
+
+
+class HelperAdmin(SphereManagersAdmin):
+    list_display = ("user",)
+    list_filter = ("festival",)
+
+
+admin.site.register(AgendaItem, AgendaItemAdmin)
 admin.site.register(Proposal, ProposalAdmin)
 admin.site.register(Festival, FestivalAdmin)
-admin.site.register(Helper, SphereManagersAdmin)
+admin.site.register(Helper, HelperAdmin)
 admin.site.register(WaitList, WaitListAdmin)
