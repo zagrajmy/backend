@@ -25,7 +25,7 @@ class Festival(models.Model):
     )
     name = models.CharField(max_length=255, verbose_name=_("name"))
     settings = JSONField(default=default_festival_settings, verbose_name=_("settings"))
-    slug = models.SlugField(blank=True, verbose_name=_("slug"))
+    slug = models.SlugField(verbose_name=_("slug"))
     sphere = models.ForeignKey(
         Sphere, on_delete=models.CASCADE, verbose_name=_("sphere")
     )
@@ -91,19 +91,27 @@ class Helper(models.Model):
 
 class AgendaItem(models.Model):
     helper = models.ForeignKey(
-        Helper, on_delete=models.SET_NULL, null=True, verbose_name=_("helper")
+        Helper,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name=_("helper"),
     )
     helper_confirmed = models.BooleanField(
         default=False, verbose_name=_("helper confirmed")
     )
     meeting = models.OneToOneField(
-        Meeting, on_delete=models.SET_NULL, null=True, verbose_name=_("meeting")
+        Meeting,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        verbose_name=_("meeting"),
     )
     meeting_confirmed = models.BooleanField(
         default=False, verbose_name=_("meeting confirmed")
     )
     room = models.ForeignKey(
-        Room, on_delete=models.SET_NULL, null=True, verbose_name=_("room")
+        Room, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("room")
     )
 
     class Meta:
@@ -147,26 +155,30 @@ class Proposal(models.Model):
     )
     duration_minutes = models.PositiveIntegerField(verbose_name=_("duration minutes"))
     city = models.CharField(
-        max_length=255, blank=True, null=True, verbose_name=_("city")
+        max_length=255, default="", blank=True, verbose_name=_("city")
     )
     club = models.CharField(
-        max_length=255, blank=True, null=True, verbose_name=_("club")
+        max_length=255, default="", blank=True, verbose_name=_("club")
     )
     status = models.CharField(
         max_length=15, choices=STATUS_CHOICES, default=CREATED, verbose_name=_("status")
     )
     meeting = models.OneToOneField(
-        Meeting, on_delete=models.CASCADE, null=True, verbose_name=_("meeting")
+        Meeting,
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+        verbose_name=_("meeting"),
     )
-    needs = models.TextField(blank=True, null=True, verbose_name=_("needs"))
+    needs = models.TextField(default="", blank=True, verbose_name=_("needs"))
     other_contact = JSONField(
-        null=True, default=default_json_field, verbose_name=_("other contact")
+        blank=True, default=default_json_field, verbose_name=_("other contact")
     )
     other_data = JSONField(
-        null=True, default=default_json_field, verbose_name=_("other data")
+        blank=True, default=default_json_field, verbose_name=_("other data")
     )
     phone = models.CharField(
-        max_length=255, blank=True, null=True, verbose_name=_("phone")
+        max_length=255, default="", blank=True, verbose_name=_("phone")
     )
     time_slots = models.ManyToManyField(TimeSlot, verbose_name=_("time slots"))
     waitlist = models.ForeignKey(
@@ -176,14 +188,15 @@ class Proposal(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name="proposals",
+        blank=True,
         null=True,
         verbose_name=_("speaker user"),
     )
-    created_at = models.DateTimeField(
-        auto_now_add=True, null=True, verbose_name=_("created at")
-    )
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("created at"))
     speaker_name = models.CharField(max_length=255, verbose_name=_("speaker name"))
-    topic = models.CharField(max_length=255, blank=True, verbose_name=_("topic"))
+    topic = models.CharField(
+        max_length=255, default="", blank=True, verbose_name=_("topic")
+    )
 
     class Meta:
         db_table = "ch_proposal"

@@ -15,7 +15,7 @@ class DescribedModel(models.Model):
         default="", blank=True, verbose_name=_("description")
     )
     name = models.CharField(max_length=255, verbose_name=_("name"))
-    slug = models.SlugField(blank=True, verbose_name=_("slug"))
+    slug = models.SlugField(verbose_name=_("slug"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("updated at"))
 
     class Meta:
@@ -85,11 +85,7 @@ class Sphere(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("name"))
     settings = JSONField(default=default_sphere_settings)
     site = models.OneToOneField(
-        Site,
-        on_delete=models.PROTECT,
-        null=True,
-        related_name="sphere",
-        verbose_name=_("site"),
+        Site, on_delete=models.PROTECT, related_name="sphere", verbose_name=_("site"),
     )
 
     class Meta:  # noqa D106
@@ -104,12 +100,16 @@ class Sphere(models.Model):
 class Meeting(DescribedModel):
     """Meeting model."""
 
-    end_time = models.DateTimeField(null=True, verbose_name=_("end time"))
+    end_time = models.DateTimeField(blank=True, null=True, verbose_name=_("end time"))
     guild = models.ForeignKey(
-        "Guild", null=True, on_delete=models.CASCADE, verbose_name=_("guild")
+        "Guild",
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        verbose_name=_("guild"),
     )
     image = models.ImageField(null=True, blank=True, verbose_name=_("image"))
-    location = models.TextField(blank=True, null=True, verbose_name=_("location"))
+    location = models.TextField(blank=True, default="", verbose_name=_("location"))
     meeting_url = models.URLField(blank=True, verbose_name=_("meeting url"))
     organizer = models.ForeignKey(
         User,
@@ -121,12 +121,14 @@ class Meeting(DescribedModel):
         User, related_name="participated_meetings", verbose_name=_("participants")
     )
     publication_time = models.DateTimeField(
-        null=True, verbose_name=_("publication time")
+        blank=True, null=True, verbose_name=_("publication time")
     )
     sphere = models.ForeignKey(
         "Sphere", on_delete=models.CASCADE, verbose_name=_("sphere")
     )
-    start_time = models.DateTimeField(null=True, verbose_name=_("start time"))
+    start_time = models.DateTimeField(
+        blank=True, null=True, verbose_name=_("start time")
+    )
 
     class Meta:  # noqa D106
         db_table = "nb_meeting"
