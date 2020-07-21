@@ -1,4 +1,5 @@
 import factory
+from django.contrib.sites.models import Site
 from django.utils import timezone
 from django.utils.timezone import get_default_timezone
 
@@ -13,11 +14,20 @@ class UserFactory(factory.DjangoModelFactory):
     username = factory.Faker("email")
 
 
+class SiteFactory(factory.DjangoModelFactory):
+    class Meta:
+        model = Site
+
+    name = factory.Faker("dga")
+    domain = factory.Faker("dga")
+
+
 class SphereFactory(factory.DjangoModelFactory):
     class Meta:
         model = Sphere
 
     name = "sphere"
+    site = factory.SubFactory(SiteFactory)
 
 
 class MeetingFactory(factory.DjangoModelFactory):
