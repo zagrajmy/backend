@@ -151,7 +151,7 @@ class ProposalAdmin(
     )
     actions = ["accept_proposals"]
 
-    def accept_proposals(self, request, queryset):
+    def accept_proposals(self, request: HttpRequest, queryset: Any) -> None:
         stats = {"total": 0, "accepted": 0, "skipped": 0}
         for proposal in queryset:
             stats["total"] += 1
@@ -175,7 +175,7 @@ class ProposalAdmin(
             request, _("Total processed: %(total)d, accepted: %(accepted)d") % stats
         )
 
-    accept_proposals.short_description = _("Accept Proposals")
+    accept_proposals.short_description = _("Accept Proposals")  # type: ignore
 
 
 class AgendaItemAdmin(
