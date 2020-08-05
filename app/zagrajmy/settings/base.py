@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     "django.contrib.staticfiles",
     # Third-party apps
+    "computedfields",
     "corsheaders",
     "django_json_widget",
     "simple_history",

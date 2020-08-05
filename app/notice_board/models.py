@@ -1,7 +1,10 @@
 from typing import Dict, TypedDict
 
+from computedfields.models import ComputedFieldsModel, computed
 from django.contrib.sites.models import Site
 from django.db import models
+from django.db.models import F, Q
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
@@ -37,6 +40,9 @@ class Guild(DescribedModel):
         db_table = "nb_guild"
         verbose_name = _("guild")
         verbose_name_plural = _("guilds")
+        constraints = [
+            models.UniqueConstraint(fields=["slug"], name="guild_unique_slug")
+        ]
 
 
 class GuildMember(models.Model):
@@ -63,6 +69,11 @@ class GuildMember(models.Model):
         db_table = "nb_guild_member"
         verbose_name = _("guild member")
         verbose_name_plural = _("guild members")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["guild", "user"], name="guildmember_unique_guild_and_user"
+            )
+        ]
 
 
 class EmptyDict(TypedDict):
@@ -97,8 +108,21 @@ class Sphere(models.Model):
         return self.name
 
 
-class Meeting(DescribedModel):
+class Meeting(DescribedModel, ComputedFieldsModel):
     """Meeting model."""
+
+    DRAFT = "draft"
+    PLANNED = "planned"
+    PUBLISHED = "published"
+    ONGOING = "ongoing"
+    PAST = "past"
+    STATUS_CHOICES = (
+        (DRAFT, _("draft")),
+        (PLANNED, _("planned")),
+        (PUBLISHED, _("published")),
+        (ONGOING, _("ongoing")),
+        (PAST, _("past")),
+    )
 
     end_time = models.DateTimeField(blank=True, null=True, verbose_name=_("end time"))
     guild = models.ForeignKey(
@@ -134,3 +158,44 @@ class Meeting(DescribedModel):
         db_table = "nb_meeting"
         verbose_name = _("meeting")
         verbose_name_plural = _("meetings")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["slug", "guild"],
+                condition=models.Q(guild__isnull=False),
+                name="meeting_unique_slug_in_guild",
+            ),
+            models.UniqueConstraint(
+                fields=["slug", "sphere"],
+                condition=models.Q(guild__isnull=True),
+                name="meeting_unique_slug_in_sphere",
+            ),
+            models.CheckConstraint(
+                check=Q(
+                    publication_time__isnull=True,
+                    start_time__isnull=True,
+                    end_time__isnull=True,
+                )
+                | Q(
+                    created_at__lte=F("publication_time"),
+                    publication_time__lte=F("start_time"),
+                    start_time__lt=F("end_time"),
+                ),
+                name="meeting_date_times",
+            ),
+        ]
+
+    @computed(
+        models.CharField(max_length=255, choices=STATUS_CHOICES, default=DRAFT),
+        depends=[["self", ["start_time", "end_time", "publication_time"]]],
+    )
+    def status(self) -> str:
+        now = timezone.now()
+        if not self.start_time or not self.end_time or not self.publication_time:
+            return Meeting.DRAFT
+        if now < self.publication_time:
+            return Meeting.PLANNED
+        if now < self.start_time:
+            return Meeting.PUBLISHED
+        if now < self.end_time:
+            return Meeting.ONGOING
+        return Meeting.PAST

@@ -1,6 +1,9 @@
 from typing import Dict, TypedDict
 
+from computedfields.models import ComputedFieldsModel, computed
 from django.db import models
+from django.db.models import F, Q
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
@@ -17,11 +20,31 @@ def default_festival_settings() -> Dict[str, EmptyDict]:
     return {"theme": {}, "forms": {}}
 
 
-class Festival(models.Model):
-    end_time = models.DateTimeField(verbose_name=_("end time"))
+class Festival(ComputedFieldsModel):
+
+    DRAFT = "draft"
+    READY = "ready"
+    PROPOSAL = "proposal"
+    AGENDA = "agenda"
+    ONGOING = "ongoing"
+    PAST = "past"
+    STATUS_CHOICES = (
+        (DRAFT, _("draft")),
+        (READY, _("ready")),
+        (PROPOSAL, _("proposal")),
+        (AGENDA, _("agenda")),
+        (ONGOING, _("ongoing")),
+        (PAST, _("past")),
+    )
+
+    start_time = models.DateTimeField(
+        blank=True, null=True, verbose_name=_("start time")
+    )
+    end_time = models.DateTimeField(blank=True, null=True, verbose_name=_("end time"))
     history = HistoricalRecords(
         table_name="ch_festival_history",
         history_change_reason_field=models.TextField(null=True),
+        bases=[ComputedFieldsModel],
     )
     name = models.CharField(max_length=255, verbose_name=_("name"))
     settings = JSONField(default=default_festival_settings, verbose_name=_("settings"))
@@ -29,17 +52,64 @@ class Festival(models.Model):
     sphere = models.ForeignKey(
         Sphere, on_delete=models.CASCADE, verbose_name=_("sphere")
     )
-    start_proposal = models.DateTimeField(verbose_name=_("start proposal"))
-    start_publication = models.DateTimeField(verbose_name=_("start publication"))
-    start_time = models.DateTimeField(verbose_name=_("start time"))
+    start_proposal = models.DateTimeField(
+        blank=True, null=True, verbose_name=_("start proposal")
+    )
+    start_publication = models.DateTimeField(
+        blank=True, null=True, verbose_name=_("start publication")
+    )
 
     class Meta:
         db_table = "ch_festival"
         verbose_name = _("festival")
         verbose_name_plural = _("festivals")
+        constraints = [
+            models.UniqueConstraint(
+                fields=("sphere", "slug"), name="festival_has_unique_slug_and_sphere"
+            ),
+            models.CheckConstraint(
+                check=Q(
+                    start_proposal__isnull=True,
+                    start_publication__isnull=True,
+                    start_time__isnull=True,
+                    end_time__isnull=True,
+                )
+                | Q(
+                    start_proposal__lte=F("start_publication"),
+                    start_publication__lte=F("start_time"),
+                    start_time__lt=F("end_time"),
+                ),
+                name="festival_date_times",
+            ),
+        ]
 
     def __str__(self) -> str:
         return self.name
+
+    @computed(
+        models.CharField(max_length=255, choices=STATUS_CHOICES, default=DRAFT),
+        depends=[
+            ["self", ["start_proposal", "start_publication", "start_time", "end_time"]]
+        ],
+    )
+    def status(self) -> str:
+        if (
+            not self.start_time
+            or not self.end_time
+            or not self.start_proposal
+            or not self.start_publication
+        ):
+            return Festival.DRAFT
+        now = timezone.now()
+        if now < self.start_proposal:
+            return Festival.READY
+        if now < self.start_publication:
+            return Festival.PROPOSAL
+        if now < self.start_time:
+            return Festival.AGENDA
+        if now < self.end_time:
+            return Festival.ONGOING
+        return Festival.PAST
 
 
 class Room(models.Model):
@@ -47,11 +117,17 @@ class Room(models.Model):
         Festival, on_delete=models.CASCADE, verbose_name=_("festival")
     )
     name = models.CharField(max_length=255, verbose_name=_("name"))
+    slug = models.SlugField(verbose_name=_("slug"))
 
     class Meta:
         db_table = "ch_room"
         verbose_name = _("room")
         verbose_name_plural = _("rooms")
+        constraints = [
+            models.UniqueConstraint(
+                fields=("slug", "festival"), name="room_has_unique_slug_and_festival"
+            )
+        ]
 
     def __str__(self) -> str:
         return f"{self.name} ({self.id})"
@@ -68,6 +144,15 @@ class TimeSlot(models.Model):
         db_table = "ch_time_slot"
         verbose_name = _("time slot")
         verbose_name_plural = _("time slots")
+        constraints = [
+            models.UniqueConstraint(
+                fields=("festival", "start_time", "end_time"),
+                name="timeslot_has_unique_times_for_festival",
+            ),
+            models.CheckConstraint(
+                check=Q(start_time__lt=F("end_time")), name="timeslot_date_times"
+            ),
+        ]
 
     def __str__(self) -> str:
         return f"From {self.start_time} to {self.end_time} ({self.id})"
@@ -84,12 +169,26 @@ class Helper(models.Model):
         db_table = "ch_helper"
         verbose_name = _("helper")
         verbose_name_plural = _("helpers")
+        constraints = [
+            models.UniqueConstraint(
+                fields=("festival", "user"), name="helper_has_unique_user_and_festival"
+            )
+        ]
 
     def __str__(self) -> str:
         return str(self.user)
 
 
-class AgendaItem(models.Model):
+class AgendaItem(ComputedFieldsModel):
+    UNASSIGNED = "unassigned"
+    UNCONFIRMED = "unconfirmed"
+    CONFIRMED = "confirmed"
+    STATUS_CHOICES = (
+        (UNASSIGNED, _("unassigned")),
+        (UNCONFIRMED, _("unconfirmed")),
+        (CONFIRMED, _("confirmed")),
+    )
+
     helper = models.ForeignKey(
         Helper,
         on_delete=models.SET_NULL,
@@ -111,7 +210,7 @@ class AgendaItem(models.Model):
         default=False, verbose_name=_("meeting confirmed")
     )
     room = models.ForeignKey(
-        Room, on_delete=models.SET_NULL, blank=True, null=True, verbose_name=_("room")
+        Room, null=True, blank=True, on_delete=models.CASCADE, verbose_name=_("room")
     )
 
     class Meta:
@@ -119,17 +218,38 @@ class AgendaItem(models.Model):
         verbose_name = _("agenda item")
         verbose_name_plural = _("agenda items")
 
+    @computed(
+        models.CharField(max_length=255, choices=STATUS_CHOICES, default=UNASSIGNED),
+        depends=[
+            ["self", ["helper", "helper_confirmed", "meeting", "meeting_confirmed"]]
+        ],
+    )
+    def status(self) -> str:
+        if not self.helper or not self.meeting or not self.room:
+            return AgendaItem.UNASSIGNED
+
+        if self.meeting_confirmed and self.helper_confirmed:
+            return AgendaItem.CONFIRMED
+        return AgendaItem.UNCONFIRMED
+
 
 class WaitList(models.Model):
     festival = models.ForeignKey(
         Festival, on_delete=models.CASCADE, verbose_name=_("festival")
     )
     name = models.CharField(max_length=255, verbose_name=_("name"))
+    slug = models.SlugField(verbose_name=_("slug"))
 
     class Meta:
         db_table = "ch_wait_list"
         verbose_name = _("waitlist")
         verbose_name_plural = _("waitlists")
+        constraints = [
+            models.UniqueConstraint(
+                fields=("slug", "festival"),
+                name="waitlist_has_unique_slug_and_festival",
+            )
+        ]
 
     def __str__(self) -> str:
         return f"{self.name} ({self.id})"

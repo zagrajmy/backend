@@ -1,4 +1,5 @@
 Django
+django-computedfields
 django-cors-headers
 django-json-widget
 django-simple-history

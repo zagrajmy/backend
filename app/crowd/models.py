@@ -20,6 +20,13 @@ class User(AbstractUser):
         verbose_name = _("user")
         verbose_name_plural = _("users")
         db_table = "cr_user"
+        constraints = [
+            models.UniqueConstraint(
+                fields=["auth0_id"],
+                condition=~models.Q(auth0_id=""),
+                name="unique_nonempty_auth0_id",
+            )
+        ]
 
     def __str__(self) -> str:
         return self.get_full_name() or self.username

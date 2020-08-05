@@ -6,6 +6,8 @@ from django.utils.timezone import get_default_timezone
 from crowd.models import User
 from notice_board.models import Guild, Meeting, Sphere
 
+NOW = timezone.now()
+
 
 class UserFactory(factory.DjangoModelFactory):
     class Meta:
@@ -50,20 +52,50 @@ class FestivalFactory(factory.DjangoModelFactory):
         model = "chronology.Festival"
 
     sphere = factory.SubFactory(SphereFactory)
-    end_time = timezone.now()
+    end_time = factory.Faker(
+        "date_time_between",
+        start_date="+10d",
+        end_date="+12d",
+        tzinfo=get_default_timezone(),
+    )
     name = "festival"
-    start_proposal = timezone.now()
-    start_publication = timezone.now()
-    start_time = timezone.now()
+    start_proposal = factory.Faker(
+        "date_time_between",
+        start_date="+1d",
+        end_date="+3d",
+        tzinfo=get_default_timezone(),
+    )
+    start_publication = factory.Faker(
+        "date_time_between",
+        start_date="+4d",
+        end_date="+6d",
+        tzinfo=get_default_timezone(),
+    )
+    start_time = factory.Faker(
+        "date_time_between",
+        start_date="+7d",
+        end_date="+9d",
+        tzinfo=get_default_timezone(),
+    )
 
 
 class TimeSlotFactory(factory.DjangoModelFactory):
     class Meta:
         model = "chronology.TimeSlot"
 
-    end_time = factory.Faker("date_time_this_century", tzinfo=get_default_timezone())
     festival = factory.SubFactory(FestivalFactory)
-    start_time = factory.Faker("date_time_this_century", tzinfo=get_default_timezone())
+    start_time = factory.Faker(
+        "date_time_between",
+        start_date="+1d",
+        end_date="+3d",
+        tzinfo=get_default_timezone(),
+    )
+    end_time = factory.Faker(
+        "date_time_between",
+        start_date="+4d",
+        end_date="+6d",
+        tzinfo=get_default_timezone(),
+    )
 
 
 class HelperFactory(factory.DjangoModelFactory):

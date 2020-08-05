@@ -25,7 +25,8 @@ with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd
 class WaitListInline(admin.TabularInline):
     model = WaitList
 
-    fields = ("name",)
+    fields = ("name", "slug")
+    prepopulated_fields = {"slug": ["name"]}
 
 
 class TimeSlotInline(admin.TabularInline):
@@ -36,6 +37,7 @@ class TimeSlotInline(admin.TabularInline):
 
 class RoomInline(admin.TabularInline):
     model = Room
+    prepopulated_fields = {"slug": ["name"]}
 
 
 class FestivalAdmin(SphereManagersAdminMixin, SimpleHistoryAdmin):
@@ -66,6 +68,7 @@ class FestivalAdmin(SphereManagersAdminMixin, SimpleHistoryAdmin):
     list_display = (
         "name",
         "sphere",
+        "status",
         "start_proposal",
         "start_publication",
         "start_time",
@@ -73,11 +76,13 @@ class FestivalAdmin(SphereManagersAdminMixin, SimpleHistoryAdmin):
     )
     list_filter = (
         "sphere",
+        "status",
         "start_proposal",
         "start_publication",
         "start_time",
         "end_time",
     )
+    prepopulated_fields = {"slug": ["name"]}
 
 
 class ProposalInline(admin.TabularInline):
@@ -102,8 +107,9 @@ class ProposalInline(admin.TabularInline):
 
 class WaitListAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
     inlines = [ProposalInline]
-    list_display = ("name", "festival")
+    list_display = ("name", "slug", "festival")
     list_filter = ("festival",)
+    prepopulated_fields = {"slug": ["name"]}
 
 
 class ProposalTimeSlotInline(admin.TabularInline):
@@ -142,12 +148,14 @@ class AgendaItemAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
         "helper",
         "meeting_confirmed",
         "helper_confirmed",
+        "status",
     )
     list_filter = (
         "room",
         "helper",
         "meeting_confirmed",
         "helper_confirmed",
+        "status",
     )
     list_editable = (
         "meeting_confirmed",

@@ -1,0 +1,9 @@
+from typing import Any
+
+dependclasses: Any
+tsd: Any
+v2c: Any
+
+def find_index(fks: Any, id_: Any): ...
+def addparentstofks(rels: Any, fks: Any) -> None: ...
+def dia2django(archivo: Any): ...

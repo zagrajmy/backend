@@ -103,6 +103,7 @@ class GuildMemberInline(admin.TabularInline):
 
 class GuildAdmin(admin.ModelAdmin):
     inlines = [GuildMemberInline]
+    prepopulated_fields = {"slug": ["name"]}
 
 
 class MeetingAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
@@ -127,6 +128,7 @@ class MeetingAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
     )
     list_display = (
         "name",
+        "status",
         "organizer",
         "created_at",
         "publication_time",
@@ -137,6 +139,7 @@ class MeetingAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
     )
     list_filter = (
         "created_at",
+        "status",
         "end_time",
         "guild",
         "publication_time",
@@ -144,6 +147,7 @@ class MeetingAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
         "start_time",
         "updated_at",
     )
+    prepopulated_fields = {"slug": ["name"]}
 
 
 class SphereAdmin(SphereManagersAdminMixin, SimpleHistoryAdmin):
