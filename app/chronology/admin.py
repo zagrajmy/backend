@@ -3,7 +3,9 @@ from typing import Any
 
 from django.contrib import admin
 from django.db.models import JSONField
+from django.db.models import QuerySet  # pylint: disable=unused-import
 from django.http import HttpRequest
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_json_widget.widgets import JSONEditorWidget
 from simple_history.admin import SimpleHistoryAdmin
@@ -19,7 +21,7 @@ from chronology.models import (
 )
 from crowd.models import User
 from notice_board.admin import SphereManagersAdminMixin
-from notice_board.models import Meeting
+from notice_board.models import Meeting, Sphere
 
 with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
     SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
@@ -151,31 +153,41 @@ class ProposalAdmin(
     )
     actions = ["accept_proposals"]
 
-    def accept_proposals(self, request: HttpRequest, queryset: Any) -> None:
-        stats = {"total": 0, "accepted": 0, "skipped": 0}
-        for proposal in queryset:
-            stats["total"] += 1
-            if proposal.meeting:
-                stats["skipped"] += 1
-                continue
-            if proposal.speaker_user:
-                user = proposal.speaker_user
-            else:
-                user = User.objects.first()
+    def accept_proposals(
+        self, request: HttpRequest, queryset: "QuerySet[Proposal]"
+    ) -> None:
+        total = queryset.count()
+
+        accepted = 0
+        for proposal in queryset.filter(meeting__isnull=True):
+            sphere = proposal.waitlist.festival.sphere
+
             meeting = Meeting.objects.create(
-                name=proposal.name,
                 description=proposal.description,
-                organizer=user,
-                sphere=proposal.waitlist.festival.sphere,
+                name=proposal.name,
+                organizer=proposal.speaker_user or request.user,
+                publication_time=proposal.waitlist.festival.start_publication,
+                slug=self._get_unique_meeting_slug(sphere, proposal.name),
+                sphere=sphere,
             )
+
             proposal.meeting = meeting
             proposal.save()
-            stats["accepted"] += 1
-        self.message_user(
-            request, _("Total processed: %(total)d, accepted: %(accepted)d") % stats
-        )
+
+            accepted += 1
+        self.message_user(request, _(f"Total processed: {total}, accepted: {accepted}"))
 
     accept_proposals.short_description = _("Accept Proposals")  # type: ignore
+
+    @staticmethod
+    def _get_unique_meeting_slug(sphere: Sphere, name: str) -> str:
+        base_slug = str(slugify(name))[:48]
+        slug = base_slug
+        i = 1
+        while Meeting.objects.filter(sphere=sphere, slug=slug).exists():
+            slug = f"{base_slug}-{i}"
+            i += 1
+        return slug
 
 
 class AgendaItemAdmin(
