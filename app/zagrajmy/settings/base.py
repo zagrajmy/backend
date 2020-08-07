@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_json_widget",
     "simple_history",
+    "rest_framework",
     # Project apps
     "chronology.apps.ChronologyConfig",
     "crowd.apps.CrowdConfig",
