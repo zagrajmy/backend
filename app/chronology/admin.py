@@ -5,7 +5,6 @@ from django.contrib import admin
 from django.db.models import JSONField
 from django.db.models import QuerySet  # pylint: disable=unused-import
 from django.http import HttpRequest
-from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from django_json_widget.widgets import JSONEditorWidget
 from simple_history.admin import SimpleHistoryAdmin
@@ -167,7 +166,6 @@ class ProposalAdmin(
                 name=proposal.name,
                 organizer=proposal.speaker_user or request.user,
                 publication_time=proposal.waitlist.festival.start_publication,
-                slug=self._get_unique_meeting_slug(sphere, proposal.name),
                 sphere=sphere,
             )
 
@@ -178,16 +176,6 @@ class ProposalAdmin(
         self.message_user(request, _(f"Total processed: {total}, accepted: {accepted}"))
 
     accept_proposals.short_description = _("Accept Proposals")  # type: ignore
-
-    @staticmethod
-    def _get_unique_meeting_slug(sphere: Sphere, name: str) -> str:
-        base_slug = str(slugify(name))[:48]
-        slug = base_slug
-        i = 1
-        while Meeting.objects.filter(sphere=sphere, slug=slug).exists():
-            slug = f"{base_slug}-{i}"
-            i += 1
-        return slug
 
 
 class AgendaItemAdmin(

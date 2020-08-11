@@ -7,7 +7,8 @@ from django.contrib.admin.sites import AdminSite
 
 from notice_board.admin import SphereManagersAdminMixin
 from notice_board.apps import NoticeBoardConfig
-from notice_board.models import DescribedModel, Sphere
+from notice_board.models import DescribedModel, Guild, Meeting, Sphere
+from tests.factories import MeetingFactory
 
 
 class SphereManagersAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
@@ -86,6 +87,32 @@ def test_notice_board_config():
 )
 def test_str(model, name):
     assert str(model(name=name)) == name
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "name, slug",
+    (
+        ("dmodel", "dmodel"),
+        ("Brotherhood of steel", "brotherhood-of-steel"),
+        ("x" * 100, "x" * 48),
+    ),
+)
+def test_unique_slug(name, slug):
+    model = Guild(name=name)
+    model.save()
+    assert model.slug == slug
+
+
+@pytest.mark.django_db
+def test_duplicate_names():
+    name = "Silkworm Breeders Annual Conference"
+    m1 = MeetingFactory(name=name)
+    m2 = MeetingFactory(name=name)
+    m3 = MeetingFactory(name=name)
+    assert m1.slug == "silkworm-breeders-annual-conference"
+    assert m2.slug == "silkworm-breeders-annual-conference-1"
+    assert m3.slug == "silkworm-breeders-annual-conference-2"
 
 
 def _prepare_admin():

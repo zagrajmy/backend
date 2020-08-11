@@ -5,6 +5,7 @@ from django.contrib.sites.models import Site
 from django.db import models
 from django.db.models import F, JSONField, Q
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
@@ -25,6 +26,21 @@ class DescribedModel(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    @classmethod
+    def _get_unique_slug(cls, name: str) -> str:
+        base_slug = str(slugify(name))[:48]
+        slug = base_slug
+        i = 1
+        while cls.objects.filter(slug=slug).exists():
+            slug = f"{base_slug}-{i}"
+            i += 1
+        return slug
+
+    def save(self, *args, **kwargs) -> None:  # type: ignore
+        if not self.slug:
+            self.slug = self._get_unique_slug(self.name)
+        super().save(*args, **kwargs)
 
 
 class Guild(DescribedModel):
