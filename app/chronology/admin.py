@@ -40,7 +40,9 @@ class RoomInline(admin.TabularInline):
     prepopulated_fields = {"slug": ["name"]}
 
 
-class FestivalAdmin(SphereManagersAdminMixin, SimpleHistoryAdmin):
+class FestivalAdmin(
+    SphereManagersAdminMixin[Festival], SimpleHistoryAdmin
+):  # pylint: disable=unsubscriptable-object
     fieldsets = (
         ("Basic info", {"fields": ["sphere", "name", "slug", "settings"]}),
         (
@@ -102,13 +104,13 @@ class ProposalInline(admin.TabularInline):
         "time_slots",
     )
 
-    def has_add_permission(  # type: ignore
-        self, request: HttpRequest, obj: Any
-    ) -> bool:
+    def has_add_permission(self, request: HttpRequest, obj: Any) -> bool:
         return False
 
 
-class WaitListAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
+class WaitListAdmin(
+    SphereManagersAdminMixin[WaitList], admin.ModelAdmin
+):  # pylint: disable=unsubscriptable-object
     inlines = [ProposalInline]
     list_display = ("name", "slug", "festival")
     list_filter = ("festival",)
@@ -119,7 +121,9 @@ class ProposalTimeSlotInline(admin.TabularInline):
     model = Proposal.time_slots.through
 
 
-class ProposalAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
+class ProposalAdmin(
+    SphereManagersAdminMixin[Proposal], admin.ModelAdmin
+):  # pylint: disable=unsubscriptable-object
     inlines = [ProposalTimeSlotInline]
     formfield_overrides = {JSONField: {"widget": JSONEditorWidget}}
     list_display = (
@@ -144,7 +148,9 @@ class ProposalAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
     )
 
 
-class AgendaItemAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
+class AgendaItemAdmin(
+    SphereManagersAdminMixin[AgendaItem], admin.ModelAdmin
+):  # pylint: disable=unsubscriptable-object
     list_display = (
         "room",
         "meeting",
@@ -166,7 +172,9 @@ class AgendaItemAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
     )
 
 
-class HelperAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
+class HelperAdmin(
+    SphereManagersAdminMixin[Helper], admin.ModelAdmin
+):  # pylint: disable=unsubscriptable-object
     list_display = ("user",)
     list_filter = ("festival",)
 

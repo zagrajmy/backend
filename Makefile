@@ -1,5 +1,5 @@
 export DJANGO_SETTINGS_MODULE=zagrajmy.settings.development
-export PYTHONPATH=app
+export PYTHONPATH=app:stubs
 export COMPOSE_PROJECT_NAME=zagrajmy
 
 devinst:
@@ -13,7 +13,7 @@ test:
 lint:
 	check-requirements
 	black --check app tests stubs
-	isort --recursive --check-only app tests stubs
+	isort --recursive --check-only --diff app tests stubs
 	pycodestyle app tests
 	bandit -r app
 	mypy app||true

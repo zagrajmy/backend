@@ -16,8 +16,8 @@ class ProposalSerializer(serializers.ModelSerializer):
 
     speaker_name = serializers.CharField(max_length=255, required=False)
 
-    def validate(self, attrs):
-        data = super().validate(attrs)
+    def validate(self, attrs: dict) -> dict:
+        data: dict = super().validate(attrs)
         if not data.get("speaker_name"):
             user = data.get("speaker_user")
             if not user:

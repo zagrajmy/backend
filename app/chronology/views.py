@@ -1,4 +1,9 @@
+from typing import Type
+
+from django.db.models import QuerySet  # pylint: disable=unused-import
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin
+from rest_framework.request import Request
+from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
 from chronology.models import Proposal
@@ -7,14 +12,14 @@ from chronology.serializers import ProposalSerializer
 
 class ProposalAPIView(CreateModelMixin, UpdateModelMixin, GenericViewSet):
 
-    serializer_class = ProposalSerializer
-    lookup_url_kwarg = "id"
+    serializer_class: Type[ProposalSerializer] = ProposalSerializer
+    lookup_url_kwarg: str = "id"
 
-    def get_queryset(self):
+    def get_queryset(self) -> "QuerySet[Proposal]":
         return Proposal.objects.all()
 
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
+    def put(self, request: Request, partial: bool = False) -> Response:
+        return self.update(request, partial=partial)
 
-    def patch(self, request, *args, **kwargs):
-        return self.partial_update(request, *args, **kwargs)
+    def patch(self, request: Request, partial: bool = True) -> Response:
+        return self.partial_update(request, partial=partial)
