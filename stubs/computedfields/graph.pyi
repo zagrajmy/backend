@@ -6,6 +6,7 @@ from computedfields.helper import pairwise as pairwise
 from computedfields.helper import parent_to_inherited_path as parent_to_inherited_path
 from computedfields.helper import skip_equal_segments as skip_equal_segments
 from django.db.models import Model
+
 from graphviz import Digraph
 
 class ComputedFieldsException(Exception): ...
