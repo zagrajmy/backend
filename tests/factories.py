@@ -65,6 +65,12 @@ class FestivalFactory(factory.DjangoModelFactory):
         end_date="+3d",
         tzinfo=get_default_timezone(),
     )
+    end_proposal = factory.Faker(
+        "date_time_between",
+        start_date="+3d",
+        end_date="+7d",
+        tzinfo=get_default_timezone(),
+    )
     start_publication = factory.Faker(
         "date_time_between",
         start_date="+4d",
