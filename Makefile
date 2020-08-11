@@ -13,7 +13,7 @@ test:
 lint:
 	check-requirements
 	black --check app tests stubs
-	isort --recursive --check-only app tests stubs
+	isort --recursive --check-only --diff app tests stubs
 	pycodestyle app tests
 	bandit -r app
 	mypy app||true
