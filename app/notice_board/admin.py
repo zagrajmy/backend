@@ -10,6 +10,7 @@ from typing import (  # pylint: disable=unused-import
 
 from django.contrib import admin
 from django.db.models import QuerySet  # pylint: disable=unused-import
+from django.db.models import JSONField
 from django.db.models.fields.related import (  # pylint: disable=unused-import
     RelatedField,
 )
@@ -17,7 +18,6 @@ from django.http import HttpRequest
 from django_json_widget.widgets import JSONEditorWidget
 from simple_history.admin import SimpleHistoryAdmin
 
-from common.json_field import JSONField
 from crowd.models import User
 from notice_board.models import Guild, GuildMember, Meeting, Sphere
 

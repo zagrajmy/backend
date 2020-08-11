@@ -2,6 +2,7 @@ import json
 from typing import Any
 
 from django.contrib import admin
+from django.db.models import JSONField
 from django.http import HttpRequest
 from django_json_widget.widgets import JSONEditorWidget
 from simple_history.admin import SimpleHistoryAdmin
@@ -15,7 +16,6 @@ from chronology.models import (
     TimeSlot,
     WaitList,
 )
-from common.json_field import JSONField
 from notice_board.admin import SphereManagersAdminMixin
 
 with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
