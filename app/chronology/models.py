@@ -26,6 +26,7 @@ class Festival(ComputedFieldsModel):
     READY = "ready"
     PROPOSAL = "proposal"
     AGENDA = "agenda"
+    AGENDA_PROPOSAL = "agenda_proposal"
     ONGOING = "ongoing"
     PAST = "past"
     STATUS_CHOICES = (
@@ -55,6 +56,9 @@ class Festival(ComputedFieldsModel):
     start_proposal = models.DateTimeField(
         blank=True, null=True, verbose_name=_("start proposal")
     )
+    end_proposal = models.DateTimeField(
+        blank=True, null=True, verbose_name=_("end proposal")
+    )
     start_publication = models.DateTimeField(
         blank=True, null=True, verbose_name=_("start publication")
     )
@@ -70,12 +74,13 @@ class Festival(ComputedFieldsModel):
             models.CheckConstraint(
                 check=Q(
                     start_proposal__isnull=True,
+                    end_proposal__isnull=True,
                     start_publication__isnull=True,
                     start_time__isnull=True,
                     end_time__isnull=True,
                 )
                 | Q(
-                    start_proposal__lte=F("start_publication"),
+                    start_proposal__lte=F("end_proposal"),
                     start_publication__lte=F("start_time"),
                     start_time__lt=F("end_time"),
                 ),
@@ -93,23 +98,28 @@ class Festival(ComputedFieldsModel):
         ],
     )
     def status(self) -> str:
+        status = Festival.DRAFT
         if (
-            not self.start_time
-            or not self.end_time
-            or not self.start_proposal
-            or not self.start_publication
+            self.start_time
+            and self.end_time
+            and self.start_proposal
+            and self.end_proposal
+            and self.start_publication
         ):
-            return Festival.DRAFT
-        now = timezone.now()
-        if now < self.start_proposal:
-            return Festival.READY
-        if now < self.start_publication:
-            return Festival.PROPOSAL
-        if now < self.start_time:
-            return Festival.AGENDA
-        if now < self.end_time:
-            return Festival.ONGOING
-        return Festival.PAST
+            now = timezone.now()
+            if now < self.start_proposal:
+                status = Festival.READY
+            elif now < self.start_publication:
+                status = Festival.PROPOSAL
+            elif now < self.end_proposal:
+                status = Festival.AGENDA_PROPOSAL
+            elif now < self.start_time:
+                status = Festival.AGENDA
+            elif now < self.end_time:
+                status = Festival.ONGOING
+            else:
+                status = Festival.PAST
+        return status
 
 
 class Room(models.Model):

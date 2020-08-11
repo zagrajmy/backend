@@ -48,6 +48,7 @@ class FestivalAdmin(SphereManagersAdminMixin, SimpleHistoryAdmin):
             {
                 "fields": [
                     "start_proposal",
+                    "end_proposal",
                     "start_publication",
                     "start_time",
                     "end_time",
@@ -70,6 +71,7 @@ class FestivalAdmin(SphereManagersAdminMixin, SimpleHistoryAdmin):
         "sphere",
         "status",
         "start_proposal",
+        "end_proposal",
         "start_publication",
         "start_time",
         "end_time",
@@ -78,6 +80,7 @@ class FestivalAdmin(SphereManagersAdminMixin, SimpleHistoryAdmin):
         "sphere",
         "status",
         "start_proposal",
+        "end_proposal",
         "start_publication",
         "start_time",
         "end_time",
