@@ -1,5 +1,5 @@
 export DJANGO_SETTINGS_MODULE=zagrajmy.settings.development
-export PYTHONPATH=app
+export PYTHONPATH=app:stubs
 export COMPOSE_PROJECT_NAME=zagrajmy
 
 devinst:
