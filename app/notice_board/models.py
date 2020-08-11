@@ -1,4 +1,4 @@
-from typing import Dict, TypedDict
+from typing import Any, Dict, TypedDict
 
 from computedfields.models import ComputedFieldsModel, computed
 from django.contrib.sites.models import Site
@@ -28,11 +28,11 @@ class DescribedModel(models.Model):
         return self.name
 
     @classmethod
-    def _get_unique_slug(cls, name: str) -> str:
+    def _get_unique_slug(cls, name: str, **unique_within: Any) -> str:
         base_slug = str(slugify(name))[:48]
         slug = base_slug
         i = 1
-        while cls.objects.filter(slug=slug).exists():
+        while cls.objects.filter(slug=slug, **unique_within).exists():
             slug = f"{base_slug}-{i}"
             i += 1
         return slug
@@ -214,3 +214,8 @@ class Meeting(DescribedModel, ComputedFieldsModel):
         if now < self.end_time:
             return Meeting.ONGOING
         return Meeting.PAST
+
+    def save(self, *args, **kwargs) -> None:  # type: ignore
+        if not self.slug:
+            self.slug = self._get_unique_slug(self.name, sphere=self.sphere)
+        super().save(*args, **kwargs)
