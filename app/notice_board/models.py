@@ -161,6 +161,7 @@ class Meeting(DescribedModel, ComputedFieldsModel):
     participants = models.ManyToManyField(
         User, related_name="participated_meetings", verbose_name=_("participants")
     )
+    participants_limit = models.IntegerField(default=0, verbose_name=_("participants limit"))
     publication_time = models.DateTimeField(
         blank=True, null=True, verbose_name=_("publication time")
     )
