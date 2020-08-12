@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-11 19:39+0200\n"
+"POT-Creation-Date: 2020-08-11 22:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,224 +19,232 @@ msgstr ""
 "%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
 "%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 
+#: app/chronology/admin.py:176
+msgid "Total processed: {total}, accepted: {accepted}"
+msgstr "Przetworzonych: %(total)d, zaakceptowanych: %(accepted)d"
+
+#: app/chronology/admin.py:178
+msgid "Accept Proposals"
+msgstr "Zaakceptuj zgłoszenia"
+
 #: app/chronology/apps.py:7
 msgid "Chronology"
 msgstr "Chronologia"
 
-#: app/chronology/models.py:33 app/notice_board/models.py:120
+#: app/chronology/models.py:32 app/notice_board/models.py:135
 msgid "draft"
 msgstr "szkic"
 
-#: app/chronology/models.py:34
+#: app/chronology/models.py:33
 msgid "ready"
 msgstr "gotowy"
 
-#: app/chronology/models.py:35 app/chronology/models.py:331
+#: app/chronology/models.py:34 app/chronology/models.py:332
 msgid "proposal"
-msgstr "zgłoszony punkt programu"
+msgstr "zgłoszenie"
 
-#: app/chronology/models.py:36
+#: app/chronology/models.py:35
 msgid "agenda"
 msgstr "agenda"
 
-#: app/chronology/models.py:37 app/notice_board/models.py:123
+#: app/chronology/models.py:36 app/notice_board/models.py:138
 msgid "ongoing"
 msgstr "w trakcie"
 
-#: app/chronology/models.py:38 app/notice_board/models.py:124
+#: app/chronology/models.py:37 app/notice_board/models.py:139
 msgid "past"
-msgstr "zakończony"
+msgstr "minione"
 
-#: app/chronology/models.py:42 app/chronology/models.py:146
-#: app/notice_board/models.py:154
+#: app/chronology/models.py:41 app/chronology/models.py:147
+#: app/notice_board/models.py:169
 msgid "start time"
 msgstr "czas rozpoczęcia"
 
-#: app/chronology/models.py:44 app/chronology/models.py:145
-#: app/notice_board/models.py:127
+#: app/chronology/models.py:43 app/chronology/models.py:146
+#: app/notice_board/models.py:142
 msgid "end time"
 msgstr "czas zakończenia"
 
-#: app/chronology/models.py:50 app/chronology/models.py:127
-#: app/chronology/models.py:248 app/chronology/models.py:280
-#: app/notice_board/models.py:20 app/notice_board/models.py:96
+#: app/chronology/models.py:49 app/chronology/models.py:128
+#: app/chronology/models.py:249 app/chronology/models.py:281
+#: app/notice_board/models.py:20 app/notice_board/models.py:111
 msgid "name"
 msgstr "nazwa"
 
-#: app/chronology/models.py:51
+#: app/chronology/models.py:50
 msgid "settings"
 msgstr "ustawienia"
 
-#: app/chronology/models.py:52 app/chronology/models.py:128
-#: app/chronology/models.py:249 app/notice_board/models.py:21
+#: app/chronology/models.py:51 app/chronology/models.py:129
+#: app/chronology/models.py:250 app/notice_board/models.py:21
 msgid "slug"
 msgstr "adres na stronie"
 
-#: app/chronology/models.py:54 app/notice_board/models.py:104
-#: app/notice_board/models.py:151
+#: app/chronology/models.py:53 app/notice_board/models.py:119
+#: app/notice_board/models.py:166
 msgid "sphere"
 msgstr "sfera"
 
-#: app/chronology/models.py:57
+#: app/chronology/models.py:56
 msgid "start proposal"
-msgstr "początek zgłaszania programu"
+msgstr "początek zbierania programu"
 
-#: app/chronology/models.py:60
+#: app/chronology/models.py:59
 msgid "end proposal"
-msgstr "koniec zgłaszania programu"
+msgstr "koniec zbierania programu"
 
-#: app/chronology/models.py:63
+#: app/chronology/models.py:62
 msgid "start publication"
-msgstr "publikacja agendy"
+msgstr "początek publikacji agendy"
 
-#: app/chronology/models.py:68 app/chronology/models.py:125
-#: app/chronology/models.py:148 app/chronology/models.py:171
-#: app/chronology/models.py:246
+#: app/chronology/models.py:67 app/chronology/models.py:126
+#: app/chronology/models.py:149 app/chronology/models.py:172
+#: app/chronology/models.py:247
 msgid "festival"
 msgstr "festiwal"
 
-#: app/chronology/models.py:69
+#: app/chronology/models.py:68
 msgid "festivals"
 msgstr "festiwale"
 
-#: app/chronology/models.py:132 app/chronology/models.py:221
+#: app/chronology/models.py:133 app/chronology/models.py:222
 msgid "room"
 msgstr "pokój"
 
-#: app/chronology/models.py:133
+#: app/chronology/models.py:134
 msgid "rooms"
 msgstr "pokoje"
 
-#: app/chronology/models.py:153
+#: app/chronology/models.py:154
 msgid "time slot"
 msgstr "okno czasowe"
 
-#: app/chronology/models.py:154 app/chronology/models.py:173
-#: app/chronology/models.py:311
+#: app/chronology/models.py:155 app/chronology/models.py:174
+#: app/chronology/models.py:312
 msgid "time slots"
 msgstr "okna czasowe"
 
-#: app/chronology/models.py:174 app/crowd/models.py:20
-#: app/notice_board/models.py:66
+#: app/chronology/models.py:175 app/crowd/models.py:20
+#: app/notice_board/models.py:81
 msgid "user"
 msgstr "użytkownik"
 
-#: app/chronology/models.py:178 app/chronology/models.py:205
+#: app/chronology/models.py:179 app/chronology/models.py:206
 msgid "helper"
-msgstr ""
+msgstr "helper"
 
-#: app/chronology/models.py:179
+#: app/chronology/models.py:180
 msgid "helpers"
 msgstr "helperzy"
 
-#: app/chronology/models.py:195
+#: app/chronology/models.py:196
 msgid "unassigned"
 msgstr "nieprzypisany"
 
-#: app/chronology/models.py:196
-msgid "unconfirmed"
-msgstr "niepotwierdzone"
-
 #: app/chronology/models.py:197
-msgid "confirmed"
-msgstr "potwierdzone"
+msgid "unconfirmed"
+msgstr "niepotwierdzony"
 
-#: app/chronology/models.py:208
+#: app/chronology/models.py:198
+msgid "confirmed"
+msgstr "potwierdzony"
+
+#: app/chronology/models.py:209
 msgid "helper confirmed"
 msgstr "helper potwierdzony"
 
-#: app/chronology/models.py:215 app/chronology/models.py:299
-#: app/notice_board/models.py:159
+#: app/chronology/models.py:216 app/chronology/models.py:300
+#: app/notice_board/models.py:174
 msgid "meeting"
 msgstr "spotkanie"
 
-#: app/chronology/models.py:218
+#: app/chronology/models.py:219
 msgid "meeting confirmed"
 msgstr "spotkanie potwierdzone"
 
-#: app/chronology/models.py:226
+#: app/chronology/models.py:227
 msgid "agenda item"
 msgstr "element agendy"
 
-#: app/chronology/models.py:227
+#: app/chronology/models.py:228
 msgid "agenda items"
 msgstr "elementy agendy"
 
-#: app/chronology/models.py:253 app/chronology/models.py:313
+#: app/chronology/models.py:254 app/chronology/models.py:314
 msgid "waitlist"
 msgstr "lista zgłoszeń"
 
-#: app/chronology/models.py:254
+#: app/chronology/models.py:255
 msgid "waitlists"
 msgstr "listy zgłoszeń"
 
-#: app/chronology/models.py:275
-msgid "Created"
-msgstr "Utworzony"
-
 #: app/chronology/models.py:276
-msgid "Accepted"
-msgstr "Zaakceptowany"
+msgid "Created"
+msgstr "Utworzone"
 
 #: app/chronology/models.py:277
-msgid "Rejected"
-msgstr "Odrzucony"
+msgid "Accepted"
+msgstr "Zaakceptowane"
 
-#: app/chronology/models.py:282 app/notice_board/models.py:18
+#: app/chronology/models.py:278
+msgid "Rejected"
+msgstr "Odrzucone"
+
+#: app/chronology/models.py:283 app/notice_board/models.py:18
 msgid "description"
 msgstr "opis"
 
-#: app/chronology/models.py:284
+#: app/chronology/models.py:285
 msgid "duration minutes"
 msgstr "czas trwania (w minutach)"
 
-#: app/chronology/models.py:286
+#: app/chronology/models.py:287
 msgid "city"
 msgstr "miasto"
 
-#: app/chronology/models.py:289
+#: app/chronology/models.py:290
 msgid "club"
 msgstr "organizacja"
 
-#: app/chronology/models.py:292
+#: app/chronology/models.py:293
 msgid "status"
 msgstr "status"
 
-#: app/chronology/models.py:301
+#: app/chronology/models.py:302
 msgid "needs"
-msgstr "potrzeby"
+msgstr "zapotrzebowania"
 
-#: app/chronology/models.py:303
+#: app/chronology/models.py:304
 msgid "other contact"
-msgstr "dane kontaktowe"
+msgstr "inne dane kontatkowe"
 
-#: app/chronology/models.py:306
+#: app/chronology/models.py:307
 msgid "other data"
 msgstr "inne dane"
 
-#: app/chronology/models.py:309
+#: app/chronology/models.py:310
 msgid "phone"
 msgstr "telefon"
 
-#: app/chronology/models.py:321
+#: app/chronology/models.py:322
 msgid "speaker user"
-msgstr "prelegent"
+msgstr "użytkownik"
 
-#: app/chronology/models.py:323 app/notice_board/models.py:16
+#: app/chronology/models.py:324 app/notice_board/models.py:16
 msgid "created at"
-msgstr "czas utworzenia"
+msgstr "utworzono"
 
-#: app/chronology/models.py:324
+#: app/chronology/models.py:325
 msgid "speaker name"
-msgstr "imię i nazwisko prelegenta"
+msgstr "prowadzący"
 
-#: app/chronology/models.py:326
+#: app/chronology/models.py:327
 msgid "topic"
 msgstr "temat"
 
-#: app/chronology/models.py:332
+#: app/chronology/models.py:333
 msgid "proposals"
-msgstr "zgłoszone punkty programu"
+msgstr "zgłoszenia"
 
 #: app/crowd/apps.py:9
 msgid "crowd"
@@ -244,7 +252,7 @@ msgstr "tłum"
 
 #: app/crowd/models.py:12
 msgid "auth0 id"
-msgstr "Identyfikator Auth0"
+msgstr "identyfikator Auth0"
 
 #: app/crowd/models.py:14
 msgid "locale"
@@ -264,98 +272,98 @@ msgstr "tablica ogłoszeń"
 
 #: app/notice_board/models.py:22
 msgid "updated at"
-msgstr "ostatnia zmiana"
+msgstr "zaktualizowano"
 
-#: app/notice_board/models.py:34
+#: app/notice_board/models.py:49
 msgid "is public"
-msgstr "publiczny"
+msgstr "publiczna"
 
-#: app/notice_board/models.py:36
+#: app/notice_board/models.py:51
 msgid "members"
 msgstr "członkowie"
 
-#: app/notice_board/models.py:41 app/notice_board/models.py:61
-#: app/notice_board/models.py:133
+#: app/notice_board/models.py:56 app/notice_board/models.py:76
+#: app/notice_board/models.py:148
 msgid "guild"
 msgstr "gildia"
 
-#: app/notice_board/models.py:42
+#: app/notice_board/models.py:57
 msgid "guilds"
 msgstr "gildie"
 
-#: app/notice_board/models.py:55
+#: app/notice_board/models.py:70
 msgid "Applied"
-msgstr "Zgłoszony"
+msgstr "Aplikujący"
 
-#: app/notice_board/models.py:56
+#: app/notice_board/models.py:71
 msgid "Member"
 msgstr "Członek"
 
-#: app/notice_board/models.py:57
+#: app/notice_board/models.py:72
 msgid "Admin"
 msgstr "Administrator"
 
-#: app/notice_board/models.py:64
+#: app/notice_board/models.py:79
 msgid "membership type"
-msgstr "rodzaj"
+msgstr "typ członkostwa"
 
-#: app/notice_board/models.py:70
+#: app/notice_board/models.py:85
 msgid "guild member"
 msgstr "członek gildii"
 
-#: app/notice_board/models.py:71
+#: app/notice_board/models.py:86
 msgid "guild members"
 msgstr "członkowie gildii"
 
-#: app/notice_board/models.py:94
+#: app/notice_board/models.py:109
 msgid "is open"
 msgstr "otwarta"
 
-#: app/notice_board/models.py:95
+#: app/notice_board/models.py:110
 msgid "managers"
-msgstr "zarządzający"
+msgstr "właściciele"
 
-#: app/notice_board/models.py:99
+#: app/notice_board/models.py:114
 msgid "site"
 msgstr "domena"
 
-#: app/notice_board/models.py:105
+#: app/notice_board/models.py:120
 msgid "spheres"
 msgstr "sfery"
 
-#: app/notice_board/models.py:121
+#: app/notice_board/models.py:136
 msgid "planned"
 msgstr "zaplanowane"
 
-#: app/notice_board/models.py:122
+#: app/notice_board/models.py:137
 msgid "published"
 msgstr "opublikowane"
 
-#: app/notice_board/models.py:135
+#: app/notice_board/models.py:150
 msgid "image"
 msgstr "obrazek"
 
-#: app/notice_board/models.py:136
+#: app/notice_board/models.py:151
 msgid "location"
 msgstr "miejsce"
 
-#: app/notice_board/models.py:137
+#: app/notice_board/models.py:152
 msgid "meeting url"
-msgstr "url do spotkania"
+msgstr "Adres URL spotkania"
 
-#: app/notice_board/models.py:142
+#: app/notice_board/models.py:157
 msgid "organizer"
 msgstr "organizator"
 
-#: app/notice_board/models.py:145
+#: app/notice_board/models.py:160
 msgid "participants"
 msgstr "uczestnicy"
 
-#: app/notice_board/models.py:148
+#: app/notice_board/models.py:163
 msgid "publication time"
-msgstr "data publikacji"
+msgstr "opublikowano"
 
-#: app/notice_board/models.py:160
+#: app/notice_board/models.py:175
 msgid "meetings"
 msgstr "spotkania"
 

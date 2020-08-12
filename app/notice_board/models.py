@@ -1,10 +1,11 @@
-from typing import Dict, TypedDict
+from typing import Any, Dict, TypedDict
 
 from computedfields.models import ComputedFieldsModel, computed
 from django.contrib.sites.models import Site
 from django.db import models
 from django.db.models import F, JSONField, Q
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
@@ -25,6 +26,23 @@ class DescribedModel(models.Model):
 
     def __str__(self) -> str:
         return self.name
+
+    @classmethod
+    def _get_unique_slug(cls, name: str, **unique_within: Any) -> str:
+        base_slug = str(slugify(name))[:48]
+        slug = base_slug
+        i = 1
+        while cls.objects.filter(slug=slug, **unique_within).exists():
+            slug = f"{base_slug}-{i}"
+            i += 1
+        return slug
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        if not self.slug:
+            self.slug = self._get_unique_slug(self.name)
+        super().save(force_insert, force_update, using, update_fields)
 
 
 class Guild(DescribedModel):
@@ -198,3 +216,10 @@ class Meeting(DescribedModel, ComputedFieldsModel):
         if now < self.end_time:
             return Meeting.ONGOING
         return Meeting.PAST
+
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
+        if not self.slug:
+            self.slug = self._get_unique_slug(self.name, sphere=self.sphere)
+        super().save(force_insert, force_update, using, update_fields)

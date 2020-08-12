@@ -7,7 +7,8 @@ from django.contrib.admin.sites import AdminSite
 
 from notice_board.admin import SphereManagersAdminMixin
 from notice_board.apps import NoticeBoardConfig
-from notice_board.models import DescribedModel, Sphere
+from notice_board.models import DescribedModel, Guild, Sphere
+from tests.factories import MeetingFactory, SphereFactory
 
 
 class SphereManagersAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
@@ -86,6 +87,44 @@ def test_notice_board_config():
 )
 def test_str(model, name):
     assert str(model(name=name)) == name
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "name, slug",
+    (
+        ("dmodel", "dmodel"),
+        ("Brotherhood of steel", "brotherhood-of-steel"),
+        ("x" * 100, "x" * 48),
+    ),
+)
+def test_unique_slug(name, slug):
+    model = Guild(name=name)
+    model.save()
+    assert model.slug == slug
+
+
+@pytest.mark.django_db
+def test_duplicate_meeting_names_in_different_spheres():
+    name = "Silkworm Breeders Annual Conference"
+    meeting_1 = MeetingFactory(name=name)
+    meeting_2 = MeetingFactory(name=name)
+    meeting_3 = MeetingFactory(name=name)
+    assert meeting_1.slug == "silkworm-breeders-annual-conference"
+    assert meeting_2.slug == "silkworm-breeders-annual-conference"
+    assert meeting_3.slug == "silkworm-breeders-annual-conference"
+
+
+@pytest.mark.django_db
+def test_unique_meeting_slugs():
+    name = "Silkworm Breeders Annual Conference"
+    sphere = SphereFactory()
+    meeting_1 = MeetingFactory(name=name, sphere=sphere)
+    meeting_2 = MeetingFactory(name=name, sphere=sphere)
+    meeting_3 = MeetingFactory(name=name, sphere=sphere)
+    assert meeting_1.slug == "silkworm-breeders-annual-conference"
+    assert meeting_2.slug == "silkworm-breeders-annual-conference-1"
+    assert meeting_3.slug == "silkworm-breeders-annual-conference-2"
 
 
 def _prepare_admin():

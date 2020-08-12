@@ -125,13 +125,18 @@ class ProposalFactory(factory.DjangoModelFactory):
 
     city = factory.Faker("city")
     club = factory.Faker("city")
+    description = factory.Faker("text")
+    duration_minutes = factory.Faker("pyint", min_value=25)
     meeting = factory.SubFactory(MeetingFactory)
+    name = factory.Faker("sentence")
     needs = factory.Faker("text")
     other_contact = factory.Faker("words")
     other_data = factory.Faker("text")
     phone = factory.Faker("phone_number")
+    speaker_name = factory.Faker("name")
+    speaker_user = factory.SubFactory(UserFactory)
+    topic = factory.Faker("word")
     waitlist = factory.SubFactory(WaitListFactory)
-    duration_minutes = factory.Faker("pyint", min_value=25)
 
 
 class RoomFactory(factory.DjangoModelFactory):

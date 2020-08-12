@@ -2,8 +2,10 @@ import json
 from typing import Any
 
 from django.contrib import admin
+from django.db.models import QuerySet  # pylint: disable=unused-import
 from django.db.models import JSONField
 from django.http import HttpRequest
+from django.utils.translation import gettext_lazy as _
 from django_json_widget.widgets import JSONEditorWidget
 from simple_history.admin import SimpleHistoryAdmin
 
@@ -17,6 +19,7 @@ from chronology.models import (
     WaitList,
 )
 from notice_board.admin import SphereManagersAdminMixin
+from notice_board.models import Meeting
 
 with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
     SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
@@ -146,6 +149,32 @@ class ProposalAdmin(
         "status",
         "waitlist",
     )
+    actions = ["accept_proposals"]
+
+    def accept_proposals(
+        self, request: HttpRequest, queryset: "QuerySet[Proposal]"
+    ) -> None:
+        total = queryset.count()
+
+        accepted = 0
+        for proposal in queryset.filter(meeting__isnull=True):
+            sphere = proposal.waitlist.festival.sphere
+
+            meeting = Meeting.objects.create(
+                description=proposal.description,
+                name=proposal.name,
+                organizer=proposal.speaker_user or request.user,
+                publication_time=proposal.waitlist.festival.start_publication,
+                sphere=sphere,
+            )
+
+            proposal.meeting = meeting
+            proposal.save()
+
+            accepted += 1
+        self.message_user(request, _(f"Total processed: {total}, accepted: {accepted}"))
+
+    accept_proposals.short_description = _("Accept Proposals")  # type: ignore
 
 
 class AgendaItemAdmin(
