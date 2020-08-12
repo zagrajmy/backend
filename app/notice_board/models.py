@@ -37,10 +37,12 @@ class DescribedModel(models.Model):
             i += 1
         return slug
 
-    def save(self, *args, **kwargs) -> None:  # type: ignore
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
         if not self.slug:
             self.slug = self._get_unique_slug(self.name)
-        super().save(*args, **kwargs)
+        super().save(force_insert, force_update, using, update_fields)
 
 
 class Guild(DescribedModel):
@@ -215,7 +217,9 @@ class Meeting(DescribedModel, ComputedFieldsModel):
             return Meeting.ONGOING
         return Meeting.PAST
 
-    def save(self, *args, **kwargs) -> None:  # type: ignore
+    def save(
+        self, force_insert=False, force_update=False, using=None, update_fields=None
+    ):
         if not self.slug:
             self.slug = self._get_unique_slug(self.name, sphere=self.sphere)
-        super().save(*args, **kwargs)
+        super().save(force_insert, force_update, using, update_fields)

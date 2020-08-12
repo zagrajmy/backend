@@ -7,7 +7,7 @@ from django.contrib.admin.sites import AdminSite
 
 from notice_board.admin import SphereManagersAdminMixin
 from notice_board.apps import NoticeBoardConfig
-from notice_board.models import DescribedModel, Guild, Meeting, Sphere
+from notice_board.models import DescribedModel, Guild, Sphere
 from tests.factories import MeetingFactory, SphereFactory
 
 
@@ -107,24 +107,24 @@ def test_unique_slug(name, slug):
 @pytest.mark.django_db
 def test_duplicate_meeting_names_in_different_spheres():
     name = "Silkworm Breeders Annual Conference"
-    m1 = MeetingFactory(name=name)
-    m2 = MeetingFactory(name=name)
-    m3 = MeetingFactory(name=name)
-    assert m1.slug == "silkworm-breeders-annual-conference"
-    assert m2.slug == "silkworm-breeders-annual-conference"
-    assert m3.slug == "silkworm-breeders-annual-conference"
+    meeting_1 = MeetingFactory(name=name)
+    meeting_2 = MeetingFactory(name=name)
+    meeting_3 = MeetingFactory(name=name)
+    assert meeting_1.slug == "silkworm-breeders-annual-conference"
+    assert meeting_2.slug == "silkworm-breeders-annual-conference"
+    assert meeting_3.slug == "silkworm-breeders-annual-conference"
 
 
 @pytest.mark.django_db
 def test_unique_meeting_slugs():
     name = "Silkworm Breeders Annual Conference"
     sphere = SphereFactory()
-    m1 = MeetingFactory(name=name, sphere=sphere)
-    m2 = MeetingFactory(name=name, sphere=sphere)
-    m3 = MeetingFactory(name=name, sphere=sphere)
-    assert m1.slug == "silkworm-breeders-annual-conference"
-    assert m2.slug == "silkworm-breeders-annual-conference-1"
-    assert m3.slug == "silkworm-breeders-annual-conference-2"
+    meeting_1 = MeetingFactory(name=name, sphere=sphere)
+    meeting_2 = MeetingFactory(name=name, sphere=sphere)
+    meeting_3 = MeetingFactory(name=name, sphere=sphere)
+    assert meeting_1.slug == "silkworm-breeders-annual-conference"
+    assert meeting_2.slug == "silkworm-breeders-annual-conference-1"
+    assert meeting_3.slug == "silkworm-breeders-annual-conference-2"
 
 
 def _prepare_admin():

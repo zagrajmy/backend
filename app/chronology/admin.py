@@ -18,9 +18,8 @@ from chronology.models import (
     TimeSlot,
     WaitList,
 )
-from crowd.models import User
 from notice_board.admin import SphereManagersAdminMixin
-from notice_board.models import Meeting, Sphere
+from notice_board.models import Meeting
 
 with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
     SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
