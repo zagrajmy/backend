@@ -85,7 +85,7 @@ lint: lint-check lint-black lint-isort lint-pycodestyle lint-bandit lint-mypy li
 
 # General
 
-prcheck: install-dev format lint test-cov graph messages
+prcheck: install-dev format lint test-cov graph messages openapi
 
 # Docker
 
@@ -94,6 +94,9 @@ graph:
 
 messages:
 	docker-compose exec -T web django-admin makemessages -l pl
+
+openapi:
+	docker-compose exec -T web django-admin generateschema --file=docs/swagger.yaml
 
 django:
 	docker-compose exec web django-admin $(cmd)

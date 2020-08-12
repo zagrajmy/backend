@@ -74,10 +74,11 @@ Uses the default Django development server.
    1. Docker
       - graph - create model graph
       - messages - updates translation file
+      - openapi - updates swagger file
       - django - run django admin command (syntax: `make django cmd='migrate'`)
 
    For example, before creating a pull requests make sure you ran locally:
-   `make install-dev format lint test-cov graph messages`
+   `make install-dev format lint test-cov graph messages openapi`
    (And check if there are no missing transactions) or simply:
    `make prcheck`.
 
