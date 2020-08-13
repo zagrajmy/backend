@@ -1,4 +1,4 @@
-from typing import Any, Callable, List, Optional, TypeVar
+from typing import Any, Callable, List, Optional, Sequence, TypeVar, Union
 
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -13,10 +13,10 @@ class ComputedFieldsModel(_ComputedFieldsModelBase, models.Model):
         self,
         force_insert: bool = ...,
         force_update: bool = ...,
-        using: Optional[Any] = ...,
-        update_fields: Optional[Any] = ...,
+        using: Optional[str] = ...,
+        update_fields: Optional[Union[Sequence[str], str]] = ...,
         skip_computedfields: bool = ...,
-    ) -> Any: ...
+    ) -> None: ...
 
 X = TypeVar("X")
 Y = TypeVar("Y")

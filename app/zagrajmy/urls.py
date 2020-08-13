@@ -12,5 +12,6 @@ urlpatterns: List[URLPattern] = [
     path("v1/", include(("zagrajmy.urls_v1", "v1"), namespace="v1")),
 ]
 
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
