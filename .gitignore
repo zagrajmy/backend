@@ -109,3 +109,6 @@ venv.bak/
 **/staticfiles
 
 app/mediafiles
+
+# text editors
+.vscode

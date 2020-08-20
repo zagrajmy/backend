@@ -2,6 +2,19 @@ version: 2
 tables:
 - table:
     schema: public
+    name: ch_agenda_item
+  object_relationships:
+  - name: ch_helper
+    using:
+      foreign_key_constraint_on: helper_id
+  - name: ch_room
+    using:
+      foreign_key_constraint_on: room_id
+  - name: nb_meeting
+    using:
+      foreign_key_constraint_on: meeting_id
+- table:
+    schema: public
     name: ch_festival
   object_relationships:
   - name: nb_sphere
@@ -40,13 +53,6 @@ tables:
     using:
       foreign_key_constraint_on: user_id
   array_relationships:
-  - name: ch_helper_time_slots
-    using:
-      foreign_key_constraint_on:
-        column: helper_id
-        table:
-          schema: public
-          name: ch_helper_time_slots
   - name: ch_agenda_items
     using:
       foreign_key_constraint_on:
@@ -54,6 +60,13 @@ tables:
         table:
           schema: public
           name: ch_agenda_item
+  - name: ch_helper_time_slots
+    using:
+      foreign_key_constraint_on:
+        column: helper_id
+        table:
+          schema: public
+          name: ch_helper_time_slots
 - table:
     schema: public
     name: ch_helper_time_slots
@@ -74,6 +87,9 @@ tables:
   - name: meeting
     using:
       foreign_key_constraint_on: meeting_id
+  - name: speaker
+    using:
+      foreign_key_constraint_on: speaker_user_id
   array_relationships:
   - name: ch_proposal_time_slots
     using:
@@ -125,19 +141,6 @@ tables:
         table:
           schema: public
           name: ch_proposal_time_slots
-- table:
-    schema: public
-    name: ch_agenda_item
-  object_relationships:
-  - name: ch_helper
-    using:
-      foreign_key_constraint_on: helper_id
-  - name: ch_room
-    using:
-      foreign_key_constraint_on: room_id
-  - name: nb_meeting
-    using:
-      foreign_key_constraint_on: meeting_id
 - table:
     schema: public
     name: ch_wait_list
