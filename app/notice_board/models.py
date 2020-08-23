@@ -159,9 +159,14 @@ class Meeting(DescribedModel, ComputedFieldsModel):
         verbose_name=_("organizer"),
     )
     participants = models.ManyToManyField(
-        User, related_name="participated_meetings", verbose_name=_("participants")
+        User,
+        related_name="participated_meetings",
+        verbose_name=_("participants"),
+        through="Participant",
     )
-    participants_limit = models.IntegerField(default=0, verbose_name=_("participants limit"))
+    participants_limit = models.IntegerField(
+        default=0, verbose_name=_("participants limit")
+    )
     publication_time = models.DateTimeField(
         blank=True, null=True, verbose_name=_("publication time")
     )
@@ -224,3 +229,24 @@ class Meeting(DescribedModel, ComputedFieldsModel):
         if not self.slug:
             self.slug = self._get_unique_slug(self.name, sphere=self.sphere)
         super().save(force_insert, force_update, using, update_fields)
+
+
+class Participant(models.Model):
+    class Meta:
+        unique_together = [
+            ("meeting", "user"),
+        ]
+
+    CONFIRMED = "CONFIRMED"
+    WAITING = "WAITING"
+    CONFIRM_CHOICES = [
+        (CONFIRMED, "Confirmed"),
+        (WAITING, "Waiting"),
+    ]
+
+    meeting = models.ForeignKey(Meeting, models.CASCADE)
+    user = models.ForeignKey(User, models.CASCADE)
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("created at"))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("updated at"))
+    status = models.CharField(max_length=15, choices=CONFIRM_CHOICES)

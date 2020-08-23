@@ -20,7 +20,7 @@ from django_json_widget.widgets import JSONEditorWidget
 from simple_history.admin import SimpleHistoryAdmin
 
 from crowd.models import User
-from notice_board.models import Guild, GuildMember, Meeting, Sphere
+from notice_board.models import Guild, GuildMember, Meeting, Participant, Sphere
 
 with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
     SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
@@ -107,6 +107,10 @@ class GuildAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["name"]}
 
 
+class ParticipantsInline(admin.TabularInline):
+    model = Participant
+
+
 class MeetingAdmin(
     SphereManagersAdminMixin[Meeting], admin.ModelAdmin
 ):  # pylint: disable=unsubscriptable-object
@@ -127,7 +131,6 @@ class MeetingAdmin(
         ),
         ("Location", {"fields": ("location", "meeting_url",)}),
         ("Time", {"fields": ("start_time", "end_time", "publication_time",)}),
-        ("Participants", {"fields": ("participants",)}),
     )
     list_display = (
         "name",
@@ -151,6 +154,7 @@ class MeetingAdmin(
         "updated_at",
     )
     prepopulated_fields = {"slug": ["name"]}
+    inlines = (ParticipantsInline,)
 
 
 class SphereAdmin(

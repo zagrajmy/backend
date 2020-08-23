@@ -5,4 +5,8 @@ urlpatterns = [
     path(
         "chronology/", include(("chronology.urls_v1", "crowd"), namespace="chronology")
     ),
+    path(
+        "notice_board/",
+        include(("notice_board.urls_v1", "notice_board"), namespace="notice_board"),
+    ),
 ]
