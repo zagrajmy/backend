@@ -17,12 +17,13 @@ class MeetingViewSet(ModelViewSet):
         meeting = self.get_object()
         if meeting.participants_limit < 1:
             meeting.participants.add(
-                request.user, through_defaults={"status": Participant.CONFIRMED,}
+                request.user, through_defaults={"status": Participant.CONFIRMED}
             )
             return Response({"status": "confirmed"})
         Participant.objects.create(
             meeting=meeting, user=request.user, status=Participant.WAITING,
         )
+        status = Participant.WAITING
         participants = Participant.objects.filter(meeting=meeting,).order_by(
             "created_at"
         )
@@ -31,5 +32,6 @@ class MeetingViewSet(ModelViewSet):
                 break
             if participant.user == request.user:
                 participant.status = Participant.CONFIRMED
+                status = participant.status
                 participant.save()
-        return Response({"status": participant.status.lower()})
+        return Response({"status": status.lower()})
