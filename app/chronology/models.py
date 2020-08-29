@@ -1,4 +1,4 @@
-from typing import Dict, TypedDict
+from typing import Any, Dict, TypedDict
 
 from computedfields.models import ComputedFieldsModel, computed
 from django.db import models
@@ -11,12 +11,8 @@ from crowd.models import User
 from notice_board.models import Meeting, Sphere
 
 
-class EmptyDict(TypedDict):
-    pass
-
-
-def default_festival_settings() -> Dict[str, EmptyDict]:
-    return {"theme": {}, "forms": {}}
+def default_festival_settings() -> Dict[str, Any]:
+    return {"theme": {}, "forms": []}
 
 
 class Festival(ComputedFieldsModel):
@@ -262,6 +258,10 @@ class WaitList(models.Model):
 
     def __str__(self) -> str:
         return f"{self.name} ({self.id})"
+
+
+class EmptyDict(TypedDict):
+    pass
 
 
 def default_json_field() -> EmptyDict:

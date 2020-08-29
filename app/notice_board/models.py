@@ -1,4 +1,4 @@
-from typing import Any, Dict, TypedDict
+from typing import Any, Dict
 
 from computedfields.models import ComputedFieldsModel, computed
 from django.contrib.sites.models import Site
@@ -93,12 +93,8 @@ class GuildMember(models.Model):
         ]
 
 
-class EmptyDict(TypedDict):
-    pass
-
-
-def default_sphere_settings() -> Dict[str, EmptyDict]:
-    return {"theme": {}}
+def default_sphere_settings() -> Dict[str, Any]:
+    return {"theme": {}, "forms": []}
 
 
 class Sphere(models.Model):
