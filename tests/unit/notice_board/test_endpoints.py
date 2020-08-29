@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework.test import APITestCase
 
 from crowd.models import User
-from notice_board.models import Participant
+from notice_board.models import MeetingParticipant
 from tests.factories import MeetingFactory, UserFactory
 
 
@@ -14,10 +14,10 @@ class TestProposals(APITestCase):
         self.meeting_1 = MeetingFactory()
         self.meeting_2 = MeetingFactory(participants_limit=4)
         for _ in range(4):
-            Participant.objects.create(
+            MeetingParticipant.objects.create(
                 user=UserFactory(),
                 meeting=self.meeting_2,
-                status=Participant.CONFIRMED,
+                status=MeetingParticipant.CONFIRMED,
             )
         self.add_participant_url = reverse(
             "v1:notice_board:meeting-add-participant", kwargs={"pk": self.meeting_1.pk},
@@ -26,9 +26,11 @@ class TestProposals(APITestCase):
 
     def test_add_participant(self):
         res = self.client.post(self.add_participant_url, data={},)
-        participant = Participant.objects.get(meeting=self.meeting_1, user=self.user)
-        self.assertEqual(participant.status, Participant.CONFIRMED)
-        self.assertEqual(res.json().get("status"), Participant.CONFIRMED.lower())
+        participant = MeetingParticipant.objects.get(
+            meeting=self.meeting_1, user=self.user
+        )
+        self.assertEqual(participant.status, MeetingParticipant.CONFIRMED)
+        self.assertEqual(res.json().get("status"), MeetingParticipant.CONFIRMED.lower())
 
     def test_add_participant_full_meeting(self):
         res = self.client.post(
@@ -38,6 +40,8 @@ class TestProposals(APITestCase):
             ),
             data={},
         )
-        participant = Participant.objects.get(meeting=self.meeting_2, user=self.user)
-        self.assertEqual(participant.status, Participant.WAITING)
-        self.assertEqual(res.json().get("status"), Participant.WAITING.lower())
+        participant = MeetingParticipant.objects.get(
+            meeting=self.meeting_2, user=self.user
+        )
+        self.assertEqual(participant.status, MeetingParticipant.WAITING)
+        self.assertEqual(res.json().get("status"), MeetingParticipant.WAITING.lower())

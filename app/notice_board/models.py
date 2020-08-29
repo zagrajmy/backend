@@ -162,7 +162,7 @@ class Meeting(DescribedModel, ComputedFieldsModel):
         User,
         related_name="participated_meetings",
         verbose_name=_("participants"),
-        through="Participant",
+        through="MeetingParticipant",
     )
     participants_limit = models.IntegerField(
         default=0, verbose_name=_("participants limit")
@@ -231,11 +231,12 @@ class Meeting(DescribedModel, ComputedFieldsModel):
         super().save(force_insert, force_update, using, update_fields)
 
 
-class Participant(models.Model):
+class MeetingParticipant(models.Model):
     class Meta:
         unique_together = [
             ("meeting", "user"),
         ]
+        db_table = "nb_meeting_participant"
 
     CONFIRMED = "CONFIRMED"
     WAITING = "WAITING"
@@ -244,9 +245,8 @@ class Participant(models.Model):
         (WAITING, "Waiting"),
     ]
 
-    meeting = models.ForeignKey(Meeting, models.CASCADE)
-    user = models.ForeignKey(User, models.CASCADE)
-
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("created at"))
-    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("updated at"))
+    meeting = models.ForeignKey(Meeting, models.CASCADE)
     status = models.CharField(max_length=15, choices=CONFIRM_CHOICES)
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("updated at"))
+    user = models.ForeignKey(User, models.CASCADE)

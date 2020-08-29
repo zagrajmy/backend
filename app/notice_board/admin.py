@@ -20,7 +20,7 @@ from django_json_widget.widgets import JSONEditorWidget
 from simple_history.admin import SimpleHistoryAdmin
 
 from crowd.models import User
-from notice_board.models import Guild, GuildMember, Meeting, Participant, Sphere
+from notice_board.models import Guild, GuildMember, Meeting, MeetingParticipant, Sphere
 
 with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
     SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
@@ -107,8 +107,8 @@ class GuildAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["name"]}
 
 
-class ParticipantsInline(admin.TabularInline):
-    model = Participant
+class MeetingParticipantsInline(admin.TabularInline):
+    model = MeetingParticipant
 
 
 class MeetingAdmin(
@@ -154,7 +154,7 @@ class MeetingAdmin(
         "updated_at",
     )
     prepopulated_fields = {"slug": ["name"]}
-    inlines = (ParticipantsInline,)
+    inlines = (MeetingParticipantsInline,)
 
 
 class SphereAdmin(
