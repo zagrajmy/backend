@@ -12,6 +12,7 @@ class MeetingViewSet(ModelViewSet):
     queryset = Meeting.objects.all()
     serializer_class = MeetingSerializer
 
+    # pylint: disable=unused-argument
     @action(detail=True, methods=["post"])
     def add_participant(self, request: Request, pk=None):
         meeting = self.get_object()
