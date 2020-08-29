@@ -1,0 +1,12 @@
+- args:
+    name: meetings
+    table:
+      name: cr_user
+      schema: public
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          name: nb_meeting_participant
+          schema: public
+  type: create_array_relationship

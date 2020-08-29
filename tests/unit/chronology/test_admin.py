@@ -62,7 +62,9 @@ def test_accept_proposals_duplicate_slug(proposal_admin, request_with_user):
     MeetingFactory(slug="slug-123", sphere=sphere)
 
     proposal = ProposalFactory(
-        meeting=None, name="Slug 123", waitlist__festival__sphere=sphere,
+        meeting=None,
+        name="Slug 123",
+        waitlist__festival__sphere=sphere,
     )
 
     proposal_admin.accept_proposals(
@@ -93,7 +95,9 @@ def test_accept_proposals_duplicate_slug_cutting_duplicate(
     MeetingFactory(slug="q" * 48, sphere=sphere)
 
     proposal = ProposalFactory(
-        meeting=None, name="q" * 56, waitlist__festival__sphere=sphere,
+        meeting=None,
+        name="q" * 56,
+        waitlist__festival__sphere=sphere,
     )
 
     proposal_admin.accept_proposals(

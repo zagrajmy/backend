@@ -109,7 +109,10 @@ class Sphere(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("name"))
     settings = JSONField(default=default_sphere_settings)
     site = models.OneToOneField(
-        Site, on_delete=models.PROTECT, related_name="sphere", verbose_name=_("site"),
+        Site,
+        on_delete=models.PROTECT,
+        related_name="sphere",
+        verbose_name=_("site"),
     )
 
     class Meta:  # noqa D106

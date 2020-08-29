@@ -35,18 +35,6 @@
           schema: public
   type: create_array_relationship
 - args:
-    name: nb_meeting_participants
-    table:
-      name: cr_user
-      schema: public
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          name: nb_meeting_participants
-          schema: public
-  type: create_array_relationship
-- args:
     name: nb_sphere_managers
     table:
       name: cr_user
@@ -119,18 +107,6 @@
           name: ch_agenda_item
           schema: public
   type: create_object_relationship
-- args:
-    name: nb_meeting_participants
-    table:
-      name: nb_meeting
-      schema: public
-    using:
-      foreign_key_constraint_on:
-        column: meeting_id
-        table:
-          name: nb_meeting_participants
-          schema: public
-  type: create_array_relationship
 - args:
     name: django_site
     table:
@@ -424,22 +400,6 @@
     name: cr_user
     table:
       name: nb_guild_member
-      schema: public
-    using:
-      foreign_key_constraint_on: user_id
-  type: create_object_relationship
-- args:
-    name: nb_meeting
-    table:
-      name: nb_meeting_participants
-      schema: public
-    using:
-      foreign_key_constraint_on: meeting_id
-  type: create_object_relationship
-- args:
-    name: cr_user
-    table:
-      name: nb_meeting_participants
       schema: public
     using:
       foreign_key_constraint_on: user_id

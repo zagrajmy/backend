@@ -17,12 +17,6 @@
       schema: public
   type: drop_relationship
 - args:
-    relationship: nb_meeting_participants
-    table:
-      name: cr_user
-      schema: public
-  type: drop_relationship
-- args:
     relationship: nb_sphere_managers
     table:
       name: cr_user
@@ -60,12 +54,6 @@
   type: drop_relationship
 - args:
     relationship: ch_agenda_item
-    table:
-      name: nb_meeting
-      schema: public
-  type: drop_relationship
-- args:
-    relationship: nb_meeting_participants
     table:
       name: nb_meeting
       schema: public
@@ -248,18 +236,6 @@
     relationship: cr_user
     table:
       name: nb_guild_member
-      schema: public
-  type: drop_relationship
-- args:
-    relationship: nb_meeting
-    table:
-      name: nb_meeting_participants
-      schema: public
-  type: drop_relationship
-- args:
-    relationship: cr_user
-    table:
-      name: nb_meeting_participants
       schema: public
   type: drop_relationship
 - args:

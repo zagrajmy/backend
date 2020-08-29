@@ -21,12 +21,14 @@ class MeetingViewSet(ModelViewSet):
             )
             return Response({"status": "confirmed"})
         MeetingParticipant.objects.create(
-            meeting=meeting, user=request.user, status=MeetingParticipant.WAITING,
+            meeting=meeting,
+            user=request.user,
+            status=MeetingParticipant.WAITING,
         )
         status = MeetingParticipant.WAITING
-        participants = MeetingParticipant.objects.filter(meeting=meeting,).order_by(
-            "created_at"
-        )
+        participants = MeetingParticipant.objects.filter(
+            meeting=meeting,
+        ).order_by("created_at")
         for i, participant in enumerate(participants):
             if i >= meeting.participants_limit:
                 break

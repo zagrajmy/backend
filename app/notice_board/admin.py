@@ -129,8 +129,25 @@ class MeetingAdmin(
                 )
             },
         ),
-        ("Location", {"fields": ("location", "meeting_url",)}),
-        ("Time", {"fields": ("start_time", "end_time", "publication_time",)}),
+        (
+            "Location",
+            {
+                "fields": (
+                    "location",
+                    "meeting_url",
+                )
+            },
+        ),
+        (
+            "Time",
+            {
+                "fields": (
+                    "start_time",
+                    "end_time",
+                    "publication_time",
+                )
+            },
+        ),
     )
     list_display = (
         "name",

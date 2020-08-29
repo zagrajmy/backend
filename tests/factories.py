@@ -2,6 +2,7 @@ import factory
 from django.contrib.sites.models import Site
 from django.utils import timezone
 from django.utils.timezone import get_default_timezone
+from factory.django import DjangoModelFactory
 
 from crowd.models import User
 from notice_board.models import Guild, Meeting, Sphere
@@ -9,14 +10,14 @@ from notice_board.models import Guild, Meeting, Sphere
 NOW = timezone.now()
 
 
-class UserFactory(factory.DjangoModelFactory):
+class UserFactory(DjangoModelFactory):
     class Meta:
         model = User
 
     username = factory.Faker("email")
 
 
-class SiteFactory(factory.DjangoModelFactory):
+class SiteFactory(DjangoModelFactory):
     class Meta:
         model = Site
 
@@ -24,7 +25,7 @@ class SiteFactory(factory.DjangoModelFactory):
     domain = factory.Faker("dga")
 
 
-class SphereFactory(factory.DjangoModelFactory):
+class SphereFactory(DjangoModelFactory):
     class Meta:
         model = Sphere
 
@@ -32,7 +33,7 @@ class SphereFactory(factory.DjangoModelFactory):
     site = factory.SubFactory(SiteFactory)
 
 
-class MeetingFactory(factory.DjangoModelFactory):
+class MeetingFactory(DjangoModelFactory):
     class Meta:
         model = Meeting
 
@@ -40,14 +41,14 @@ class MeetingFactory(factory.DjangoModelFactory):
     sphere = factory.SubFactory(SphereFactory)
 
 
-class GuildFactory(factory.DjangoModelFactory):
+class GuildFactory(DjangoModelFactory):
     class Meta:
         model = Guild
 
     name = "club"
 
 
-class FestivalFactory(factory.DjangoModelFactory):
+class FestivalFactory(DjangoModelFactory):
     class Meta:
         model = "chronology.Festival"
 
@@ -85,7 +86,7 @@ class FestivalFactory(factory.DjangoModelFactory):
     )
 
 
-class TimeSlotFactory(factory.DjangoModelFactory):
+class TimeSlotFactory(DjangoModelFactory):
     class Meta:
         model = "chronology.TimeSlot"
 
@@ -104,7 +105,7 @@ class TimeSlotFactory(factory.DjangoModelFactory):
     )
 
 
-class HelperFactory(factory.DjangoModelFactory):
+class HelperFactory(DjangoModelFactory):
     class Meta:
         model = "chronology.Helper"
 
@@ -112,14 +113,14 @@ class HelperFactory(factory.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
 
 
-class WaitListFactory(factory.DjangoModelFactory):
+class WaitListFactory(DjangoModelFactory):
     class Meta:
         model = "chronology.WaitList"
 
     festival = factory.SubFactory(FestivalFactory)
 
 
-class ProposalFactory(factory.DjangoModelFactory):
+class ProposalFactory(DjangoModelFactory):
     class Meta:
         model = "chronology.Proposal"
 
@@ -139,7 +140,7 @@ class ProposalFactory(factory.DjangoModelFactory):
     waitlist = factory.SubFactory(WaitListFactory)
 
 
-class RoomFactory(factory.DjangoModelFactory):
+class RoomFactory(DjangoModelFactory):
     class Meta:
         model = "chronology.Room"
 
@@ -147,7 +148,7 @@ class RoomFactory(factory.DjangoModelFactory):
     festival = factory.SubFactory(FestivalFactory)
 
 
-class AgendaItemFactory(factory.DjangoModelFactory):
+class AgendaItemFactory(DjangoModelFactory):
     class Meta:
         model = "chronology.AgendaItem"
 

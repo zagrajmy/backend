@@ -20,12 +20,16 @@ class TestProposals(APITestCase):
                 status=MeetingParticipant.CONFIRMED,
             )
         self.add_participant_url = reverse(
-            "v1:notice_board:meeting-add-participant", kwargs={"pk": self.meeting_1.pk},
+            "v1:notice_board:meeting-add-participant",
+            kwargs={"pk": self.meeting_1.pk},
         )
         self.client.force_authenticate(user=self.user)  # pylint: disable=no-member
 
     def test_add_participant(self):
-        res = self.client.post(self.add_participant_url, data={},)
+        res = self.client.post(
+            self.add_participant_url,
+            data={},
+        )
         participant = MeetingParticipant.objects.get(
             meeting=self.meeting_1, user=self.user
         )

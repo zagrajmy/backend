@@ -42,6 +42,13 @@ tables:
         table:
           schema: public
           name: ch_wait_list
+  - name: time_slots
+    using:
+      foreign_key_constraint_on:
+        column: festival_id
+        table:
+          schema: public
+          name: ch_time_slot
 - table:
     schema: public
     name: ch_helper
@@ -126,6 +133,10 @@ tables:
 - table:
     schema: public
     name: ch_time_slot
+  object_relationships:
+  - name: festival
+    using:
+      foreign_key_constraint_on: festival_id
   array_relationships:
   - name: ch_helper_time_slots
     using:
@@ -187,7 +198,7 @@ tables:
         column: user_id
         table:
           schema: public
-          name: nb_meeting_participants
+          name: nb_meeting_participant
   - name: organized_meetings
     using:
       foreign_key_constraint_on:
@@ -195,6 +206,13 @@ tables:
         table:
           schema: public
           name: nb_meeting
+  - name: proposals
+    using:
+      foreign_key_constraint_on:
+        column: speaker_user_id
+        table:
+          schema: public
+          name: ch_proposal
 - table:
     schema: public
     name: django_site
@@ -263,17 +281,17 @@ tables:
         column: meeting_id
         table:
           schema: public
-          name: nb_meeting_participants
+          name: nb_meeting_participant
 - table:
     schema: public
-    name: nb_meeting_participants
+    name: nb_meeting_participant
   object_relationships:
-  - name: cr_user
-    using:
-      foreign_key_constraint_on: user_id
-  - name: nb_meeting
+  - name: meeting
     using:
       foreign_key_constraint_on: meeting_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
 - table:
     schema: public
     name: nb_sphere
