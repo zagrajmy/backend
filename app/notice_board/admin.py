@@ -67,7 +67,10 @@ class SphereManagersAdminMixin(admin.ModelAdmin, Generic[ModelType]):
         """Limit querset to show only spheres that user is managing."""
         queryset = super().get_queryset(request)
 
-        return self._get_queryset(request.user, queryset, self.model.__name__)
+        if not request.user.is_superuser:
+            return self._get_queryset(request.user, queryset, self.model.__name__)
+
+        return queryset
 
     def get_field_queryset(
         self,
@@ -90,10 +93,9 @@ class SphereManagersAdminMixin(admin.ModelAdmin, Generic[ModelType]):
     def _get_queryset(
         self, user: User, queryset: "QuerySet[SomeModelType]", model_name: str
     ) -> "QuerySet[SomeModelType]":
-        if not user.is_superuser:
-            key = self.permission_keys[model_name]
-            if key and key != "*":
-                return queryset.filter(**{key: user})
+        key = self.permission_keys[model_name]
+        if key and key != "*":
+            return queryset.filter(**{key: user})
         return queryset
 
     def has_add_permission(self, request: HttpRequest) -> bool:

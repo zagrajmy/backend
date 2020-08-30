@@ -57,14 +57,15 @@ def festival_admin():
 
 @pytest.fixture
 def request_builder(hour):
-    def _build_request(room_id, popup=None):
+    def _build_request(room, popup=None):
         request = Mock()
         request.GET = {
             "hour": hour(2).strftime("%Y-%m-%d-%H-%M-%S-%f-%Z"),
-            "room": room_id,
+            "room": room.id,
         }
         if popup:
             request.GET["_popup"] = 1
+        request.user = room.festival.sphere.managers.last()
         return request
 
     return _build_request
@@ -357,7 +358,7 @@ def test_agenda_item_admin_get_field_queryset_meeting(
             festival=room.festival, start_time=hour(0), end_time=hour(proposal_end_time)
         )
     )
-    request = request_builder(room_id=room.id, popup=1)
+    request = request_builder(room=room, popup=1)
 
     queryset = agenda_item_admin.get_field_queryset(
         db=None, db_field=AgendaItem._meta.get_field("meeting"), request=request
@@ -386,7 +387,7 @@ def test_agenda_item_admin_get_field_queryset_helper(
     helper2.time_slots.add(festival.time_slots.get(start_time__lt=hour()))
     helper = HelperFactory(festival=festival)
     helper.time_slots.add(festival.time_slots.get(start_time__gte=hour()))
-    request = request_builder(room_id=room.id, popup=1)
+    request = request_builder(room=room, popup=1)
 
     queryset = agenda_item_admin.get_field_queryset(
         db=None, db_field=AgendaItem._meta.get_field("helper"), request=request
@@ -404,7 +405,7 @@ def test_agenda_item_admin_get_field_queryset_room(
     festival = FestivalFactory()
     room1 = RoomFactory(festival=festival)
     room2 = RoomFactory(festival=festival)
-    request = request_builder(room_id=room1.id, popup=1)
+    request = request_builder(room=room1, popup=1)
 
     queryset = agenda_item_admin.get_field_queryset(
         db=None, db_field=AgendaItem._meta.get_field("room"), request=request
@@ -435,7 +436,7 @@ def test_agenda_item_admin_get_field_queryset_no_popup(
     RoomFactory()
     RoomFactory()
     room = RoomFactory()
-    request = request_builder(room_id=room.id)
+    request = request_builder(room=room)
 
     queryset = agenda_item_admin.get_field_queryset(
         db=None, db_field=AgendaItem._meta.get_field("room"), request=request
@@ -452,7 +453,7 @@ def test_agenda_item_admin_save_model(hour, agenda_item_admin, request_builder):
         duration_minutes=2, meeting=MeetingFactory(publication_time=hour(-1))
     )
     room = RoomFactory()
-    request = request_builder(room_id=room.id)
+    request = request_builder(room=room)
     agenda_item = AgendaItemFactory(meeting=proposal.meeting)
 
     agenda_item_admin.save_model(
@@ -475,7 +476,7 @@ def test_agenda_item_admin_delete(hour, agenda_item_admin, request_builder):
     agenda_item = AgendaItemFactory(meeting=proposal.meeting)
     meeting_id = agenda_item.meeting.id
     room = RoomFactory()
-    request = request_builder(room_id=room.id)
+    request = request_builder(room=room)
 
     agenda_item_admin.delete_model(request=request, obj=agenda_item)
 

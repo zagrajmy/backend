@@ -38,7 +38,12 @@ def test_chronlogy_config():
         (
             TimeSlot,
             {"start_time": 4, "end_time": 5, "id": 9},
-            "From 2020-08-01 14:00:00+00:00 to 2020-08-01 15:00:00+00:00 (9)",
+            "2020-08-01 16:00 - 17:00 (9)",
+        ),
+        (
+            TimeSlot,
+            {"start_time": 4, "end_time": 24, "id": 10},
+            "2020-08-01 16:00 - 2020-08-02 12:00 (10)",
         ),
         (chronology_models.Helper, {"user": User(username="bob")}, "bob"),
         (chronology_models.Proposal, {"name": "Spotkanie"}, "Spotkanie"),
