@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, Dict, Optional, Sequence, Union
 
 from computedfields.models import ComputedFieldsModel, computed
 from django.contrib.sites.models import Site
@@ -27,21 +27,25 @@ class DescribedModel(models.Model):
     def __str__(self) -> str:
         return self.name
 
-    @classmethod
-    def _get_unique_slug(cls, name: str, **unique_within: Any) -> str:
-        base_slug = str(slugify(name))[:48]
+    def _get_unique_slug(self, *unique_within: str) -> str:
+        base_slug = str(slugify(self.name))[:48]
         slug = base_slug
         i = 1
-        while cls.objects.filter(slug=slug, **unique_within).exists():
+        unique_kwargs = {key: getattr(self, key) for key in unique_within}
+        while self.__class__.objects.filter(slug=slug, **unique_kwargs).exists():
             slug = f"{base_slug}-{i}"
             i += 1
         return slug
 
     def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
+        self,
+        force_insert: bool = False,
+        force_update: bool = False,
+        using: Optional[str] = None,
+        update_fields: Optional[Union[Sequence[str], str]] = None,
+    ) -> None:
         if not self.slug:
-            self.slug = self._get_unique_slug(self.name)
+            self.slug = self._get_unique_slug()
         super().save(force_insert, force_update, using, update_fields)
 
 
@@ -109,7 +113,10 @@ class Sphere(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("name"))
     settings = JSONField(default=default_sphere_settings)
     site = models.OneToOneField(
-        Site, on_delete=models.PROTECT, related_name="sphere", verbose_name=_("site"),
+        Site,
+        on_delete=models.PROTECT,
+        related_name="sphere",
+        verbose_name=_("site"),
     )
 
     class Meta:  # noqa D106
@@ -173,13 +180,7 @@ class Meeting(DescribedModel, ComputedFieldsModel):
         verbose_name_plural = _("meetings")
         constraints = [
             models.UniqueConstraint(
-                fields=["slug", "guild"],
-                condition=models.Q(guild__isnull=False),
-                name="meeting_unique_slug_in_guild",
-            ),
-            models.UniqueConstraint(
                 fields=["slug", "sphere"],
-                condition=models.Q(guild__isnull=True),
                 name="meeting_unique_slug_in_sphere",
             ),
             models.CheckConstraint(
@@ -189,7 +190,6 @@ class Meeting(DescribedModel, ComputedFieldsModel):
                     end_time__isnull=True,
                 )
                 | Q(
-                    created_at__lte=F("publication_time"),
                     publication_time__lte=F("start_time"),
                     start_time__lt=F("end_time"),
                 ),
@@ -213,9 +213,15 @@ class Meeting(DescribedModel, ComputedFieldsModel):
             return Meeting.ONGOING
         return Meeting.PAST
 
-    def save(
-        self, force_insert=False, force_update=False, using=None, update_fields=None
-    ):
+    def save(  # pylint: disable=arguments-differ,too-many-arguments
+        self,
+        force_insert: bool = False,
+        force_update: bool = False,
+        using: Optional[str] = None,
+        update_fields: Optional[Union[Sequence[str], str]] = None,
+        skip_computedfields: bool = False,
+    ) -> None:
+        del skip_computedfields
         if not self.slug:
-            self.slug = self._get_unique_slug(self.name, sphere=self.sphere)
+            self.slug = self._get_unique_slug("sphere")
         super().save(force_insert, force_update, using, update_fields)

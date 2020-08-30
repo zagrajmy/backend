@@ -9,10 +9,14 @@ def quote(
 ) -> str: ...
 def quote_edge(identifier: str) -> str: ...
 def a_list(
-    label: str = ..., kwargs: Dict[str, str] = ..., attributes: Dict[str, str] = ...,
+    label: str = ...,
+    kwargs: Dict[str, str] = ...,
+    attributes: Dict[str, str] = ...,
 ) -> str: ...
 def attr_list(
-    label: str = ..., kwargs: Dict[str, str] = ..., attributes: Dict[str, str] = ...,
+    label: str = ...,
+    kwargs: Dict[str, str] = ...,
+    attributes: Dict[str, str] = ...,
 ) -> str: ...
 def escape(s: str) -> str: ...
 

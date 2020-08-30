@@ -192,6 +192,13 @@ class ProposalFactory(DjangoModelFactory):
         kwargs["duration_minutes"] *= 30
         return kwargs
 
+    @classmethod
+    def _after_postgeneration(cls, instance, create, results=None):
+        if not instance.time_slots.count():
+            festival = instance.waitlist.festival
+
+            instance.time_slots.add(festival.time_slots.first())
+
 
 class RoomFactory(DjangoModelFactory):
     class Meta:

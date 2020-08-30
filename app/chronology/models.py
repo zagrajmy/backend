@@ -1,8 +1,9 @@
-from typing import Any, Dict, TypedDict
+from typing import Any, Collection, Dict, Optional, Sequence, TypedDict, Union
 
 from computedfields.models import ComputedFieldsModel, computed
+from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import F, JSONField, Q
+from django.db.models import F, JSONField, Q, QuerySet  # pylint: disable=unused-import
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
@@ -93,7 +94,6 @@ class Festival(ComputedFieldsModel):
         ],
     )
     def status(self) -> str:
-        status = Festival.DRAFT
         if (
             self.start_time
             and self.end_time
@@ -102,24 +102,29 @@ class Festival(ComputedFieldsModel):
             and self.start_publication
         ):
             now = timezone.now()
-            if now < self.start_proposal:
-                status = Festival.READY
-            elif now < self.start_publication:
-                status = Festival.PROPOSAL
-            elif now < self.end_proposal:
-                status = Festival.AGENDA_PROPOSAL
-            elif now < self.start_time:
-                status = Festival.AGENDA
-            elif now < self.end_time:
-                status = Festival.ONGOING
-            else:
-                status = Festival.PAST
-        return status
+            status_mapping = (
+                (self.start_proposal, Festival.READY),
+                (self.start_publication, Festival.PROPOSAL),
+                (self.end_proposal, Festival.AGENDA_PROPOSAL),
+                (self.start_time, Festival.AGENDA),
+                (self.end_time, Festival.ONGOING),
+            )
+            for key, value in status_mapping:
+                if now < key:
+                    return value
+            return Festival.PAST
+        return Festival.DRAFT
+
+    def agenda_items(self) -> "QuerySet[AgendaItem]":
+        return AgendaItem.objects.filter(room__festival=self)
 
 
 class Room(models.Model):
     festival = models.ForeignKey(
-        Festival, on_delete=models.CASCADE, verbose_name=_("festival")
+        Festival,
+        on_delete=models.CASCADE,
+        verbose_name=_("festival"),
+        related_name="rooms",
     )
     name = models.CharField(max_length=255, verbose_name=_("name"))
     slug = models.SlugField(verbose_name=_("slug"))
@@ -142,7 +147,10 @@ class TimeSlot(models.Model):
     end_time = models.DateTimeField(verbose_name=_("end time"))
     start_time = models.DateTimeField(verbose_name=_("start time"))
     festival = models.ForeignKey(
-        Festival, on_delete=models.CASCADE, verbose_name=_("festival")
+        Festival,
+        on_delete=models.CASCADE,
+        verbose_name=_("festival"),
+        related_name="time_slots",
     )
 
     class Meta:
@@ -161,6 +169,27 @@ class TimeSlot(models.Model):
 
     def __str__(self) -> str:
         return f"From {self.start_time} to {self.end_time} ({self.id})"
+
+    def save(
+        self,
+        force_insert: bool = False,
+        force_update: bool = False,
+        using: Optional[str] = None,
+        update_fields: Optional[Union[Sequence[str], str]] = None,
+    ) -> None:
+        self.full_clean()
+        super().save(force_insert, force_update, using, update_fields)
+
+    def validate_unique(self, exclude: Optional[Collection[str]] = None) -> None:
+        super().validate_unique(exclude)
+        festival_slots = TimeSlot.objects.filter(festival=self.festival)
+        conflicted = festival_slots.filter(
+            Q(start_time__gt=self.start_time, start_time__lt=self.end_time)
+            | Q(end_time__gt=self.start_time, end_time__lt=self.end_time)
+            | Q(start_time__lte=self.start_time, end_time__gte=self.end_time)
+        ).last()
+        if conflicted and conflicted != self:
+            raise ValidationError(_("Time slots can't overlap!"))
 
 
 class Helper(models.Model):
@@ -206,16 +235,18 @@ class AgendaItem(ComputedFieldsModel):
     )
     meeting = models.OneToOneField(
         Meeting,
-        on_delete=models.SET_NULL,
-        blank=True,
-        null=True,
+        on_delete=models.CASCADE,
         verbose_name=_("meeting"),
+        related_name="agenda_item",
     )
     meeting_confirmed = models.BooleanField(
         default=False, verbose_name=_("meeting confirmed")
     )
     room = models.ForeignKey(
-        Room, null=True, blank=True, on_delete=models.CASCADE, verbose_name=_("room")
+        Room,
+        on_delete=models.CASCADE,
+        verbose_name=_("room"),
+        related_name="agenda_item",
     )
 
     class Meta:
@@ -230,12 +261,18 @@ class AgendaItem(ComputedFieldsModel):
         ],
     )
     def status(self) -> str:
-        if not self.helper or not self.meeting or not self.room:
+        if not self.helper:
             return AgendaItem.UNASSIGNED
 
         if self.meeting_confirmed and self.helper_confirmed:
             return AgendaItem.CONFIRMED
         return AgendaItem.UNCONFIRMED
+
+    def __str__(self) -> str:
+        return (  # pylint: disable=no-member
+            f"{self.meeting.name} by {self.meeting.proposal.speaker_name} "
+            f"({self.status})"
+        )
 
 
 class WaitList(models.Model):
@@ -298,6 +335,7 @@ class Proposal(models.Model):
         blank=True,
         null=True,
         verbose_name=_("meeting"),
+        related_name="proposal",
     )
     needs = models.TextField(default="", blank=True, verbose_name=_("needs"))
     other_contact = JSONField(
