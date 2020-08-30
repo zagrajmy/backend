@@ -4,12 +4,7 @@ from rest_framework.test import APITestCase
 
 from chronology.models import Proposal
 from crowd.models import User
-from tests.factories import (
-    FestivalFactory,
-    ProposalFactory,
-    TimeSlotFactory,
-    WaitListFactory,
-)
+from tests.factories import FestivalFactory, ProposalFactory, WaitListFactory
 
 
 class TestProposals(APITestCase):
@@ -20,10 +15,6 @@ class TestProposals(APITestCase):
         self.proposals_url = reverse("v1:chronology:proposals-list")
         self.festival = FestivalFactory()
         self.wait_list = WaitListFactory(festival=self.festival)
-        self.time_slots = [
-            TimeSlotFactory(festival=self.festival),
-            TimeSlotFactory(festival=self.festival),
-        ]
 
     @freeze_time("2020-07-04")
     def test_create(self):
@@ -37,7 +28,7 @@ class TestProposals(APITestCase):
                 "phone": "+4812",
                 "needs": "no",
                 "waitlist": self.wait_list.id,
-                "time_slots": [t_s.id for t_s in self.time_slots],
+                "time_slots": [t_s.id for t_s in self.festival.time_slots.all()],
                 "speaker_user": str(self.user.uuid),
                 "topic": "Literature",
             },
@@ -69,7 +60,7 @@ class TestProposals(APITestCase):
         assert (
             list(proposal.time_slots.values_list("id", flat=True))
             == res_data.pop("time_slots")
-            == [1, 2]
+            == [t_s.id for t_s in self.festival.time_slots.all()]
         )
         assert proposal.topic == res_data.pop("topic") == "Literature"
         assert proposal.waitlist.id == res_data.pop("waitlist") == 1
@@ -77,6 +68,7 @@ class TestProposals(APITestCase):
 
     @freeze_time("2020-07-04")
     def test_create_no_user(self):
+        time_slot_ids = [t_s.id for t_s in self.festival.time_slots.all()]
         res = self.client.post(
             self.proposals_url,
             data={
@@ -87,7 +79,7 @@ class TestProposals(APITestCase):
                 "phone": "+4812",
                 "needs": "no",
                 "waitlist": self.wait_list.id,
-                "time_slots": [t_s.id for t_s in self.time_slots],
+                "time_slots": time_slot_ids,
                 "speaker_name": "Mr Mszczuj",
                 "topic": "Literature",
             },
@@ -111,7 +103,7 @@ class TestProposals(APITestCase):
         assert (
             list(proposal.time_slots.values_list("id", flat=True))
             == res_data.pop("time_slots")
-            == [1, 2]
+            == time_slot_ids
         )
         assert proposal.topic == res_data.pop("topic") == "Literature"
         assert proposal.waitlist.id == res_data.pop("waitlist") == 1
@@ -129,7 +121,7 @@ class TestProposals(APITestCase):
                 "phone": "+4812",
                 "needs": "no",
                 "waitlist": self.wait_list.id,
-                "time_slots": [t_s.id for t_s in self.time_slots],
+                "time_slots": [t_s.id for t_s in self.festival.time_slots.all()],
             },
         )
         res_data = res.json()

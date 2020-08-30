@@ -1,7 +1,7 @@
 from collections import defaultdict
 from random import random
 
-from behave import given, then, when  # pylint: disable=no-name-in-module
+from behave import given, then, when
 from django.contrib.auth.models import Group
 from django.urls import reverse
 from lxml import html
@@ -17,7 +17,10 @@ def __(context):
 
     for row in context.table:
         password = str(random())
-        user = User.objects.create(username=row["username"], is_staff=True,)
+        user = User.objects.create(
+            username=row["username"],
+            is_staff=True,
+        )
         user.set_password(password)
         user.groups.add(sphere_manager_group)
         user.save()

@@ -1,0 +1,5 @@
+<select style="width:100%; text-align: center; padding: 5px; pointer-events: none; -moz-appearance: none; -webkit-appearance: none;" name="{{name}}" id="id_{{name}}">
+{% if agenda_item.meeting %}
+	<option value="{{agenda_item.id}}">{{agenda_item}}</option>
+{% endif %}
+</select>

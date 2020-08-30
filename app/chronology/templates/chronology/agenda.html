@@ -1,0 +1,62 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static agenda %}
+
+
+{% block extrahead %}
+{{ block.super }}
+{{ media }}
+<script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/admin/RelatedObjectLookups.js' %}"></script>
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:app_list' app_label="chronology" %}">{% trans 'Chronology' %}</a>
+&rsaquo; <a href="{% url 'admin:chronology_festival_changelist' %}">{% trans 'Festivals' %}</a>
+&rsaquo; <a href="{% url 'admin:chronology_festival_change' object_id=festival.pk %}">{{festival}}</a>
+&rsaquo; {% trans 'Schedule' %}
+</div>
+{% endblock %}
+
+{% block content %}
+{% if broken_agenda_items %}
+<h3>{% trans 'Broken agenda items' %}</h3>
+<ul>
+{% for item in broken_agenda_items %}
+<li><a href="{% url 'admin:chronology_agendaitem_change' item.id %}">{{item}}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+<table>
+	<thead>
+		<tr>
+			<th>{% trans 'Hour' %}</th>
+		{% for room in festival.rooms.all %}
+			<th>{{room}}</th>
+		{% endfor %}
+			<th>{% trans 'Unassigned meetings' %}</th>
+		</tr>
+	</thead>
+	{% for time_row in agenda_matrix %}
+	<tr>
+		<td>{{time_row.hour}}</td>
+		{% for room_row in time_row.items %}
+			{% if room_row %}
+				<td rowspan="{{room_row.rowspan}}">
+				{% if room_row.room == "unassigned" %}
+				<ul>
+					{% for meeting in room_row.item %}
+					<li><a href="{% url 'admin:notice_board_meeting_change' meeting.pk %}">{{meeting.name}}</a></li>
+					{% endfor %}
+				</ul>
+				{% else %}
+					{% agenda_cell room_row.room time_row.hour room_row.item %}
+				{% endif %}
+				</td>
+			{% endif %}
+		{% endfor %}
+	</tr>
+	{% endfor %}
+</table>
+{% endblock %}
