@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "django_json_widget",
     "simple_history",
+    "rest_framework",
     # Project apps
     "chronology.apps.ChronologyConfig",
     "crowd.apps.CrowdConfig",
@@ -86,7 +87,7 @@ WSGI_APPLICATION = "zagrajmy.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": os.environ.get("SQL_ENGINE", "django.db.backends.sqlite3"),
-        "NAME": os.environ.get("SQL_DATABASE", ":memory:"),
+        "NAME": os.environ.get("SQL_DATABASE", "dev.db"),
         "USER": os.environ.get("SQL_USER", None),
         "PASSWORD": os.environ.get("SQL_PASSWORD", None),
         "HOST": os.environ.get("SQL_HOST", None),

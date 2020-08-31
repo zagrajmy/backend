@@ -1,7 +1,7 @@
 from collections import defaultdict
 from random import random
 
-from behave import given, then, when  # pylint: disable=no-name-in-module
+from behave import given, then, when
 from django.contrib.auth.models import Group
 from django.urls import reverse
 from lxml import html

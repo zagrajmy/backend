@@ -10,15 +10,16 @@ from typing import (  # pylint: disable=unused-import
 )
 
 from django.contrib import admin
-from django.db.models import QuerySet  # pylint: disable=unused-import
-from django.db.models import JSONField, Model
+from django.db.models import JSONField, Model, QuerySet  # pylint: disable=unused-import
 from django.db.models.fields.related import (  # pylint: disable=unused-import
     RelatedField,
 )
 from django.http import HttpRequest
+from django.utils.translation import gettext_lazy as _
 from django_json_widget.widgets import JSONEditorWidget
 from simple_history.admin import SimpleHistoryAdmin
 
+from chronology.models import AgendaItem
 from crowd.models import User
 from notice_board.models import Guild, GuildMember, Meeting, MeetingParticipant, Sphere
 
@@ -56,9 +57,8 @@ class SphereManagersAdminMixin(admin.ModelAdmin, Generic[ModelType]):
     def get_list_display_links(
         self, request: HttpRequest, list_display: Sequence[str]
     ) -> List[str]:
-        list_display_links = super().get_list_display_links(request, list_display)
-        list_display_links = list(list_display_links or [])
-        print(list_display_links)
+        base_list_display_links = super().get_list_display_links(request, list_display)
+        list_display_links = list(base_list_display_links or [])
         if list_display[1] not in list_display_links:
             list_display_links.append(list_display[1])
         return list_display_links
@@ -96,6 +96,37 @@ class SphereManagersAdminMixin(admin.ModelAdmin, Generic[ModelType]):
                 return queryset.filter(**{key: user})
         return queryset
 
+    def has_add_permission(self, request: HttpRequest) -> bool:
+        if (
+            self.model != AgendaItem
+            and request.resolver_match.url_name == "chronology_agendaitem_add"
+        ):
+            return False
+
+        return super().has_add_permission(request)
+
+    def has_change_permission(
+        self, request: HttpRequest, obj: Optional[Model] = None
+    ) -> bool:
+        if (
+            self.model != AgendaItem
+            and request.resolver_match.url_name == "chronology_agendaitem_add"
+        ):
+            return False
+
+        return super().has_change_permission(request, obj)
+
+    def has_delete_permission(
+        self, request: HttpRequest, obj: Optional[Model] = None
+    ) -> bool:
+        if (
+            self.model != AgendaItem
+            and request.resolver_match.url_name == "chronology_agendaitem_add"
+        ):
+            return False
+
+        return super().has_delete_permission(request, obj)
+
 
 class GuildMemberInline(admin.TabularInline):
     fields = ("user", "membership_type")
@@ -116,7 +147,7 @@ class MeetingAdmin(
 ):  # pylint: disable=unsubscriptable-object
     fieldsets = (
         (
-            "Basic info",
+            _("Basic info"),
             {
                 "fields": (
                     "name",
@@ -130,7 +161,7 @@ class MeetingAdmin(
             },
         ),
         (
-            "Location",
+            _("Location"),
             {
                 "fields": (
                     "location",
@@ -139,7 +170,7 @@ class MeetingAdmin(
             },
         ),
         (
-            "Time",
+            _("Time"),
             {
                 "fields": (
                     "start_time",
@@ -148,6 +179,7 @@ class MeetingAdmin(
                 )
             },
         ),
+        (_("Participants"), {"fields": ("participants",)}),
     )
     list_display = (
         "name",

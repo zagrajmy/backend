@@ -12,11 +12,15 @@ isort<5
 lxml
 mypy<0.780,>=0.770
 pycodestyle
+pyenchant
 pygraphviz
 pylint
 pylint-django
+pylint-pytest
 pytest
 pytest-cov
 pytest-django
+pyyaml
 requirements-tools
 tox
+uritemplate
