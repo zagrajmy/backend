@@ -8,11 +8,14 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("notice_board", "0014_alter_json_fields"),
+        ("notice_board", "0015_update_constraints"),
     ]
 
     operations = [
-        migrations.RemoveField(model_name="meeting", name="participants",),
+        migrations.RemoveField(
+            model_name="meeting",
+            name="participants",
+        ),
         migrations.AddField(
             model_name="meeting",
             name="participants_limit",

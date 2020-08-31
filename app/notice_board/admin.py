@@ -179,7 +179,6 @@ class MeetingAdmin(
                 )
             },
         ),
-        (_("Participants"), {"fields": ("participants",)}),
     )
     list_display = (
         "name",

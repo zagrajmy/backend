@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ("notice_board", "0015_participants_limit"),
+        ("notice_board", "0016_participants_limit"),
     ]
 
     operations = [
