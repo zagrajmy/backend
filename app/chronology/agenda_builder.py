@@ -47,11 +47,7 @@ class AgendaBuilder:
             for hour in times:
                 matrix_row: AgendaMatrixRow = {"hour": hour, "items": []}
                 for i, room in enumerate(self._rooms):
-                    item = (
-                        None
-                        if self._rowspans[i]
-                        else self._get_item(i, room, hour, time_slot.end_time)
-                    )
+                    item = None if self._rowspans[i] else self._get_item(i, room, hour)
                     matrix_row["items"].append(item)
                     self._rowspans[i] = max(self._rowspans[i] - 1, 0)
                 if hour == times[0]:
@@ -64,18 +60,15 @@ class AgendaBuilder:
                     )
                 self._agenda_matrix.append(matrix_row)
 
-    def _get_item(
-        self, i: int, room: Room, hour: datetime, slot_end: datetime
-    ) -> AgendaCellDict:
+    def _get_item(self, i: int, room: Room, hour: datetime) -> AgendaCellDict:
         rowspan = 1
         agenda_item = self._agenda_items.get((room, hour), None)
         if agenda_item:
             duration = agenda_item.meeting.proposal.duration_minutes
-            if hour + timedelta(minutes=duration) <= slot_end:
-                self._agenda_items.pop((room, hour))
-                if duration > 30:
-                    rowspan = duration // 30
-                    self._rowspans[i] = rowspan
+            self._agenda_items.pop((room, hour))
+            if duration >= 30:
+                rowspan = duration // 30
+                self._rowspans[i] = rowspan
             else:
                 agenda_item = None
         return {"room": room, "item": agenda_item, "rowspan": rowspan}
