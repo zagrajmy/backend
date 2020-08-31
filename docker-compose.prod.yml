@@ -34,7 +34,7 @@ services:
       - ./compose/production/certbot/www:/var/www/certbot
     command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   graphql-engine:
-    image: hasura/graphql-engine:v1.2.2.cli-migrations
+    image: hasura/graphql-engine:v1.3.1.cli-migrations
     expose:
       - 8080
     restart: always
