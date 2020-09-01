@@ -245,6 +245,14 @@ tables:
   - name: organizer
     using:
       foreign_key_constraint_on: organizer_id
+  - name: proposal
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: ch_proposal
+        column_mapping:
+          id: meeting_id
   - name: sphere
     using:
       foreign_key_constraint_on: sphere_id

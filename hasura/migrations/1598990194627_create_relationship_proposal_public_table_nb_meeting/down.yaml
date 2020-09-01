@@ -1,0 +1,6 @@
+- args:
+    relationship: proposal
+    table:
+      name: nb_meeting
+      schema: public
+  type: drop_relationship
