@@ -269,11 +269,18 @@ class AgendaItemForm(ModelForm):
             raise ValidationError(
                 _("There's already an agenda item in this time slot.")
             )
-        time_slot = cleaned_data["room"].festival.time_slots.get(
-            start_time__lte=start, end_time__gte=start
-        )
-        if time_slot.end_time < end:
-            raise ValidationError(_("Meeting too long for this time slot and hour"))
+        time_slots = cleaned_data["room"].festival.time_slots
+        start_slots = time_slots.filter(
+            start_time__lte=start, end_time__gt=start
+        ).count()
+        end_slots = time_slots.filter(start_time__lt=end, end_time__gte=end).count()
+        if start_slots != 1 or end_slots != 1:
+            raise ValidationError(
+                _(
+                    f"Wrong time slots. Slots found: start: {start_slots}, "
+                    f"end: {end_slots} (both should be 1)"
+                )
+            )
         user_lookup = {}
         if proposal.speaker_user:
             user_lookup["meeting__proposal__speaker_user"] = proposal.speaker_user
@@ -361,7 +368,7 @@ class AgendaItemAdmin(
             ),
             "Room": Q(id=room.id),
         }
-        return queryset.filter(filters[model_name])
+        return queryset.filter(filters[model_name]).distinct()
 
     def save_model(
         self, request: HttpRequest, obj: AgendaItem, form: Form, change: bool
