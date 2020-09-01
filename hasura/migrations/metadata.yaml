@@ -42,13 +42,6 @@ tables:
         table:
           schema: public
           name: ch_wait_list
-  - name: time_slots
-    using:
-      foreign_key_constraint_on:
-        column: festival_id
-        table:
-          schema: public
-          name: ch_time_slot
 - table:
     schema: public
     name: ch_helper
@@ -133,10 +126,6 @@ tables:
 - table:
     schema: public
     name: ch_time_slot
-  object_relationships:
-  - name: festival
-    using:
-      foreign_key_constraint_on: festival_id
   array_relationships:
   - name: ch_helper_time_slots
     using:
@@ -198,7 +187,7 @@ tables:
         column: user_id
         table:
           schema: public
-          name: nb_meeting_participant
+          name: nb_meeting_participants
   - name: organized_meetings
     using:
       foreign_key_constraint_on:
@@ -206,13 +195,6 @@ tables:
         table:
           schema: public
           name: nb_meeting
-  - name: proposals
-    using:
-      foreign_key_constraint_on:
-        column: speaker_user_id
-        table:
-          schema: public
-          name: ch_proposal
 - table:
     schema: public
     name: django_site
@@ -263,6 +245,14 @@ tables:
   - name: organizer
     using:
       foreign_key_constraint_on: organizer_id
+  - name: proposal
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: ch_proposal
+        column_mapping:
+          id: meeting_id
   - name: sphere
     using:
       foreign_key_constraint_on: sphere_id
@@ -281,17 +271,17 @@ tables:
         column: meeting_id
         table:
           schema: public
-          name: nb_meeting_participant
+          name: nb_meeting_participants
 - table:
     schema: public
-    name: nb_meeting_participant
+    name: nb_meeting_participants
   object_relationships:
-  - name: meeting
-    using:
-      foreign_key_constraint_on: meeting_id
-  - name: user
+  - name: cr_user
     using:
       foreign_key_constraint_on: user_id
+  - name: nb_meeting
+    using:
+      foreign_key_constraint_on: meeting_id
 - table:
     schema: public
     name: nb_sphere
