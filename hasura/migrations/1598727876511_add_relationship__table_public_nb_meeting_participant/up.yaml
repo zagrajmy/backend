@@ -1,8 +1,0 @@
-- args:
-    name: meeting
-    table:
-      name: nb_meeting_participant
-      schema: public
-    using:
-      foreign_key_constraint_on: meeting_id
-  type: create_object_relationship

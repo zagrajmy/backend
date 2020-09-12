@@ -1,6 +1,0 @@
-- args:
-    relationship: meeting
-    table:
-      name: nb_meeting_participant
-      schema: public
-  type: drop_relationship

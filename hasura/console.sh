@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
+#
+# dependencies:
+#   - Hasura CLI - npm i -g hasura-cli
+#
+# usage:
+#   bash console.sh --env production
+#
 
 adminSecret=$(
-  grep compose/development/.env.hasura \
+  grep "${0%/*}/../compose/development/.env.hasura" \
     -Poe '(?<=HASURA_GRAPHQL_ADMIN_SECRET=)\w*'
 )
 
@@ -23,6 +30,7 @@ elif [[ $env = "local" ]]; then
   endpoint="http://localhost:8081"
 fi
 
+echo "hasura console \ --endpoint $endpoint \ --admin-secret $adminSecret"
 
 cd $(dirname "$0") && \
   hasura console \

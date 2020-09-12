@@ -1,6 +1,0 @@
-- args:
-    relationship: festival
-    table:
-      name: ch_time_slot
-      schema: public
-  type: drop_relationship
