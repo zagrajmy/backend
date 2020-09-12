@@ -2,6 +2,56 @@ version: 2
 tables:
 - table:
     schema: public
+    name: auth_group
+  array_relationships:
+  - name: auth_group_permissions
+    using:
+      foreign_key_constraint_on:
+        column: group_id
+        table:
+          schema: public
+          name: auth_group_permissions
+  - name: cr_user_groups
+    using:
+      foreign_key_constraint_on:
+        column: group_id
+        table:
+          schema: public
+          name: cr_user_groups
+- table:
+    schema: public
+    name: auth_group_permissions
+  object_relationships:
+  - name: auth_group
+    using:
+      foreign_key_constraint_on: group_id
+  - name: auth_permission
+    using:
+      foreign_key_constraint_on: permission_id
+- table:
+    schema: public
+    name: auth_permission
+  object_relationships:
+  - name: django_content_type
+    using:
+      foreign_key_constraint_on: content_type_id
+  array_relationships:
+  - name: auth_group_permissions
+    using:
+      foreign_key_constraint_on:
+        column: permission_id
+        table:
+          schema: public
+          name: auth_group_permissions
+  - name: cr_user_user_permissions
+    using:
+      foreign_key_constraint_on:
+        column: permission_id
+        table:
+          schema: public
+          name: cr_user_user_permissions
+- table:
+    schema: public
     name: ch_agenda_item
   object_relationships:
   - name: ch_helper
@@ -35,6 +85,13 @@ tables:
         table:
           schema: public
           name: ch_room
+  - name: ch_time_slots
+    using:
+      foreign_key_constraint_on:
+        column: festival_id
+        table:
+          schema: public
+          name: ch_time_slot
   - name: ch_wait_lists
     using:
       foreign_key_constraint_on:
@@ -42,6 +99,13 @@ tables:
         table:
           schema: public
           name: ch_wait_list
+- table:
+    schema: public
+    name: ch_festival_history
+  object_relationships:
+  - name: cr_user
+    using:
+      foreign_key_constraint_on: history_user_id
 - table:
     schema: public
     name: ch_helper
@@ -84,12 +148,12 @@ tables:
   - name: ch_wait_list
     using:
       foreign_key_constraint_on: waitlist_id
-  - name: meeting
-    using:
-      foreign_key_constraint_on: meeting_id
-  - name: speaker
+  - name: cr_user
     using:
       foreign_key_constraint_on: speaker_user_id
+  - name: nb_meeting
+    using:
+      foreign_key_constraint_on: meeting_id
   array_relationships:
   - name: ch_proposal_time_slots
     using:
@@ -126,6 +190,10 @@ tables:
 - table:
     schema: public
     name: ch_time_slot
+  object_relationships:
+  - name: ch_festival
+    using:
+      foreign_key_constraint_on: festival_id
   array_relationships:
   - name: ch_helper_time_slots
     using:
@@ -160,6 +228,13 @@ tables:
     schema: public
     name: cr_user
   array_relationships:
+  - name: ch_festival_histories
+    using:
+      foreign_key_constraint_on:
+        column: history_user_id
+        table:
+          schema: public
+          name: ch_festival_history
   - name: ch_helpers
     using:
       foreign_key_constraint_on:
@@ -167,34 +242,123 @@ tables:
         table:
           schema: public
           name: ch_helper
-  - name: guilds
+  - name: ch_proposals
+    using:
+      foreign_key_constraint_on:
+        column: speaker_user_id
+        table:
+          schema: public
+          name: ch_proposal
+  - name: cr_user_groups
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: cr_user_groups
+  - name: cr_user_user_permissions
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: cr_user_user_permissions
+  - name: django_admin_logs
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: django_admin_log
+  - name: nb_guild_members
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
           name: nb_guild_member
-  - name: managed_spheres
-    using:
-      foreign_key_constraint_on:
-        column: user_id
-        table:
-          schema: public
-          name: nb_sphere_managers
-  - name: meetings
+  - name: nb_meeting_participants
     using:
       foreign_key_constraint_on:
         column: user_id
         table:
           schema: public
           name: nb_meeting_participants
-  - name: organized_meetings
+  - name: nb_meetings
     using:
       foreign_key_constraint_on:
         column: organizer_id
         table:
           schema: public
           name: nb_meeting
+  - name: nb_sphere_histories
+    using:
+      foreign_key_constraint_on:
+        column: history_user_id
+        table:
+          schema: public
+          name: nb_sphere_history
+  - name: nb_sphere_managers
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: nb_sphere_managers
+- table:
+    schema: public
+    name: cr_user_groups
+  object_relationships:
+  - name: auth_group
+    using:
+      foreign_key_constraint_on: group_id
+  - name: cr_user
+    using:
+      foreign_key_constraint_on: user_id
+- table:
+    schema: public
+    name: cr_user_user_permissions
+  object_relationships:
+  - name: auth_permission
+    using:
+      foreign_key_constraint_on: permission_id
+  - name: cr_user
+    using:
+      foreign_key_constraint_on: user_id
+- table:
+    schema: public
+    name: django_admin_log
+  object_relationships:
+  - name: cr_user
+    using:
+      foreign_key_constraint_on: user_id
+  - name: django_content_type
+    using:
+      foreign_key_constraint_on: content_type_id
+- table:
+    schema: public
+    name: django_content_type
+  array_relationships:
+  - name: auth_permissions
+    using:
+      foreign_key_constraint_on:
+        column: content_type_id
+        table:
+          schema: public
+          name: auth_permission
+  - name: django_admin_logs
+    using:
+      foreign_key_constraint_on:
+        column: content_type_id
+        table:
+          schema: public
+          name: django_admin_log
+- table:
+    schema: public
+    name: django_migrations
+- table:
+    schema: public
+    name: django_session
 - table:
     schema: public
     name: django_site
@@ -239,16 +403,7 @@ tables:
     schema: public
     name: nb_meeting
   object_relationships:
-  - name: guild
-    using:
-      foreign_key_constraint_on: guild_id
-  - name: organizer
-    using:
-      foreign_key_constraint_on: organizer_id
-  - name: sphere
-    using:
-      foreign_key_constraint_on: sphere_id
-  - name: time_table
+  - name: ch_agenda_item
     using:
       manual_configuration:
         remote_table:
@@ -256,8 +411,25 @@ tables:
           name: ch_agenda_item
         column_mapping:
           id: meeting_id
+  - name: cr_user
+    using:
+      foreign_key_constraint_on: organizer_id
+  - name: nb_guild
+    using:
+      foreign_key_constraint_on: guild_id
+  - name: nb_sphere
+    using:
+      foreign_key_constraint_on: sphere_id
+  - name: proposal
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: ch_proposal
+        column_mapping:
+          id: meeting_id
   array_relationships:
-  - name: participants
+  - name: nb_meeting_participants
     using:
       foreign_key_constraint_on:
         column: meeting_id
@@ -303,6 +475,13 @@ tables:
         table:
           schema: public
           name: nb_sphere_managers
+- table:
+    schema: public
+    name: nb_sphere_history
+  object_relationships:
+  - name: cr_user
+    using:
+      foreign_key_constraint_on: history_user_id
 - table:
     schema: public
     name: nb_sphere_managers
