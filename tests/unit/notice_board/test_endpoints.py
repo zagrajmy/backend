@@ -49,3 +49,23 @@ class TestProposals(APITestCase):
         )
         self.assertEqual(participant.status, MeetingParticipant.WAITING)
         self.assertEqual(res.json().get("status"), MeetingParticipant.WAITING.lower())
+
+    def test_remove_participant(self):
+        meeting = MeetingFactory()
+        MeetingParticipant.objects.create(
+            user=self.user,
+            meeting=meeting,
+            status=MeetingParticipant.CONFIRMED,
+        )
+        self.client.force_authenticate(user=self.user)  # pylint: disable=no-member
+        remove_participant_url = reverse(
+            "v1:notice_board:meeting-remove-participant",
+            kwargs={"pk": meeting.pk},
+        )
+        res = self.client.post(
+            remove_participant_url,
+            data={},
+        )
+        self.assertAlmostEqual(res.json(), {"status": "OK"})
+        meeting.refresh_from_db()
+        self.assertEqual(len(meeting.participants.all()), 0)

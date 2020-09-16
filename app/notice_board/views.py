@@ -38,3 +38,10 @@ class MeetingViewSet(ModelViewSet):
                 status = participant.status
                 participant.save()
         return Response({"status": status.lower()})
+
+    # pylint: disable=unused-argument
+    @action(detail=True, methods=["post"])
+    def remove_participant(self, request: Request, pk=None):
+        meeting = self.get_object()
+        meeting.participants.remove(request.user)
+        return Response({"status": "OK"})
