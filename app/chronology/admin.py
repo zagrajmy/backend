@@ -45,10 +45,7 @@ URL_HOUR_FORMAT = "%Y-%m-%d-%H-%M-%S-%f-%Z"
 
 
 def strphour(hour: str) -> datetime:
-    return make_aware(
-        datetime.strptime(hour, URL_HOUR_FORMAT),
-        pytz.UTC,
-    )
+    return make_aware(datetime.strptime(hour, URL_HOUR_FORMAT), pytz.UTC,)
 
 
 class WaitListInline(TabularInline):
@@ -340,8 +337,7 @@ class AgendaItemAdmin(
     ) -> QuerySet[ModelVar]:
 
         room = get_object_or_404(
-            Room,
-            pk=self.get_changeform_initial_data(request)["room"],
+            Room, pk=self.get_changeform_initial_data(request)["room"],
         )
         hour = strphour(self.get_changeform_initial_data(request)["hour"])
         filters = {
@@ -371,16 +367,12 @@ class AgendaItemAdmin(
         start = strphour(self.get_changeform_initial_data(request)["hour"])
         end = start + timedelta(minutes=obj.meeting.proposal.duration_minutes)
         Meeting.objects.filter(id=obj.meeting.id).update(
-            start_time=start,
-            end_time=end,
-            location=obj.room.name,
+            start_time=start, end_time=end, location=obj.room.name,
         )
 
     def delete_model(self, request: HttpRequest, obj: AgendaItem) -> None:
         Meeting.objects.filter(id=obj.meeting.id).update(
-            start_time=None,
-            end_time=None,
-            location="",
+            start_time=None, end_time=None, location="",
         )
 
         super().delete_model(request, obj)

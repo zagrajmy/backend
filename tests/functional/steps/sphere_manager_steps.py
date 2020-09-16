@@ -17,10 +17,7 @@ def __(context):
 
     for row in context.table:
         password = str(random())
-        user = User.objects.create(
-            username=row["username"],
-            is_staff=True,
-        )
+        user = User.objects.create(username=row["username"], is_staff=True,)
         user.set_password(password)
         user.groups.add(sphere_manager_group)
         user.save()

@@ -268,14 +268,11 @@ def test_agenda_item_form_update(hour, festival_room):
         meeting__publication_time=hour(-4),
     )
     proposal = ProposalFactory(
-        meeting=MeetingFactory(),
-        waitlist__festival=room.festival,
-        duration_minutes=8,
+        meeting=MeetingFactory(), waitlist__festival=room.festival, duration_minutes=8,
     )
 
     form = AgendaItemForm(
-        instance=agenda_item,
-        data={"meeting": proposal.meeting, "room": room},
+        instance=agenda_item, data={"meeting": proposal.meeting, "room": room},
     )
 
     assert form.is_valid() is True

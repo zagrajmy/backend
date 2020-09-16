@@ -113,10 +113,7 @@ class Sphere(models.Model):
     name = models.CharField(max_length=255, verbose_name=_("name"))
     settings = JSONField(default=default_sphere_settings)
     site = models.OneToOneField(
-        Site,
-        on_delete=models.PROTECT,
-        related_name="sphere",
-        verbose_name=_("site"),
+        Site, on_delete=models.PROTECT, related_name="sphere", verbose_name=_("site"),
     )
 
     class Meta:  # noqa D106
@@ -186,8 +183,7 @@ class Meeting(DescribedModel, ComputedFieldsModel):
         verbose_name_plural = _("meetings")
         constraints = [
             models.UniqueConstraint(
-                fields=["slug", "sphere"],
-                name="meeting_unique_slug_in_sphere",
+                fields=["slug", "sphere"], name="meeting_unique_slug_in_sphere",
             ),
             models.CheckConstraint(
                 check=Q(
@@ -196,8 +192,7 @@ class Meeting(DescribedModel, ComputedFieldsModel):
                     end_time__isnull=True,
                 )
                 | Q(
-                    publication_time__lte=F("start_time"),
-                    start_time__lt=F("end_time"),
+                    publication_time__lte=F("start_time"), start_time__lt=F("end_time"),
                 ),
                 name="meeting_date_times",
             ),

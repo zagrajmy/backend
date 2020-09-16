@@ -89,9 +89,7 @@ class AgendaBuilder:
         return list(self._agenda_items.values())
 
     @staticmethod
-    def _get_times(
-        time_slots: List[TimeSlot],
-    ) -> Dict[datetime, List[datetime]]:
+    def _get_times(time_slots: List[TimeSlot],) -> Dict[datetime, List[datetime]]:
         times = {}
         for time_slot in time_slots:
             number = (time_slot.end_time - time_slot.start_time).total_seconds() / 1800

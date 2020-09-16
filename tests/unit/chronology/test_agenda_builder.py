@@ -119,21 +119,9 @@ def test_init_build(hour):
         rooms=["A1", "A2", "B1", "B2"],
         time_slots=time_slots,
         unassigned_meetings=[
-            {
-                "pk": 1,
-                "name": "Meeting 1",
-                "proposal__time_slots": 1,
-            },
-            {
-                "pk": 2,
-                "name": "Meeting 2",
-                "proposal__time_slots": 1,
-            },
-            {
-                "pk": 2,
-                "name": "Meeting 2",
-                "proposal__time_slots": 2,
-            },
+            {"pk": 1, "name": "Meeting 1", "proposal__time_slots": 1,},
+            {"pk": 2, "name": "Meeting 2", "proposal__time_slots": 1,},
+            {"pk": 2, "name": "Meeting 2", "proposal__time_slots": 2,},
         ],
     )
 
