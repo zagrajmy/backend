@@ -5,6 +5,7 @@
 #
 # usage:
 #   bash console.sh --env production
+#   bash console.sh --env local
 #
 
 adminSecret=$(
