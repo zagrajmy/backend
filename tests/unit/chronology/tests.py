@@ -69,7 +69,8 @@ def test_festival_draft():
 
 
 @pytest.mark.parametrize(
-    "start_time,end_time", ((-1, 1), (1, 3), (3, 5), (-1, 5)),
+    "start_time,end_time",
+    ((-1, 1), (1, 3), (3, 5), (-1, 5)),
 )
 @pytest.mark.django_db
 def test_timeslot_validate_unique_error(hour, start_time, end_time):
@@ -80,7 +81,9 @@ def test_timeslot_validate_unique_error(hour, start_time, end_time):
 
     with pytest.raises(ValidationError) as exc:
         TimeSlot.objects.create(
-            festival=festival, start_time=hour(0), end_time=hour(4),
+            festival=festival,
+            start_time=hour(0),
+            end_time=hour(4),
         )
 
     assert str(exc.value) == "{'__all__': [\"Time slots can't overlap!\"]}"
@@ -95,7 +98,8 @@ def test_timeslot_validate_unique_different_festival(hour):
 
 
 @pytest.mark.parametrize(
-    "start_time,end_time", ((-4, -1), (-4, 0), (4, 5), (5, 7)),
+    "start_time,end_time",
+    ((-4, -1), (-4, 0), (4, 5), (5, 7)),
 )
 @pytest.mark.django_db
 def test_timeslot_validate_unique(hour, start_time, end_time):
@@ -105,7 +109,9 @@ def test_timeslot_validate_unique(hour, start_time, end_time):
     )
 
     TimeSlot.objects.create(
-        festival=festival, start_time=hour(0), end_time=hour(4),
+        festival=festival,
+        start_time=hour(0),
+        end_time=hour(4),
     )
 
 
