@@ -10,7 +10,7 @@ ipdb
 ipython
 isort<5
 lxml
-mypy<0.780,>=0.770
+mypy
 pycodestyle
 pyenchant
 pygraphviz

@@ -5,10 +5,13 @@ export COMPOSE_PROJECT_NAME=zagrajmy
 devinst:
 	pip install -r requirements.txt -r requirements-dev.txt --use-feature=2020-resolver
 
+pipup:
+	pip install -U pip --use-feature=2020-resolver
+
 upgrade-req:
 	upgrade-requirements
 
-make upgrade: upgrade-req devinst
+make upgrade: pipup upgrade-req devinst
 
 test:
 	pytest --cov
