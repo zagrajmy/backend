@@ -80,15 +80,15 @@ def test_init_build(hour):
             ),
         ),
         DummyAgendaItem(
-            room="A2",
-            meeting=DummyMeeting(
-                proposal=DummyProposal(duration_minutes=480), start_time=hour(-4)
-            ),
-        ),
-        DummyAgendaItem(
             room="B2",
             meeting=DummyMeeting(
                 proposal=DummyProposal(duration_minutes=30), start_time=hour(-4)
+            ),
+        ),
+        DummyAgendaItem(
+            room="A2",
+            meeting=DummyMeeting(
+                proposal=DummyProposal(duration_minutes=420), start_time=hour(-4)
             ),
         ),
         DummyAgendaItem(
@@ -98,7 +98,7 @@ def test_init_build(hour):
             ),
         ),
         DummyAgendaItem(
-            room="A2",
+            room="B1",
             meeting=DummyMeeting(
                 proposal=DummyProposal(duration_minutes=60), start_time=hour(3)
             ),
@@ -198,7 +198,17 @@ def test_init_build(hour):
             "hour": hour(-4),
             "items": [
                 {"item": None, "room": "A1", "rowspan": 1},
-                {"item": None, "room": "A2", "rowspan": 1},
+                {
+                    "item": DummyAgendaItem(
+                        room="A2",
+                        meeting=DummyMeeting(
+                            start_time=hour(-4),
+                            proposal=DummyProposal(duration_minutes=420),
+                        ),
+                    ),
+                    "room": "A2",
+                    "rowspan": 14,
+                },
                 {"item": None, "room": "B1", "rowspan": 1},
                 None,
             ],
@@ -207,7 +217,7 @@ def test_init_build(hour):
             "hour": hour(-3.5),
             "items": [
                 {"item": None, "room": "A1", "rowspan": 1},
-                {"item": None, "room": "A2", "rowspan": 1},
+                None,
                 {"item": None, "room": "B1", "rowspan": 1},
                 None,
             ],
@@ -216,7 +226,7 @@ def test_init_build(hour):
             "hour": hour(2),
             "items": [
                 {"item": None, "room": "A1", "rowspan": 1},
-                {"item": None, "room": "A2", "rowspan": 1},
+                None,
                 {"item": None, "room": "B1", "rowspan": 1},
                 {"item": None, "room": "B2", "rowspan": 1},
                 {
@@ -230,7 +240,7 @@ def test_init_build(hour):
             "hour": hour(2.5),
             "items": [
                 {"item": None, "room": "A1", "rowspan": 1},
-                {"item": None, "room": "A2", "rowspan": 1},
+                None,
                 {"item": None, "room": "B1", "rowspan": 1},
                 {"item": None, "room": "B2", "rowspan": 1},
             ],
@@ -238,29 +248,19 @@ def test_init_build(hour):
         {
             "hour": hour(3),
             "items": [
+                {"item": None, "room": "A1", "rowspan": 1},
+                None,
                 {
                     "item": DummyAgendaItem(
-                        room="A1",
-                        meeting=DummyMeeting(
-                            proposal=DummyProposal(duration_minutes=15),
-                            start_time=hour(3),
-                        ),
-                    ),
-                    "room": "A1",
-                    "rowspan": 1,
-                },
-                {
-                    "item": DummyAgendaItem(
-                        room="A2",
+                        room="B1",
                         meeting=DummyMeeting(
                             start_time=hour(3),
                             proposal=DummyProposal(duration_minutes=60),
                         ),
                     ),
-                    "room": "A2",
+                    "room": "B1",
                     "rowspan": 2,
                 },
-                {"item": None, "room": "B1", "rowspan": 1},
                 {"item": None, "room": "B2", "rowspan": 1},
             ],
         },
@@ -269,7 +269,7 @@ def test_init_build(hour):
             "items": [
                 {"item": None, "room": "A1", "rowspan": 1},
                 None,
-                {"item": None, "room": "B1", "rowspan": 1},
+                None,
                 {"item": None, "room": "B2", "rowspan": 1},
             ],
         },
@@ -277,7 +277,7 @@ def test_init_build(hour):
             "hour": hour(4),
             "items": [
                 {"item": None, "room": "A1", "rowspan": 1},
-                {"item": None, "room": "A2", "rowspan": 1},
+                None,
                 {"item": None, "room": "B1", "rowspan": 1},
                 {"item": None, "room": "B2", "rowspan": 1},
             ],
@@ -286,10 +286,10 @@ def test_init_build(hour):
             "hour": hour(4.5),
             "items": [
                 {"item": None, "room": "A1", "rowspan": 1},
-                {"item": None, "room": "A2", "rowspan": 1},
+                None,
                 {"item": None, "room": "B1", "rowspan": 1},
                 {"item": None, "room": "B2", "rowspan": 1},
             ],
         },
     ]
-    assert agenda_builder.broken_agenda_items == agenda_items[:-3]
+    assert agenda_builder.broken_agenda_items == agenda_items[:-4]

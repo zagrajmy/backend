@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.db.models import F, JSONField, Q, QuerySet  # pylint: disable=unused-import
 from django.utils import timezone
+from django.utils.timezone import localtime
 from django.utils.translation import gettext_lazy as _
 from simple_history.models import HistoricalRecords
 
@@ -168,7 +169,12 @@ class TimeSlot(models.Model):
         ]
 
     def __str__(self) -> str:
-        return f"From {self.start_time} to {self.end_time} ({self.id})"
+        ts_format = "%Y-%m-%d %H:%M"
+        start = localtime(self.start_time).strftime(ts_format)
+        if self.start_time.date() == self.end_time.date():
+            ts_format = "%H:%M"
+        end = localtime(self.end_time).strftime(ts_format)
+        return f"{start} - {end} ({self.id})"
 
     def save(
         self,

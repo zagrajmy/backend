@@ -254,7 +254,13 @@ def test_agenda_item_form_wrong_timeslot(festival_room):
     room = festival_room(-1, 3)
 
     _check_agenda_form(
-        room, False, {"__all__": ["Meeting too long for this time slot and hour"]}
+        room,
+        False,
+        {
+            "__all__": [
+                "Wrong time slots. Slots found: start: 1, end: 0 (both should be 1)"
+            ]
+        },
     )
 
 
