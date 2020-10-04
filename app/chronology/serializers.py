@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Proposal, WaitList
+from chronology.models import Proposal, WaitList
 
 
 class WaitListSerializer(serializers.ModelSerializer):
