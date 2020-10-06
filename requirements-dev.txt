@@ -3,7 +3,7 @@ astroid==2.4.2
 attrs==20.2.0
 backcall==0.2.0
 bandit==1.6.2
-beautifulsoup4==4.9.2
+beautifulsoup4==4.9.3
 behave==1.2.6
 behave-django==1.4.0
 black==20.8b1
@@ -14,8 +14,8 @@ distlib==0.3.1
 django-extensions==3.0.9
 django-stubs==1.6.0
 djangorestframework-stubs==1.2.0
-factory-boy==3.0.1
-Faker==4.1.6
+factory-boy==3.1.0
+Faker==4.4.0
 filelock==3.0.12
 freezegun==1.0.0
 gitdb==4.0.5
@@ -52,7 +52,7 @@ pylint-django==2.3.0
 pylint-plugin-utils==0.6
 pylint-pytest==0.3.0
 pyparsing==2.4.7
-pytest==6.1.0
+pytest==6.1.1
 pytest-cov==2.10.1
 pytest-django==3.10.0
 python-dateutil==2.8.1
@@ -69,6 +69,6 @@ traitlets==5.0.4
 typed-ast==1.4.1
 typing-extensions==3.7.4.3
 uritemplate==3.0.1
-virtualenv==20.0.32
+virtualenv==20.0.33
 wcwidth==0.2.5
 wrapt==1.12.1
