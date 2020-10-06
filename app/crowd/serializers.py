@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from crowd.models import User
+from .models import User
 
 
 class UserSerializer(serializers.ModelSerializer):

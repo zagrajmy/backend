@@ -2,7 +2,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, TypedDict
 
-from chronology.models import AgendaItem, Room, TimeSlot
+from .models import AgendaItem, Room, TimeSlot
 
 
 class AgendaCellDict(TypedDict):
