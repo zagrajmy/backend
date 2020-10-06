@@ -11,21 +11,10 @@
 #   - https://hasura.io/docs/1.0/graphql/core/api-reference/pgdump.html#introduction
 #
 
-adminSecret=$(
-  grep compose/development/.env.hasura \
-    -Poe '(?<=HASURA_GRAPHQL_ADMIN_SECRET=)\w*'
-)
 
-env=${env:-production}
 type=${type:-data-only}
 
-while [ $# -gt 0 ]; do
-   if [[ $1 == *"--"* ]]; then
-        param="${1/--/}"
-        declare $param="$2"
-   fi
-  shift
-done
+. ./read-args.sh
 
 endpoint=""
 opts=""
