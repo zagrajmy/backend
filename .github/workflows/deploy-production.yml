@@ -1,0 +1,30 @@
+name: Deploy on production
+
+on:
+  push:
+    branches:
+      - release/*
+
+jobs:
+
+  build:
+    name: Rebuild and upstart dockers
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      env:
+        GITHUB_SHA: ${{ github.sha }}
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USER }}
+        key: ${{ secrets.DEPLOY_KEY }}
+        script_stop: true
+        envs: GITHUB_SHA
+        script: |
+          set -ex
+          cd deploy/
+          git fetch
+          git checkout $GITHUB_SHA
+          docker-compose -f docker-compose.prod.yml down
+          docker-compose -f docker-compose.prod.yml up -d --build

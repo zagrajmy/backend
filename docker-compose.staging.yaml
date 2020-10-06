@@ -1,0 +1,54 @@
+version: "3.7"
+
+services:
+  postgres:
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+      - 8000:8000
+    env_file:
+      - ./compose/staging/.env.db
+  web:
+    build:
+      context: .
+      dockerfile: compose/staging/Dockerfile
+    command: gunicorn zagrajmy.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/usr/src/app/staticfiles
+      - media_volume:/usr/src/app/mediafiles
+    expose:
+      - 8000
+    env_file:
+      - ./compose/staging/.env.web
+  nginx:
+    image: nginx:1.17.4-alpine
+    volumes:
+      - ./compose/staging/nginx.conf:/etc/nginx/conf.d/app.conf:ro
+      - static_volume:/usr/src/app/staticfiles
+      - media_volume:/usr/src/app/mediafiles
+      - ./compose/staging/certbot/conf:/etc/letsencrypt
+      - ./compose/staging/certbot/www:/var/www/certbot
+    ports:
+      - 80:80
+      - 443:443
+    depends_on:
+      - web
+      - graphql-engine
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./compose/staging/certbot/conf:/etc/letsencrypt
+      - ./compose/staging/certbot/www:/var/www/certbot
+    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+  graphql-engine:
+    image: hasura/graphql-engine:v1.2.2.cli-migrations
+    expose:
+      - 8080
+    restart: always
+    env_file:
+      - ./compose/staging/.env.hasura
+    volumes:
+      - ./hasura/migrations:/hasura-migrations
+
+volumes:
+  postgres_data:

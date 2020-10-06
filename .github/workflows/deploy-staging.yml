@@ -1,11 +1,10 @@
-name: Deploy on production
+name: Deploy on staging
 
 on:
   push:
     branches:
       - master
-      - release/*
-      - new-deploy
+      - tasks/staging-server
 
 jobs:
 
@@ -18,9 +17,9 @@ jobs:
       env:
         GITHUB_SHA: ${{ github.sha }}
       with:
-        host: ${{ secrets.HOST }}
+        host: ${{ secrets.STAGING_HOST }}
         username: ${{ secrets.USER }}
-        key: ${{ secrets.DEPLOY_KEY }}
+        key: ${{ secrets.STAGING_DEPLOY_KEY }}
         script_stop: true
         envs: GITHUB_SHA
         script: |
