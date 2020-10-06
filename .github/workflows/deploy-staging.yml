@@ -24,7 +24,7 @@ jobs:
         envs: GITHUB_SHA
         script: |
           set -ex
-          cd deploy/
+          cd backend/
           git fetch
           git checkout $GITHUB_SHA
           docker-compose -f docker-compose.prod.yml down
