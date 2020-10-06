@@ -1,5 +1,5 @@
 # pull official base image
-FROM python:3.8.0-buster
+FROM python:3.8.0-slim-buster
 
 # set work directory
 WORKDIR /usr/src
@@ -8,15 +8,12 @@ WORKDIR /usr/src
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH /usr/src/app/
-ENV DJANGO_SETTINGS_MODULE zagrajmy.settings.development
+ENV DJANGO_SETTINGS_MODULE zagrajmy.settings.staging
 
 # install dependencies
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-	bash \
 	build-essential \
 	gettext \
-	graphviz \
-	libgraphviz-dev \
 	libjpeg-dev \
 	libpq-dev \
 	netcat \
@@ -25,8 +22,13 @@ RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 # install dependencies
 RUN pip install --upgrade pip
 COPY requirements.txt /usr/src/requirements.txt
-COPY requirements-dev.txt /usr/src/requirements-dev.txt
-RUN pip install -r requirements.txt -r requirements-dev.txt
+RUN pip install -r requirements.txt
+
+# copy entrypoint.sh
+COPY compose/entrypoint.sh /usr/src/app/entrypoint.sh
+
+# copy project
+COPY app /usr/src/app
 
 # run entrypoint.sh
-ENTRYPOINT ["/usr/src/compose/entrypoint.sh"]
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
