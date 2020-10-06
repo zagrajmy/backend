@@ -11,8 +11,11 @@ class TestProposals(APITestCase):
         self.user = User.objects.create(
             first_name="Mszczuj", last_name="ze Skzynna", username="PanMszczuj"
         )
-        self.meeting_1 = MeetingFactory()
+        self.meeting_1 = MeetingFactory(participants_limit=2)
         self.meeting_2 = MeetingFactory(participants_limit=4)
+        self.meeting_3 = MeetingFactory(participants_limit=-1)
+        self.meeting_4 = MeetingFactory(participants_limit=0)
+        self.meeting_5 = MeetingFactory(participants_limit=None)
         for _ in range(4):
             MeetingParticipant.objects.create(
                 user=UserFactory(),
@@ -49,6 +52,48 @@ class TestProposals(APITestCase):
         )
         self.assertEqual(participant.status, MeetingParticipant.WAITING)
         self.assertEqual(res.json().get("status"), MeetingParticipant.WAITING.lower())
+
+    def test_add_participant_unlimited_meeting(self):
+        res = self.client.post(
+            reverse(
+                "v1:notice_board:meeting-add-participant",
+                kwargs={"pk": self.meeting_3.pk},
+            ),
+            data={},
+        )
+        participant = MeetingParticipant.objects.get(
+            meeting=self.meeting_3, user=self.user
+        )
+        self.assertEqual(participant.status, MeetingParticipant.CONFIRMED)
+        self.assertEqual(res.json().get("status"), MeetingParticipant.CONFIRMED.lower())
+
+    def test_trying_add_participant_not_applicable_none(self):
+        res = self.client.post(
+            reverse(
+                "v1:notice_board:meeting-add-participant",
+                kwargs={"pk": self.meeting_4.pk},
+            ),
+            data={},
+        )
+        participants = MeetingParticipant.objects.filter(
+            meeting=self.meeting_4, user=self.user
+        )
+        self.assertEqual(len(participants), 0)
+        self.assertEqual(res.json().get("status"), None)
+
+    def test_trying_add_participant_not_applicable_zero(self):
+        res = self.client.post(
+            reverse(
+                "v1:notice_board:meeting-add-participant",
+                kwargs={"pk": self.meeting_4.pk},
+            ),
+            data={},
+        )
+        participants = MeetingParticipant.objects.filter(
+            meeting=self.meeting_4, user=self.user
+        )
+        self.assertEqual(len(participants), 0)
+        self.assertEqual(res.json().get("status"), None)
 
     def test_remove_participant(self):
         meeting = MeetingFactory()

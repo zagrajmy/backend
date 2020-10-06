@@ -16,7 +16,9 @@ class MeetingViewSet(ModelViewSet):
     @action(detail=True, methods=["post"])
     def add_participant(self, request: Request, pk=None):
         meeting = self.get_object()
-        if meeting.participants_limit < 1:
+        if meeting.participants_limit is None or meeting.participants_limit == 0:
+            return Response({"status": None})
+        if meeting.participants_limit < 0:
             meeting.participants.add(
                 request.user, through_defaults={"status": MeetingParticipant.CONFIRMED}
             )
