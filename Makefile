@@ -38,7 +38,7 @@ mypy:
 	mypy app||true
 
 pylint:
-	pylint app
+	pylint app/contrib app/notice_board app/common app/crowd app/chronology app/zagrajmy
 	pylint --rcfile=tests/.pylintrc tests
 
 clean:
