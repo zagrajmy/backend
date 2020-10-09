@@ -8,9 +8,9 @@ factory_boy
 freezegun
 ipdb
 ipython
-isort<5
+isort
 lxml
-mypy
+mypy<0.790
 pycodestyle
 pyenchant
 pygraphviz
