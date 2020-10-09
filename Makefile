@@ -86,10 +86,10 @@ lint: lint-check lint-black lint-isort lint-pycodestyle lint-bandit lint-mypy li
 # Docker
 
 graph:
-	docker-compose exec web django-admin graph_models chronology crowd notice_board -g -o docs/models.png
+	docker-compose exec -T web django-admin graph_models chronology crowd notice_board -g -o docs/models.png
 
 messages:
-	docker-compose exec web django-admin makemessages -l pl
+	docker-compose exec -T web django-admin makemessages -l pl
 
 django:
 	docker-compose exec web django-admin $(cmd)

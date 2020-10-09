@@ -76,6 +76,10 @@ Uses the default Django development server.
       - messages - updates translation file
       - django - run django admin command (syntax: `make django cmd='migrate'`)
 
+   For example, before creating a pull requests make sure you ran locally:
+   `make install-dev format lint test-cov graph messages`
+   (And check if there are no missing transactions).
+
 
 1. Aliases for docker commands
 
