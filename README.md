@@ -1,4 +1,4 @@
-![Tox (tests and lint)](<https://github.com/zagrajmy/backend/workflows/Tox%20(tests%20and%20lint)/badge.svg?branch=master>)
+![Run linters and tests](https://github.com/zagrajmy/backend/workflows/Run%20linters%20and%20tests/badge.svg)
 
 # Dockerizing Django with Postgres, Gunicorn, Nginx, and Hasura
 
@@ -73,6 +73,7 @@ Uses the default Django development server.
 
    1. Docker
       - graph - create model graph
+      - messages - updates translation file
       - django - run django admin command (syntax: `make django cmd='migrate'`)
 
 

@@ -7,7 +7,7 @@ inst-prod:
 	pip install -r requirements.txt --use-feature=2020-resolver
 
 inst-dev:
-	pip -r requirements-dev.txt --use-feature=2020-resolver
+	pip install -r requirements-dev.txt --use-feature=2020-resolver
 
 inst-pip:
 	pip install -U pip --use-feature=2020-resolver
@@ -17,16 +17,16 @@ inst-upg:
 
 install-prod: inst-pip inst-prod
 
-install-dev: inst-pip inst-pod inst-dev
+install-dev: inst-pip inst-prod inst-dev
 
 upgrade: inst-upg install-dev
 
 # TESTING
 
 test-unit:
-	pytest --cov
+	pytest
 
-tst-unit-cov:
+test-unit-cov:
 	pytest --cov=app --cov=tests/unit
 
 test-behave:
@@ -87,6 +87,9 @@ lint: lint-check lint-black lint-isort lint-pycodestyle lint-bandit lint-mypy li
 
 graph:
 	docker-compose exec web django-admin graph_models chronology crowd notice_board -g -o docs/models.png
+
+messages:
+	docker-compose exec web django-admin makemessages -l pl
 
 django:
 	docker-compose exec web django-admin $(cmd)

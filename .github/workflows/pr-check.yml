@@ -43,3 +43,7 @@ jobs:
       run: make lint-mypy
     - name: Check pylint
       run: make lint-pylint
+    - name: Run unit tests
+      run: make test-unit-cov
+    - name: Run behave tests
+      run: make test-behave-cov
