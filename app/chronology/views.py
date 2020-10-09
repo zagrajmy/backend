@@ -6,8 +6,8 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
 
-from chronology.models import Proposal
-from chronology.serializers import ProposalSerializer
+from .models import Proposal
+from .serializers import ProposalSerializer
 
 
 class ProposalAPIView(CreateModelMixin, UpdateModelMixin, GenericViewSet):

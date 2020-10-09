@@ -7,7 +7,6 @@ from django_extensions.mongodb.fields import (
 from django_extensions.mongodb.fields import (
     ModificationDateTimeField as ModificationDateTimeField,
 )
-
 from mongoengine.document import Document
 from mongoengine.queryset import QuerySetManager
 

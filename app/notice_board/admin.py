@@ -21,7 +21,8 @@ from simple_history.admin import SimpleHistoryAdmin
 
 from chronology.models import AgendaItem
 from crowd.models import User
-from notice_board.models import Guild, GuildMember, Meeting, Sphere
+
+from .models import Guild, GuildMember, Meeting, Sphere
 
 with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
     SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
