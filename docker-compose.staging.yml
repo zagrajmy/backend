@@ -11,7 +11,7 @@ services:
     build:
       context: .
       dockerfile: compose/staging/Dockerfile
-    command: gunicorn zagrajmy.wsgi:application --bind 0.0.0.0:8000
+    command: gunicorn zagrajmy.wsgi:application --access-logfile='-' --error-logfile='-' --bind 0.0.0.0:8000
     volumes:
       - static_volume:/usr/src/app/staticfiles
       - media_volume:/usr/src/app/mediafiles
