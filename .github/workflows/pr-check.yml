@@ -32,7 +32,7 @@ jobs:
     - name: Check dependencies
       run: make lint-check
     - name: Check formatting
-      run: make-black
+      run: make lint-black
     - name: Check import sorting
       run: make lint-isort
     - name: Check style guide
