@@ -1,4 +1,4 @@
-name: Check docker health
+name: Check Django and Hasura migrations
 
 on:
   pull_request:
@@ -25,8 +25,3 @@ jobs:
         run: docker-compose logs
       - name: Check hasura health
         run: docker-compose exec -T graphql-engine wget http://localhost:8080/healthz
-      - name: Check if graph and messages are updated
-        run: |
-          make graph
-          make messages
-          git diff|tee|grep -vq .
