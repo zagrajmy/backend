@@ -10,7 +10,7 @@ services:
   web:
     build:
       context: .
-      dockerfile: compose/staging/Dockerfile
+      dockerfile: compose/production/Dockerfile
     command: gunicorn zagrajmy.wsgi:application --access-logfile='-' --error-logfile='-' --bind 0.0.0.0:8000
     volumes:
       - static_volume:/usr/src/app/staticfiles
@@ -19,6 +19,8 @@ services:
       - 8000
     env_file:
       - ./compose/staging/.env.web
+    environment:
+      - DJANGO_SETTINGS_MODULE=zagrajmy.settings.staging
   nginx:
     image: nginx:1.17.4-alpine
     volumes:

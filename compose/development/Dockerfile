@@ -8,7 +8,6 @@ WORKDIR /usr/src
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH /usr/src/app/
-ENV DJANGO_SETTINGS_MODULE zagrajmy.settings.development
 
 # install dependencies
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
