@@ -17,7 +17,7 @@ test:
 	pytest --cov
 
 pytest-dev:
-	pytest --cov -vv -x
+	pytest --cov -svvx
 
 check:
 	check-requirements
