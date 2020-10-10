@@ -128,7 +128,7 @@ class FestivalAdmin(SphereManagersAdminMixin[Festival], SimpleHistoryAdmin):
         festival = self.get_queryset(request).get(pk=object_id)
         agenda_builder = FestivalAdmin.agenda_builder_class(
             agenda_items=list(festival.agenda_items()),
-            rooms=list(festival.rooms.values_list("name", flat=True)),
+            rooms=list(festival.rooms.values("pk", "name")),
             time_slots=list(festival.time_slots.all()),
             unassigned_meetings=list(
                 Meeting.objects.filter(

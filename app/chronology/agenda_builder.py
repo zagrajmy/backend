@@ -20,11 +20,16 @@ class AgendaMatrixRow(TypedDict):
     items: List[Optional[AgendaCellDict]]
 
 
+class RoomInfo(TypedDict):
+    name: str
+    pk: int
+
+
 class AgendaBuilder:
     def __init__(
         self,
         agenda_items: List[AgendaItem],
-        rooms: List[str],
+        rooms: List[RoomInfo],
         time_slots: List[TimeSlot],
         unassigned_meetings: List[UnassignedMeeting],
     ) -> None:
@@ -58,18 +63,18 @@ class AgendaBuilder:
                     )
                 self._agenda_matrix.append(matrix_row)
 
-    def _get_item(self, i: int, room: str, hour: datetime) -> AgendaCellDict:
+    def _get_item(self, i: int, room: RoomInfo, hour: datetime) -> AgendaCellDict:
         rowspan = 1
-        agenda_item = self._agenda_items.get((room, hour), None)
+        agenda_item = self._agenda_items.get((room["name"], hour), None)
         if agenda_item:
             duration = agenda_item.meeting.proposal.duration_minutes
-            self._agenda_items.pop((room, hour))
+            self._agenda_items.pop((room["name"], hour))
             if duration >= 30:
                 rowspan = duration // 30
                 self._rowspans[i] = rowspan
             else:
                 agenda_item = None
-        return {"room": room, "item": agenda_item, "rowspan": rowspan}
+        return {"room": room["name"], "item": agenda_item, "rowspan": rowspan}
 
     @property
     def agenda_matrix(self) -> List[AgendaMatrixRow]:

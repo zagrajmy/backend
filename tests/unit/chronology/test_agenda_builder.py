@@ -121,7 +121,12 @@ def test_init_build(hour):
     ]
     agenda_builder = AgendaBuilder(
         agenda_items=agenda_items,
-        rooms=["A1", "A2", "B1", "B2"],
+        rooms=[
+            {"name": "A1", "pk": 1},
+            {"name": "A2", "pk": 2},
+            {"name": "B1", "pk": 3},
+            {"name": "B2", "pk": 4},
+        ],
         time_slots=time_slots,
         unassigned_meetings=[
             {
