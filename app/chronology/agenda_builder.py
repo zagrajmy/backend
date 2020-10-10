@@ -1,13 +1,17 @@
 from collections import defaultdict
 from datetime import datetime, timedelta
-from typing import Dict, List, Optional, TypedDict
+from typing import Dict, List, Optional, TypedDict, Union
 
-from .models import AgendaItem, Room, TimeSlot
+from .models import AgendaItem, TimeSlot
+
+UnassignedMeeting = TypedDict(
+    "UnassignedMeeting", {"pk": int, "name": str, "proposal__time_slots": int}
+)
 
 
 class AgendaCellDict(TypedDict):
-    room: Room
-    item: Optional[AgendaItem]
+    room: str
+    item: Optional[Union[AgendaItem, List[UnassignedMeeting]]]
     rowspan: int
 
 
@@ -16,22 +20,16 @@ class AgendaMatrixRow(TypedDict):
     items: List[Optional[AgendaCellDict]]
 
 
-class UnassignedMeeting(TypedDict):
-    pk: int
-    name: str
-    proposal__time_slots: Optional[int]
-
-
 class AgendaBuilder:
     def __init__(
         self,
         agenda_items: List[AgendaItem],
-        rooms: List[Room],
+        rooms: List[str],
         time_slots: List[TimeSlot],
         unassigned_meetings: List[UnassignedMeeting],
     ) -> None:
         self._agenda_items = {
-            (item.room, item.meeting.start_time): item for item in agenda_items
+            (item.room.name, item.meeting.start_time): item for item in agenda_items
         }
         self._agenda_matrix: List[AgendaMatrixRow] = []
         self._rooms = rooms
@@ -60,7 +58,7 @@ class AgendaBuilder:
                     )
                 self._agenda_matrix.append(matrix_row)
 
-    def _get_item(self, i: int, room: Room, hour: datetime) -> AgendaCellDict:
+    def _get_item(self, i: int, room: str, hour: datetime) -> AgendaCellDict:
         rowspan = 1
         agenda_item = self._agenda_items.get((room, hour), None)
         if agenda_item:
@@ -84,7 +82,7 @@ class AgendaBuilder:
     @staticmethod
     def _get_times(
         time_slots: List[TimeSlot],
-    ) -> Dict[datetime, List[datetime]]:
+    ) -> Dict[TimeSlot, List[datetime]]:
         times = {}
         for time_slot in time_slots:
             number = (time_slot.end_time - time_slot.start_time).total_seconds() / 1800
@@ -97,9 +95,8 @@ class AgendaBuilder:
     @staticmethod
     def _unassigned_meetings_by_time_slot(
         unassigned_meetings: List[UnassignedMeeting],
-    ) -> List[UnassignedMeeting]:
+    ) -> Dict[int, List[UnassignedMeeting]]:
         by_time_slot = defaultdict(list)
         for meeting in unassigned_meetings:
-            time_slot_pk = meeting.pop("proposal__time_slots")
-            by_time_slot[time_slot_pk].append(meeting)
+            by_time_slot[meeting["proposal__time_slots"]].append(meeting)
         return by_time_slot

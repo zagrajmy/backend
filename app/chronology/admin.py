@@ -2,13 +2,13 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional, TypeVar
+from typing import Dict, List, Optional, TypeVar, Union, cast
 
 import pytz
 from django.contrib.admin import ModelAdmin, TabularInline, site
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import ValidationError
-from django.db.models import JSONField, Model, Q, QuerySet
+from django.db.models import JSONField, Model, Q, QuerySet  # type: ignore[attr-defined]
 from django.db.models.fields.related import RelatedField
 from django.forms import CharField, Form, ModelForm
 from django.forms.widgets import HiddenInput
@@ -22,6 +22,7 @@ from django.utils.translation import gettext_lazy as _
 from django_json_widget.widgets import JSONEditorWidget
 from simple_history.admin import SimpleHistoryAdmin
 
+from crowd.models import User
 from notice_board.admin import SphereManagersAdminMixin
 from notice_board.models import Meeting
 
@@ -62,9 +63,8 @@ class RoomInline(TabularInline):
     prepopulated_fields = {"slug": ["name"]}
 
 
-class FestivalAdmin(
-    SphereManagersAdminMixin[Festival], SimpleHistoryAdmin
-):  # pylint: disable=unsubscriptable-object
+# pylint: disable=unsubscriptable-object
+class FestivalAdmin(SphereManagersAdminMixin[Festival], SimpleHistoryAdmin):
     fieldsets = (
         ("Basic info", {"fields": ["sphere", "name", "slug", "settings"]}),
         (
@@ -128,7 +128,7 @@ class FestivalAdmin(
         festival = self.get_queryset(request).get(pk=object_id)
         agenda_builder = FestivalAdmin.agenda_builder_class(
             agenda_items=list(festival.agenda_items()),
-            rooms=list(festival.rooms.all()),
+            rooms=list(festival.rooms.values_list("name", flat=True)),
             time_slots=list(festival.time_slots.all()),
             unassigned_meetings=list(
                 Meeting.objects.filter(
@@ -165,13 +165,14 @@ class ProposalInline(TabularInline):
         "time_slots",
     )
 
-    def has_add_permission(self, request: HttpRequest, obj: Proposal) -> bool:
+    def has_add_permission(  # type: ignore[override]
+        self, request: HttpRequest, obj: Proposal
+    ) -> bool:
         return False
 
 
-class WaitListAdmin(
-    SphereManagersAdminMixin[WaitList], ModelAdmin
-):  # pylint: disable=unsubscriptable-object
+# pylint: disable=unsubscriptable-object
+class WaitListAdmin(SphereManagersAdminMixin[WaitList], ModelAdmin):
     inlines = [ProposalInline]
     list_display = ("name", "slug", "festival")
     list_filter = ("festival",)
@@ -182,9 +183,8 @@ class ProposalTimeSlotInline(TabularInline):
     model = Proposal.time_slots.through
 
 
-class ProposalAdmin(
-    SphereManagersAdminMixin[Proposal], ModelAdmin
-):  # pylint: disable=unsubscriptable-object
+# pylint: disable=unsubscriptable-object
+class ProposalAdmin(SphereManagersAdminMixin[Proposal], ModelAdmin):
     inlines = [ProposalTimeSlotInline]
     formfield_overrides = {JSONField: {"widget": JSONEditorWidget}}
     list_display = (
@@ -221,7 +221,7 @@ class ProposalAdmin(
             proposal.meeting = Meeting.objects.create(
                 description=proposal.description,
                 name=proposal.name,
-                organizer=proposal.speaker_user or request.user,
+                organizer=proposal.speaker_user or cast(User, request.user),
                 publication_time=proposal.waitlist.festival.start_publication,
                 sphere=sphere,
             )
@@ -230,7 +230,9 @@ class ProposalAdmin(
             accepted += 1
         self.message_user(request, _(f"Total processed: {total}, accepted: {accepted}"))
 
-    accept_proposals.short_description = _("Accept Proposals")  # type: ignore
+    accept_proposals.short_description = _(  # type: ignore[attr-defined]
+        "Accept Proposals"
+    )
 
 
 class AgendaItemForm(ModelForm):
@@ -247,7 +249,7 @@ class AgendaItemForm(ModelForm):
             "room",
         ]
 
-    def clean(self) -> Dict[str, Any]:
+    def clean(self) -> Dict[str, Union[bool, Helper, Meeting, Room, str]]:
         cleaned_data = super().clean()
         start = self._get_hour(cleaned_data.get("hour"))
         proposal = cleaned_data["meeting"].proposal
@@ -290,7 +292,7 @@ class AgendaItemForm(ModelForm):
 
     def _get_hour(self, cleaned_hour: Optional[str]) -> datetime:
         if self.instance and self.instance.pk:
-            return self.instance.meeting.start_time
+            return cast(datetime, self.instance.meeting.start_time)
 
         if cleaned_hour:
             return strphour(cleaned_hour)
@@ -298,9 +300,8 @@ class AgendaItemForm(ModelForm):
         raise ValidationError(_("Missing hour field value"))
 
 
-class AgendaItemAdmin(
-    SphereManagersAdminMixin[AgendaItem], ModelAdmin
-):  # pylint: disable=unsubscriptable-object
+# pylint: disable=unsubscriptable-object
+class AgendaItemAdmin(SphereManagersAdminMixin[AgendaItem], ModelAdmin):
     list_display = (
         "room",
         "meeting",
@@ -376,7 +377,9 @@ class AgendaItemAdmin(
             location=obj.room.name,
         )
 
-    def delete_model(self, request: HttpRequest, obj: AgendaItem) -> None:
+    def delete_model(  # type: ignore[override]
+        self, request: HttpRequest, obj: AgendaItem
+    ) -> None:
         Meeting.objects.filter(id=obj.meeting.id).update(
             start_time=None,
             end_time=None,
@@ -386,9 +389,8 @@ class AgendaItemAdmin(
         super().delete_model(request, obj)
 
 
-class HelperAdmin(
-    SphereManagersAdminMixin[Helper], ModelAdmin
-):  # pylint: disable=unsubscriptable-object
+# pylint: disable=unsubscriptable-object
+class HelperAdmin(SphereManagersAdminMixin[Helper], ModelAdmin):
     list_display = ("user",)
     list_filter = ("festival",)
 

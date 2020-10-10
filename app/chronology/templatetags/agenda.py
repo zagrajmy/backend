@@ -31,7 +31,7 @@ def _get_modify_link(action: str) -> str:
 
 
 @register.inclusion_tag("admin/widgets/related_widget_wrapper.html")
-def agenda_cell(
+def agenda_cell(  # type:ignore[misc]
     room: Room, hour: datetime, agenda_item: Optional[AgendaItem] = None
 ) -> AgendaCellContext:
     formatted_hour = hour.astimezone(pytz.UTC).strftime(URL_HOUR_FORMAT)

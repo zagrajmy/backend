@@ -1,13 +1,13 @@
 """Zagrajmy root url config."""
 
-from typing import List
+from typing import List, Union
 
 from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import URLPattern, include, path
+from django.urls import URLPattern, URLResolver, include, path
 
-urlpatterns: List[URLPattern] = [
+urlpatterns: List[Union[URLPattern, URLResolver]] = [
     path("admin/", admin.site.urls),
     path("v1/", include(("zagrajmy.urls_v1", "v1"), namespace="v1")),
 ]
