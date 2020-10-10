@@ -83,6 +83,10 @@ lint-mypy:
 
 lint: lint-check lint-black lint-isort lint-pycodestyle lint-bandit lint-mypy lint-pylint
 
+# General
+
+prcheck: install-dev format lint test-cov graph messages
+
 # Docker
 
 graph:

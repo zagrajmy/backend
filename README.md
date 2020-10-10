@@ -78,7 +78,8 @@ Uses the default Django development server.
 
    For example, before creating a pull requests make sure you ran locally:
    `make install-dev format lint test-cov graph messages`
-   (And check if there are no missing transactions).
+   (And check if there are no missing transactions) or simply:
+   `make prcheck`.
 
 
 1. Aliases for docker commands
