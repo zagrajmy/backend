@@ -1,5 +1,0 @@
-- args:
-    table:
-      name: django_site
-      schema: public
-  type: untrack_table

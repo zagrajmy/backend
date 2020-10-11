@@ -1,7 +1,0 @@
-- args:
-    name: nb_sphere_managers
-    new_name: managed_spheres
-    table:
-      name: cr_user
-      schema: public
-  type: rename_relationship
