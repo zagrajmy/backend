@@ -7,6 +7,10 @@ urlpatterns = [
         "chronology/", include(("chronology.urls_v1", "crowd"), namespace="chronology")
     ),
     path(
+        "notice_board/",
+        include(("notice_board.urls_v1", "notice_board"), namespace="notice_board"),
+    ),
+    path(
         "openapi",
         get_schema_view(title="Zagrajmy", version="1.0.0"),
         name="openapi-schema",

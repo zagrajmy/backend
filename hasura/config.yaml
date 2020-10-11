@@ -1,1 +1,6 @@
-admin_secret: dev_only_password
+version: 2
+endpoint: http://localhost:8081
+metadata_directory: metadata
+actions:
+  kind: synchronous
+  handler_webhook_baseurl: http://localhost:3000
