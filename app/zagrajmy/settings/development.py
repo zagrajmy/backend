@@ -1,7 +1,7 @@
 # pylint: disable=unused-wildcard-import
 import os
 
-from zagrajmy.settings.base import *  # pylint: disable=wildcard-import
+from .base import *  # pylint: disable=wildcard-import
 
 DEBUG = True
 

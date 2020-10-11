@@ -3,7 +3,7 @@ from typing import List
 from django.urls.resolvers import URLPattern
 from rest_framework import routers
 
-from chronology.views import ProposalAPIView
+from .views import ProposalAPIView
 
 router: routers.SimpleRouter = routers.SimpleRouter()
 
