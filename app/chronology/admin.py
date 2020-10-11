@@ -22,18 +22,11 @@ from django.utils.translation import gettext_lazy as _
 from django_json_widget.widgets import JSONEditorWidget
 from simple_history.admin import SimpleHistoryAdmin
 
-from chronology.agenda_builder import AgendaBuilder
-from chronology.models import (
-    AgendaItem,
-    Festival,
-    Helper,
-    Proposal,
-    Room,
-    TimeSlot,
-    WaitList,
-)
 from notice_board.admin import SphereManagersAdminMixin
 from notice_board.models import Meeting
+
+from .agenda_builder import AgendaBuilder
+from .models import AgendaItem, Festival, Helper, Proposal, Room, TimeSlot, WaitList
 
 ModelVar = TypeVar("ModelVar", bound=Model)
 

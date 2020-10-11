@@ -6,8 +6,8 @@ from django import template
 from django.template.loader import render_to_string
 from django.urls import reverse
 
-from chronology.admin import URL_HOUR_FORMAT
-from chronology.models import AgendaItem, Room
+from ..admin import URL_HOUR_FORMAT
+from ..models import AgendaItem, Room
 
 register = template.Library()
 
