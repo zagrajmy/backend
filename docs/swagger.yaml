@@ -1,0 +1,1533 @@
+openapi: 3.0.2
+info:
+  title: ''
+  version: ''
+paths:
+  /v1/crowd/users/:
+    get:
+      operationId: listUsers
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    first_name:
+                      type: string
+                      maxLength: 150
+                    last_name:
+                      type: string
+                      maxLength: 150
+                    locale:
+                      type: string
+                      maxLength: 20
+                    auth0_id:
+                      type: string
+                      maxLength: 255
+                    username:
+                      type: string
+                      description: Required. 150 characters or fewer. Letters, digits
+                        and @/./+/-/_ only.
+                      pattern: ^[\w.@+-]+\Z
+                      maxLength: 150
+                    uuid:
+                      type: string
+                      format: uuid
+                      readOnly: true
+                    email:
+                      type: string
+                      format: email
+                      readOnly: true
+                    date_joined:
+                      type: string
+                      format: date-time
+                      readOnly: true
+                    last_login:
+                      type: string
+                      format: date-time
+                      readOnly: true
+                  required:
+                  - username
+          description: ''
+    post:
+      operationId: createUser
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: &id001
+              properties:
+                first_name:
+                  type: string
+                  maxLength: 150
+                last_name:
+                  type: string
+                  maxLength: 150
+                locale:
+                  type: string
+                  maxLength: 20
+                auth0_id:
+                  type: string
+                  maxLength: 255
+                username:
+                  type: string
+                  description: Required. 150 characters or fewer. Letters, digits
+                    and @/./+/-/_ only.
+                  pattern: ^[\w.@+-]+\Z
+                  maxLength: 150
+              required:
+              - username
+          application/x-www-form-urlencoded:
+            schema: *id001
+          multipart/form-data:
+            schema: *id001
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  first_name:
+                    type: string
+                    maxLength: 150
+                  last_name:
+                    type: string
+                    maxLength: 150
+                  locale:
+                    type: string
+                    maxLength: 20
+                  auth0_id:
+                    type: string
+                    maxLength: 255
+                  username:
+                    type: string
+                    description: Required. 150 characters or fewer. Letters, digits
+                      and @/./+/-/_ only.
+                    pattern: ^[\w.@+-]+\Z
+                    maxLength: 150
+                  uuid:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  email:
+                    type: string
+                    format: email
+                    readOnly: true
+                  date_joined:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  last_login:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                required:
+                - username
+          description: ''
+  /v1/crowd/users/{uuid}/:
+    get:
+      operationId: retrieveUser
+      description: ''
+      parameters:
+      - name: uuid
+        in: path
+        required: true
+        description: A UUID string identifying this user.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  first_name:
+                    type: string
+                    maxLength: 150
+                  last_name:
+                    type: string
+                    maxLength: 150
+                  locale:
+                    type: string
+                    maxLength: 20
+                  auth0_id:
+                    type: string
+                    maxLength: 255
+                  username:
+                    type: string
+                    description: Required. 150 characters or fewer. Letters, digits
+                      and @/./+/-/_ only.
+                    pattern: ^[\w.@+-]+\Z
+                    maxLength: 150
+                  uuid:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  email:
+                    type: string
+                    format: email
+                    readOnly: true
+                  date_joined:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  last_login:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                required:
+                - username
+          description: ''
+    put:
+      operationId: updateUser
+      description: ''
+      parameters:
+      - name: uuid
+        in: path
+        required: true
+        description: A UUID string identifying this user.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id002
+              properties:
+                first_name:
+                  type: string
+                  maxLength: 150
+                last_name:
+                  type: string
+                  maxLength: 150
+                locale:
+                  type: string
+                  maxLength: 20
+                auth0_id:
+                  type: string
+                  maxLength: 255
+                username:
+                  type: string
+                  description: Required. 150 characters or fewer. Letters, digits
+                    and @/./+/-/_ only.
+                  pattern: ^[\w.@+-]+\Z
+                  maxLength: 150
+              required:
+              - username
+          application/x-www-form-urlencoded:
+            schema: *id002
+          multipart/form-data:
+            schema: *id002
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  first_name:
+                    type: string
+                    maxLength: 150
+                  last_name:
+                    type: string
+                    maxLength: 150
+                  locale:
+                    type: string
+                    maxLength: 20
+                  auth0_id:
+                    type: string
+                    maxLength: 255
+                  username:
+                    type: string
+                    description: Required. 150 characters or fewer. Letters, digits
+                      and @/./+/-/_ only.
+                    pattern: ^[\w.@+-]+\Z
+                    maxLength: 150
+                  uuid:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  email:
+                    type: string
+                    format: email
+                    readOnly: true
+                  date_joined:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  last_login:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                required:
+                - username
+          description: ''
+    patch:
+      operationId: partial_updateUser
+      description: ''
+      parameters:
+      - name: uuid
+        in: path
+        required: true
+        description: A UUID string identifying this user.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id003
+              properties:
+                first_name:
+                  type: string
+                  maxLength: 150
+                last_name:
+                  type: string
+                  maxLength: 150
+                locale:
+                  type: string
+                  maxLength: 20
+                auth0_id:
+                  type: string
+                  maxLength: 255
+                username:
+                  type: string
+                  description: Required. 150 characters or fewer. Letters, digits
+                    and @/./+/-/_ only.
+                  pattern: ^[\w.@+-]+\Z
+                  maxLength: 150
+          application/x-www-form-urlencoded:
+            schema: *id003
+          multipart/form-data:
+            schema: *id003
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  first_name:
+                    type: string
+                    maxLength: 150
+                  last_name:
+                    type: string
+                    maxLength: 150
+                  locale:
+                    type: string
+                    maxLength: 20
+                  auth0_id:
+                    type: string
+                    maxLength: 255
+                  username:
+                    type: string
+                    description: Required. 150 characters or fewer. Letters, digits
+                      and @/./+/-/_ only.
+                    pattern: ^[\w.@+-]+\Z
+                    maxLength: 150
+                  uuid:
+                    type: string
+                    format: uuid
+                    readOnly: true
+                  email:
+                    type: string
+                    format: email
+                    readOnly: true
+                  date_joined:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  last_login:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                required:
+                - username
+          description: ''
+    delete:
+      operationId: destroyUser
+      description: ''
+      parameters:
+      - name: uuid
+        in: path
+        required: true
+        description: A UUID string identifying this user.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+  /v1/notice_board/meeting/:
+    get:
+      operationId: listMeetings
+      description: ''
+      parameters: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: integer
+                      readOnly: true
+                    created_at:
+                      type: string
+                      format: date-time
+                      readOnly: true
+                    description:
+                      type: string
+                    name:
+                      type: string
+                      maxLength: 255
+                    slug:
+                      type: string
+                      maxLength: 50
+                      pattern: ^[-a-zA-Z0-9_]+$
+                    updated_at:
+                      type: string
+                      format: date-time
+                      readOnly: true
+                    end_time:
+                      type: string
+                      format: date-time
+                      nullable: true
+                    image:
+                      type: string
+                      format: binary
+                      nullable: true
+                    location:
+                      type: string
+                    meeting_url:
+                      type: string
+                      format: uri
+                      maxLength: 200
+                      pattern: "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+                        d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\\
+                        [[0-9a-f:.]+\\]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1\
+                        -\uFFFF0-9])?(?:\\.(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\\
+                        .(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+                        .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\Z"
+                    participants_limit:
+                      type: integer
+                      maximum: 2147483647
+                      minimum: -2147483648
+                    publication_time:
+                      type: string
+                      format: date-time
+                      nullable: true
+                    start_time:
+                      type: string
+                      format: date-time
+                      nullable: true
+                    status:
+                      type: string
+                      readOnly: true
+                    guild:
+                      type: integer
+                      nullable: true
+                    organizer:
+                      type: string
+                    sphere:
+                      type: integer
+                    participants:
+                      type: array
+                      items:
+                        type: string
+                      readOnly: true
+                  required:
+                  - name
+                  - slug
+                  - organizer
+                  - sphere
+          description: ''
+    post:
+      operationId: createMeeting
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: &id004
+              properties:
+                description:
+                  type: string
+                name:
+                  type: string
+                  maxLength: 255
+                slug:
+                  type: string
+                  maxLength: 50
+                  pattern: ^[-a-zA-Z0-9_]+$
+                end_time:
+                  type: string
+                  format: date-time
+                  nullable: true
+                image:
+                  type: string
+                  format: binary
+                  nullable: true
+                location:
+                  type: string
+                meeting_url:
+                  type: string
+                  format: uri
+                  maxLength: 200
+                  pattern: "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+                    d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\\
+                    [[0-9a-f:.]+\\]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1\
+                    -\uFFFF0-9])?(?:\\.(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z\xA1\
+                    -\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\.?|localhost))(?::\\\
+                    d{2,5})?(?:[/?#][^\\s]*)?\\Z"
+                participants_limit:
+                  type: integer
+                  maximum: 2147483647
+                  minimum: -2147483648
+                publication_time:
+                  type: string
+                  format: date-time
+                  nullable: true
+                start_time:
+                  type: string
+                  format: date-time
+                  nullable: true
+                guild:
+                  type: integer
+                  nullable: true
+                organizer:
+                  type: string
+                sphere:
+                  type: integer
+              required:
+              - name
+              - slug
+              - organizer
+              - sphere
+          application/x-www-form-urlencoded:
+            schema: *id004
+          multipart/form-data:
+            schema: *id004
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  created_at:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  description:
+                    type: string
+                  name:
+                    type: string
+                    maxLength: 255
+                  slug:
+                    type: string
+                    maxLength: 50
+                    pattern: ^[-a-zA-Z0-9_]+$
+                  updated_at:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  end_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  image:
+                    type: string
+                    format: binary
+                    nullable: true
+                  location:
+                    type: string
+                  meeting_url:
+                    type: string
+                    format: uri
+                    maxLength: 200
+                    pattern: "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+                      d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\\
+                      [[0-9a-f:.]+\\]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1\
+                      -\uFFFF0-9])?(?:\\.(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\\
+                      .(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+                      .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\Z"
+                  participants_limit:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  publication_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  start_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  status:
+                    type: string
+                    readOnly: true
+                  guild:
+                    type: integer
+                    nullable: true
+                  organizer:
+                    type: string
+                  sphere:
+                    type: integer
+                  participants:
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
+                required:
+                - name
+                - slug
+                - organizer
+                - sphere
+          description: ''
+  /v1/notice_board/meeting/{id}/:
+    get:
+      operationId: retrieveMeeting
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this meeting.
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  created_at:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  description:
+                    type: string
+                  name:
+                    type: string
+                    maxLength: 255
+                  slug:
+                    type: string
+                    maxLength: 50
+                    pattern: ^[-a-zA-Z0-9_]+$
+                  updated_at:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  end_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  image:
+                    type: string
+                    format: binary
+                    nullable: true
+                  location:
+                    type: string
+                  meeting_url:
+                    type: string
+                    format: uri
+                    maxLength: 200
+                    pattern: "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+                      d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\\
+                      [[0-9a-f:.]+\\]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1\
+                      -\uFFFF0-9])?(?:\\.(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\\
+                      .(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+                      .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\Z"
+                  participants_limit:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  publication_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  start_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  status:
+                    type: string
+                    readOnly: true
+                  guild:
+                    type: integer
+                    nullable: true
+                  organizer:
+                    type: string
+                  sphere:
+                    type: integer
+                  participants:
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
+                required:
+                - name
+                - slug
+                - organizer
+                - sphere
+          description: ''
+    put:
+      operationId: updateMeeting
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this meeting.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id005
+              properties:
+                description:
+                  type: string
+                name:
+                  type: string
+                  maxLength: 255
+                slug:
+                  type: string
+                  maxLength: 50
+                  pattern: ^[-a-zA-Z0-9_]+$
+                end_time:
+                  type: string
+                  format: date-time
+                  nullable: true
+                image:
+                  type: string
+                  format: binary
+                  nullable: true
+                location:
+                  type: string
+                meeting_url:
+                  type: string
+                  format: uri
+                  maxLength: 200
+                  pattern: "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+                    d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\\
+                    [[0-9a-f:.]+\\]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1\
+                    -\uFFFF0-9])?(?:\\.(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z\xA1\
+                    -\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\.?|localhost))(?::\\\
+                    d{2,5})?(?:[/?#][^\\s]*)?\\Z"
+                participants_limit:
+                  type: integer
+                  maximum: 2147483647
+                  minimum: -2147483648
+                publication_time:
+                  type: string
+                  format: date-time
+                  nullable: true
+                start_time:
+                  type: string
+                  format: date-time
+                  nullable: true
+                guild:
+                  type: integer
+                  nullable: true
+                organizer:
+                  type: string
+                sphere:
+                  type: integer
+              required:
+              - name
+              - slug
+              - organizer
+              - sphere
+          application/x-www-form-urlencoded:
+            schema: *id005
+          multipart/form-data:
+            schema: *id005
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  created_at:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  description:
+                    type: string
+                  name:
+                    type: string
+                    maxLength: 255
+                  slug:
+                    type: string
+                    maxLength: 50
+                    pattern: ^[-a-zA-Z0-9_]+$
+                  updated_at:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  end_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  image:
+                    type: string
+                    format: binary
+                    nullable: true
+                  location:
+                    type: string
+                  meeting_url:
+                    type: string
+                    format: uri
+                    maxLength: 200
+                    pattern: "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+                      d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\\
+                      [[0-9a-f:.]+\\]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1\
+                      -\uFFFF0-9])?(?:\\.(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\\
+                      .(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+                      .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\Z"
+                  participants_limit:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  publication_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  start_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  status:
+                    type: string
+                    readOnly: true
+                  guild:
+                    type: integer
+                    nullable: true
+                  organizer:
+                    type: string
+                  sphere:
+                    type: integer
+                  participants:
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
+                required:
+                - name
+                - slug
+                - organizer
+                - sphere
+          description: ''
+    patch:
+      operationId: partial_updateMeeting
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this meeting.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id006
+              properties:
+                description:
+                  type: string
+                name:
+                  type: string
+                  maxLength: 255
+                slug:
+                  type: string
+                  maxLength: 50
+                  pattern: ^[-a-zA-Z0-9_]+$
+                end_time:
+                  type: string
+                  format: date-time
+                  nullable: true
+                image:
+                  type: string
+                  format: binary
+                  nullable: true
+                location:
+                  type: string
+                meeting_url:
+                  type: string
+                  format: uri
+                  maxLength: 200
+                  pattern: "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+                    d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\\
+                    [[0-9a-f:.]+\\]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1\
+                    -\uFFFF0-9])?(?:\\.(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z\xA1\
+                    -\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\.?|localhost))(?::\\\
+                    d{2,5})?(?:[/?#][^\\s]*)?\\Z"
+                participants_limit:
+                  type: integer
+                  maximum: 2147483647
+                  minimum: -2147483648
+                publication_time:
+                  type: string
+                  format: date-time
+                  nullable: true
+                start_time:
+                  type: string
+                  format: date-time
+                  nullable: true
+                guild:
+                  type: integer
+                  nullable: true
+                organizer:
+                  type: string
+                sphere:
+                  type: integer
+          application/x-www-form-urlencoded:
+            schema: *id006
+          multipart/form-data:
+            schema: *id006
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  created_at:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  description:
+                    type: string
+                  name:
+                    type: string
+                    maxLength: 255
+                  slug:
+                    type: string
+                    maxLength: 50
+                    pattern: ^[-a-zA-Z0-9_]+$
+                  updated_at:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  end_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  image:
+                    type: string
+                    format: binary
+                    nullable: true
+                  location:
+                    type: string
+                  meeting_url:
+                    type: string
+                    format: uri
+                    maxLength: 200
+                    pattern: "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+                      d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\\
+                      [[0-9a-f:.]+\\]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1\
+                      -\uFFFF0-9])?(?:\\.(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\\
+                      .(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+                      .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\Z"
+                  participants_limit:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  publication_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  start_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  status:
+                    type: string
+                    readOnly: true
+                  guild:
+                    type: integer
+                    nullable: true
+                  organizer:
+                    type: string
+                  sphere:
+                    type: integer
+                  participants:
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
+                required:
+                - name
+                - slug
+                - organizer
+                - sphere
+          description: ''
+    delete:
+      operationId: destroyMeeting
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this meeting.
+        schema:
+          type: string
+      responses:
+        '204':
+          description: ''
+  /v1/chronology/proposals/:
+    post:
+      operationId: createProposal
+      description: ''
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: &id007
+              properties:
+                speaker_name:
+                  type: string
+                  maxLength: 255
+                name:
+                  type: string
+                  maxLength: 255
+                description:
+                  type: string
+                duration_minutes:
+                  type: integer
+                  maximum: 2147483647
+                  minimum: 0
+                city:
+                  type: string
+                  maxLength: 255
+                club:
+                  type: string
+                  maxLength: 255
+                status:
+                  enum:
+                  - CREATED
+                  - ACCEPTED
+                  - REJECTED
+                needs:
+                  type: string
+                other_contact:
+                  type: string
+                other_data:
+                  type: string
+                phone:
+                  type: string
+                  maxLength: 255
+                topic:
+                  type: string
+                  maxLength: 255
+                meeting:
+                  type: integer
+                  nullable: true
+                waitlist:
+                  type: integer
+                speaker_user:
+                  type: string
+                  nullable: true
+                time_slots:
+                  type: array
+                  items:
+                    type: integer
+              required:
+              - name
+              - duration_minutes
+              - waitlist
+              - time_slots
+          application/x-www-form-urlencoded:
+            schema: *id007
+          multipart/form-data:
+            schema: *id007
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  speaker_name:
+                    type: string
+                    maxLength: 255
+                  name:
+                    type: string
+                    maxLength: 255
+                  description:
+                    type: string
+                  duration_minutes:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: 0
+                  city:
+                    type: string
+                    maxLength: 255
+                  club:
+                    type: string
+                    maxLength: 255
+                  status:
+                    enum:
+                    - CREATED
+                    - ACCEPTED
+                    - REJECTED
+                  needs:
+                    type: string
+                  other_contact:
+                    type: string
+                  other_data:
+                    type: string
+                  phone:
+                    type: string
+                    maxLength: 255
+                  topic:
+                    type: string
+                    maxLength: 255
+                  meeting:
+                    type: integer
+                    nullable: true
+                  waitlist:
+                    type: integer
+                  speaker_user:
+                    type: string
+                    nullable: true
+                  time_slots:
+                    type: array
+                    items:
+                      type: integer
+                required:
+                - name
+                - duration_minutes
+                - waitlist
+                - time_slots
+          description: ''
+  /v1/notice_board/meeting/{id}/add_participant/:
+    post:
+      operationId: add_participantMeeting
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: A unique integer value identifying this meeting.
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id008
+              properties:
+                description:
+                  type: string
+                name:
+                  type: string
+                  maxLength: 255
+                slug:
+                  type: string
+                  maxLength: 50
+                  pattern: ^[-a-zA-Z0-9_]+$
+                end_time:
+                  type: string
+                  format: date-time
+                  nullable: true
+                image:
+                  type: string
+                  format: binary
+                  nullable: true
+                location:
+                  type: string
+                meeting_url:
+                  type: string
+                  format: uri
+                  maxLength: 200
+                  pattern: "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+                    d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\\
+                    [[0-9a-f:.]+\\]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1\
+                    -\uFFFF0-9])?(?:\\.(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z\xA1\
+                    -\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\.?|localhost))(?::\\\
+                    d{2,5})?(?:[/?#][^\\s]*)?\\Z"
+                participants_limit:
+                  type: integer
+                  maximum: 2147483647
+                  minimum: -2147483648
+                publication_time:
+                  type: string
+                  format: date-time
+                  nullable: true
+                start_time:
+                  type: string
+                  format: date-time
+                  nullable: true
+                guild:
+                  type: integer
+                  nullable: true
+                organizer:
+                  type: string
+                sphere:
+                  type: integer
+              required:
+              - name
+              - slug
+              - organizer
+              - sphere
+          application/x-www-form-urlencoded:
+            schema: *id008
+          multipart/form-data:
+            schema: *id008
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  created_at:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  description:
+                    type: string
+                  name:
+                    type: string
+                    maxLength: 255
+                  slug:
+                    type: string
+                    maxLength: 50
+                    pattern: ^[-a-zA-Z0-9_]+$
+                  updated_at:
+                    type: string
+                    format: date-time
+                    readOnly: true
+                  end_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  image:
+                    type: string
+                    format: binary
+                    nullable: true
+                  location:
+                    type: string
+                  meeting_url:
+                    type: string
+                    format: uri
+                    maxLength: 200
+                    pattern: "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+                      d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\\
+                      [[0-9a-f:.]+\\]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1\
+                      -\uFFFF0-9])?(?:\\.(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\\
+                      .(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+                      .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\Z"
+                  participants_limit:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: -2147483648
+                  publication_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  start_time:
+                    type: string
+                    format: date-time
+                    nullable: true
+                  status:
+                    type: string
+                    readOnly: true
+                  guild:
+                    type: integer
+                    nullable: true
+                  organizer:
+                    type: string
+                  sphere:
+                    type: integer
+                  participants:
+                    type: array
+                    items:
+                      type: string
+                    readOnly: true
+                required:
+                - name
+                - slug
+                - organizer
+                - sphere
+          description: ''
+  /v1/chronology/proposals/{id}/:
+    put:
+      operationId: updateProposal
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id009
+              properties:
+                speaker_name:
+                  type: string
+                  maxLength: 255
+                name:
+                  type: string
+                  maxLength: 255
+                description:
+                  type: string
+                duration_minutes:
+                  type: integer
+                  maximum: 2147483647
+                  minimum: 0
+                city:
+                  type: string
+                  maxLength: 255
+                club:
+                  type: string
+                  maxLength: 255
+                status:
+                  enum:
+                  - CREATED
+                  - ACCEPTED
+                  - REJECTED
+                needs:
+                  type: string
+                other_contact:
+                  type: string
+                other_data:
+                  type: string
+                phone:
+                  type: string
+                  maxLength: 255
+                topic:
+                  type: string
+                  maxLength: 255
+                meeting:
+                  type: integer
+                  nullable: true
+                waitlist:
+                  type: integer
+                speaker_user:
+                  type: string
+                  nullable: true
+                time_slots:
+                  type: array
+                  items:
+                    type: integer
+              required:
+              - name
+              - duration_minutes
+              - waitlist
+              - time_slots
+          application/x-www-form-urlencoded:
+            schema: *id009
+          multipart/form-data:
+            schema: *id009
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  speaker_name:
+                    type: string
+                    maxLength: 255
+                  name:
+                    type: string
+                    maxLength: 255
+                  description:
+                    type: string
+                  duration_minutes:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: 0
+                  city:
+                    type: string
+                    maxLength: 255
+                  club:
+                    type: string
+                    maxLength: 255
+                  status:
+                    enum:
+                    - CREATED
+                    - ACCEPTED
+                    - REJECTED
+                  needs:
+                    type: string
+                  other_contact:
+                    type: string
+                  other_data:
+                    type: string
+                  phone:
+                    type: string
+                    maxLength: 255
+                  topic:
+                    type: string
+                    maxLength: 255
+                  meeting:
+                    type: integer
+                    nullable: true
+                  waitlist:
+                    type: integer
+                  speaker_user:
+                    type: string
+                    nullable: true
+                  time_slots:
+                    type: array
+                    items:
+                      type: integer
+                required:
+                - name
+                - duration_minutes
+                - waitlist
+                - time_slots
+          description: ''
+    patch:
+      operationId: partial_updateProposal
+      description: ''
+      parameters:
+      - name: id
+        in: path
+        required: true
+        description: ''
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema: &id010
+              properties:
+                speaker_name:
+                  type: string
+                  maxLength: 255
+                name:
+                  type: string
+                  maxLength: 255
+                description:
+                  type: string
+                duration_minutes:
+                  type: integer
+                  maximum: 2147483647
+                  minimum: 0
+                city:
+                  type: string
+                  maxLength: 255
+                club:
+                  type: string
+                  maxLength: 255
+                status:
+                  enum:
+                  - CREATED
+                  - ACCEPTED
+                  - REJECTED
+                needs:
+                  type: string
+                other_contact:
+                  type: string
+                other_data:
+                  type: string
+                phone:
+                  type: string
+                  maxLength: 255
+                topic:
+                  type: string
+                  maxLength: 255
+                meeting:
+                  type: integer
+                  nullable: true
+                waitlist:
+                  type: integer
+                speaker_user:
+                  type: string
+                  nullable: true
+                time_slots:
+                  type: array
+                  items:
+                    type: integer
+          application/x-www-form-urlencoded:
+            schema: *id010
+          multipart/form-data:
+            schema: *id010
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    readOnly: true
+                  speaker_name:
+                    type: string
+                    maxLength: 255
+                  name:
+                    type: string
+                    maxLength: 255
+                  description:
+                    type: string
+                  duration_minutes:
+                    type: integer
+                    maximum: 2147483647
+                    minimum: 0
+                  city:
+                    type: string
+                    maxLength: 255
+                  club:
+                    type: string
+                    maxLength: 255
+                  status:
+                    enum:
+                    - CREATED
+                    - ACCEPTED
+                    - REJECTED
+                  needs:
+                    type: string
+                  other_contact:
+                    type: string
+                  other_data:
+                    type: string
+                  phone:
+                    type: string
+                    maxLength: 255
+                  topic:
+                    type: string
+                    maxLength: 255
+                  meeting:
+                    type: integer
+                    nullable: true
+                  waitlist:
+                    type: integer
+                  speaker_user:
+                    type: string
+                    nullable: true
+                  time_slots:
+                    type: array
+                    items:
+                      type: integer
+                required:
+                - name
+                - duration_minutes
+                - waitlist
+                - time_slots
+          description: ''

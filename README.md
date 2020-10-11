@@ -113,7 +113,7 @@ python app/manage.py createsuperuser
 You can open Hasura Console with
 
 ```
-sh hasura/console.sh
+bash hasura/console.sh
 ```
 
 #### Opening Hasura Console offline
