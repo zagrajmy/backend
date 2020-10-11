@@ -162,7 +162,13 @@ class Meeting(DescribedModel, ComputedFieldsModel):  # type: ignore[misc]
         verbose_name=_("organizer"),
     )
     participants = models.ManyToManyField(
-        User, related_name="participated_meetings", verbose_name=_("participants")
+        User,
+        related_name="participated_meetings",
+        verbose_name=_("participants"),
+        through="MeetingParticipant",
+    )
+    participants_limit = models.IntegerField(
+        blank=True, null=True, default=0, verbose_name=_("participants limit")
     )
     publication_time = models.DateTimeField(
         blank=True, null=True, verbose_name=_("publication time")
@@ -225,3 +231,24 @@ class Meeting(DescribedModel, ComputedFieldsModel):  # type: ignore[misc]
         if not self.slug:
             self.slug = self._get_unique_slug("sphere")
         super().save(force_insert, force_update, using, update_fields)
+
+
+class MeetingParticipant(models.Model):
+    class Meta:
+        unique_together = [
+            ("meeting", "user"),
+        ]
+        db_table = "nb_meeting_participant"
+
+    CONFIRMED = "CONFIRMED"
+    WAITING = "WAITING"
+    CONFIRM_CHOICES = [
+        (CONFIRMED, "Confirmed"),
+        (WAITING, "Waiting"),
+    ]
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("created at"))
+    meeting = models.ForeignKey(Meeting, models.CASCADE)
+    status = models.CharField(max_length=15, choices=CONFIRM_CHOICES)
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_("updated at"))
+    user = models.ForeignKey(User, models.CASCADE)
