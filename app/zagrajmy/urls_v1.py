@@ -4,7 +4,8 @@ from rest_framework.schemas import get_schema_view
 urlpatterns = [
     path("crowd/", include(("crowd.urls_v1", "crowd"), namespace="crowd")),
     path(
-        "chronology/", include(("chronology.urls_v1", "crowd"), namespace="chronology")
+        "chronology/",
+        include(("chronology.urls_v1", "chronology"), namespace="chronology"),
     ),
     path(
         "notice_board/",

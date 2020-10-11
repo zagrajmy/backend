@@ -190,14 +190,11 @@ class Meeting(DescribedModel, ComputedFieldsModel):  # type: ignore[misc]
                 name="meeting_unique_slug_in_sphere",
             ),
             models.CheckConstraint(
-                check=Q(
-                    publication_time__isnull=True,
-                    start_time__isnull=True,
-                    end_time__isnull=True,
-                )
+                check=Q(publication_time__isnull=True)
+                | Q(start_time__isnull=True)
+                | Q(end_time__isnull=True)
                 | Q(
-                    publication_time__lte=F("start_time"),
-                    start_time__lt=F("end_time"),
+                    publication_time__lte=F("start_time"), start_time__lt=F("end_time")
                 ),
                 name="meeting_date_times",
             ),
@@ -233,7 +230,7 @@ class Meeting(DescribedModel, ComputedFieldsModel):  # type: ignore[misc]
         super().save(force_insert, force_update, using, update_fields)
 
 
-class MeetingParticipant(models.Model):
+class MeetingParticipant(models.Model):  # type: ignore[misc]
     class Meta:
         unique_together = [
             ("meeting", "user"),
