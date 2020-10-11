@@ -1,5 +1,0 @@
-- args:
-    table:
-      name: ch_helper_time_slots
-      schema: public
-  type: untrack_table

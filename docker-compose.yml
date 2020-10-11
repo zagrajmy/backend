@@ -28,7 +28,7 @@ services:
     environment:
       - DJANGO_SETTINGS_MODULE=zagrajmy.settings.development
   graphql-engine:
-    image: hasura/graphql-engine:v1.2.2.cli-migrations
+    image: hasura/graphql-engine:v1.3.2.cli-migrations-v2
     ports:
       - 8081:8080
     depends_on:
@@ -38,7 +38,7 @@ services:
     env_file:
       - ./compose/development/.env.hasura
     volumes:
-      - ./hasura/migrations:/hasura-migrations
+      - ./hasura/metadata:/hasura-metadata
 
 volumes:
   postgres_data:
