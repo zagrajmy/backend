@@ -22,7 +22,7 @@ from simple_history.admin import SimpleHistoryAdmin
 from chronology.models import AgendaItem
 from crowd.models import User
 
-from .models import Guild, GuildMember, Meeting, Sphere
+from .models import Guild, GuildMember, Meeting, MeetingParticipant, Sphere
 
 with open("app/chronology/json_schema/festival-settings.json", "r") as schema_fd:
     SETTINGS_JSON_SCHEMA = json.loads(schema_fd.read())
@@ -139,6 +139,10 @@ class GuildAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ["name"]}
 
 
+class MeetingParticipantsInline(admin.TabularInline):
+    model = MeetingParticipant
+
+
 class MeetingAdmin(
     SphereManagersAdminMixin[Meeting], admin.ModelAdmin
 ):  # pylint: disable=unsubscriptable-object
@@ -176,7 +180,6 @@ class MeetingAdmin(
                 )
             },
         ),
-        ("Participants", {"fields": ("participants",)}),
     )
     list_display = (
         "name",
@@ -200,6 +203,7 @@ class MeetingAdmin(
         "updated_at",
     )
     prepopulated_fields = {"slug": ["name"]}
+    inlines = (MeetingParticipantsInline,)
 
 
 class SphereAdmin(

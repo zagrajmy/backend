@@ -1,7 +1,0 @@
-- args:
-    name: guild
-    new_name: nb_guild
-    table:
-      name: nb_meeting
-      schema: public
-  type: rename_relationship

@@ -1,6 +1,0 @@
-- args:
-    relationship: meeting
-    table:
-      name: ch_proposal
-      schema: public
-  type: drop_relationship
