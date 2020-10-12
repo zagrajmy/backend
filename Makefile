@@ -44,7 +44,7 @@ behave-dev:
 	django-admin behave --stop -vv tests/functional
 
 pytest-dev:
-	pytest --cov -vv -x
+	pytest --cov -svvx
 
 
 # FORMATTING
