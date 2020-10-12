@@ -18,3 +18,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deploy on prod only after published release
 - Fix type hints
 - Added `email` field to `users` API
+- Rewritten API tests
