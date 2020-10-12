@@ -13,10 +13,11 @@ class TestCrowd(APITestCase):
         res = self.client.post(
             self.users_url,
             data={
+                "auth0_id": "test_token",
+                "email": "mszczuj@skrzynno.com",
                 "first_name": "Mszczuj",
                 "last_name": "ze Skrzynna",
                 "locale": "en-GB",
-                "auth0_id": "test_token",
                 "username": "panMszczuj",
             },
         )
@@ -27,6 +28,7 @@ class TestCrowd(APITestCase):
         self.assertEqual(user.locale, "en-GB")
         self.assertEqual(user.auth0_id, "test_token")
         self.assertEqual(user.username, "panMszczuj")
+        self.assertEqual(user.email, "mszczuj@skrzynno.com")
 
     @freeze_time("2020-07-04")
     def test_get(self):
