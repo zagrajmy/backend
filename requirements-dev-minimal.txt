@@ -22,5 +22,4 @@ pytest-cov
 pytest-django
 pyyaml
 requirements-tools
-tox
 uritemplate

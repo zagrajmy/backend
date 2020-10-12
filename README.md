@@ -1,4 +1,4 @@
-![Tox (tests and lint)](<https://github.com/zagrajmy/backend/workflows/Tox%20(tests%20and%20lint)/badge.svg?branch=master>)
+![Run linters and tests](https://github.com/zagrajmy/backend/workflows/Run%20linters%20and%20tests/badge.svg)
 
 # Dockerizing Django with Postgres, Gunicorn, Nginx, and Hasura
 
@@ -23,30 +23,64 @@ Uses the default Django development server.
    Test it out at [http://localhost:8000](http://localhost:8000). The "app" folder is mounted into the container and your code changes apply automatically.
    The Hasura interface for local development startsby default at [http://localhost:8080](http://localhost:8080).
 
-1. You could use make or tox to run commands in local environment on docker:
+1. You may use make to run commands in local environment on docker:
 
-   1. Make
+   Make commands are divided into two types: particles and actions. Particles are usually single line commands with names in form: `<catgory>-<name>`, which might be hard to remember.
 
-      `make` runs scripts in current virtual environment. Make sure you have one before you'll use it.
+   That's we there are also actions, with easy to remember names and grouping particle commands into workflows.
 
-      Make commands:
+   1. Install
 
-      - devinst - install all packages required for development tools
-      - test - run pytest with coverage
-      - lint - run lint tools (only check)
-      - format - run formatting tools (will modify files)
+      - inst-prod - installs only production requirements
+      - inst-dev - installs only development requirements
+      - inst-pip - installs/upgrades pip
+      - inst-upg - upgrades both requirement files
+      - install-prod - upgrade pip and install production requirements
+      - install-dev - upgrade pip, install production and development requirements
+      - upgrade - upgrade requiement files and install-dev
+
+   1. Testing
+
+      - test-unit - runs python unit tests
+      - tst-unit-cov - runs python unit tests with coverage
+      - test-behave - runs behave tests
+      - test-behave-cov - runs behave tests with coverage
+      - test - run all tests
+      - test-cov - run all tests with coverage
+      - behave-dev - run behave tests in dev mode*
+      - pytest-dev - run unit tests in dev mode*
+
+      * - more verbosity and stop on first fail
+
+   1. Formatting
+
+      - fmt-black - formats code using black
+      - fmt-isort - sorts imports in code
+      - format - runs both of above operations
 
       **Attention!** Don't run `format` command inside docker!
 
-   2. Tox
+   1. Linting
 
-      `tox` uses make commands, but creates a virtualenv i `.tox` to run them.
+      - lint-check - check i versions of installed packages match versions from requirement iles
+      - lint-black - check if code is formatted by black
+      - lint-isort - check if imports are sorted
+      - lint-pycodestyle - check Python Style Guide
+      - lint-bandit - check security
+      - lint-mypy - check types
+      - lint-pylint - run pylint
+      - lint - run all of them
 
-      Run `tox -e env1,env2,...`. Default envs are: `format,lint,test`.
+   1. Docker
+      - graph - create model graph
+      - messages - updates translation file
+      - django - run django admin command (syntax: `make django cmd='migrate'`)
 
-      Mode names correspond to make commands (except devinst).
+   For example, before creating a pull requests make sure you ran locally:
+   `make install-dev format lint test-cov graph messages`
+   (And check if there are no missing transactions) or simply:
+   `make prcheck`.
 
-      **Attention!** Don't run tox inside docker!
 
 1. Aliases for docker commands
 

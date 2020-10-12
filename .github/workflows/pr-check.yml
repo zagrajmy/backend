@@ -28,8 +28,22 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install tox tox-gh-actions
-    - name: Test with tox
-      run: tox
+      run: make install-dev
+    - name: Check dependencies
+      run: make lint-check
+    - name: Check formatting
+      run: make lint-black
+    - name: Check import sorting
+      run: make lint-isort
+    - name: Check style guide
+      run: make lint-pycodestyle
+    - name: Check security
+      run: make lint-bandit
+    - name: Check typing
+      run: make lint-mypy
+    - name: Check pylint
+      run: make lint-pylint
+    - name: Run unit tests
+      run: make test-unit-cov
+    - name: Run behave tests
+      run: make test-behave-cov
