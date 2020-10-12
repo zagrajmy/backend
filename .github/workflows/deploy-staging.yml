@@ -1,0 +1,30 @@
+name: Deploy on staging
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  build:
+    name: Rebuild and upstart dockers
+    runs-on: ubuntu-latest
+    steps:
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@master
+      env:
+        GITHUB_SHA: ${{ github.sha }}
+      with:
+        host: ${{ secrets.STAGING_HOST }}
+        username: ${{ secrets.STAGING_USER }}
+        key: ${{ secrets.STAGING_DEPLOY_KEY }}
+        script_stop: true
+        envs: GITHUB_SHA
+        script: |
+          set -ex
+          cd backend/
+          git fetch
+          git checkout $GITHUB_SHA
+          docker-compose -f docker-compose.staging.yml down
+          docker-compose -f docker-compose.staging.yml up -d --build
