@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Deploy on prod only after published release
 - Rewritten Makefile
+- Added `email` field to `users` API
 
 ### Removed
 
