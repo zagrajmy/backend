@@ -16,10 +16,11 @@ def test_create(api_client):
     res = api_client.post(
         reverse("v1:crowd:users-list"),
         data={
+            "auth0_id": "test_token",
+            "email": "mszczuj@skrzynno.com",
             "first_name": "Mszczuj",
             "last_name": "ze Skrzynna",
             "locale": "en-GB",
-            "auth0_id": "test_token",
             "username": "panMszczuj",
         },
     )
