@@ -23,7 +23,7 @@ Uses the default Django development server.
    Test it out at [http://localhost:8000](http://localhost:8000). The "app" folder is mounted into the container and your code changes apply automatically.
    The Hasura interface for local development startsby default at [http://localhost:8080](http://localhost:8080).
 
-1. You could use make to run commands in local environment on docker:
+1. You may use make to run commands in local environment on docker:
 
    Make commands are divided into two types: particles and actions. Particles are usually single line commands with names in form: `<catgory>-<name>`, which might be hard to remember.
 
