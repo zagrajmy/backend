@@ -1,3 +1,4 @@
+# type: ignore
 # https://medium.com/@philamersune/using-postgresql-jsonfield-in-sqlite-95ad4ad2e5f1
 import json
 from typing import Any, Dict, Optional
@@ -13,7 +14,7 @@ class PostgreSQLJSONField(DjangoJSONField):
     pass
 
 
-class SQLiteJSONField(Field):  # type: ignore
+class SQLiteJSONField(Field):
     def db_type(self, connection: BaseDatabaseWrapper) -> str:
         return "text"
 

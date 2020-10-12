@@ -164,7 +164,7 @@ def test_agenda_item_str():
 
 @pytest.mark.django_db
 def test_agenda_cell(hour):
-    context = agenda_cell(room=RoomFactory(), hour=hour(0))
+    context = agenda_cell(room={"name": "room123", "pk": 7}, hour=hour(0))
 
     context.pop("rendered_widget")
     assert context == {
@@ -176,8 +176,8 @@ def test_agenda_cell(hour):
         "delete_related_template_url": "/admin/chronology/agendaitem/__fk__/delete/",
         "is_hidden": False,
         "model": "agenda item",
-        "name": "agendaitem_r1_t2020-08-01-10-00-00-000000-UTC",
+        "name": "agendaitem_r7_t2020-08-01-10-00-00-000000-UTC",
         "url_params": (
-            "_to_field=id&_popup=1&room=1&hour=2020-08-01-10-00-00-000000-UTC"
+            "_to_field=id&_popup=1&room=7&hour=2020-08-01-10-00-00-000000-UTC"
         ),
     }

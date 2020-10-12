@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 from typing import Type
 
-from django.db.models import QuerySet  # pylint: disable=unused-import
+from django.db.models import QuerySet
 from rest_framework.mixins import CreateModelMixin, UpdateModelMixin
 from rest_framework.request import Request
 from rest_framework.response import Response
@@ -15,7 +17,7 @@ class ProposalAPIView(CreateModelMixin, UpdateModelMixin, GenericViewSet):
     serializer_class: Type[ProposalSerializer] = ProposalSerializer
     lookup_url_kwarg: str = "id"
 
-    def get_queryset(self) -> "QuerySet[Proposal]":
+    def get_queryset(self) -> QuerySet[Proposal]:
         return Proposal.objects.all()
 
     def put(self, request: Request, partial: bool = False) -> Response:

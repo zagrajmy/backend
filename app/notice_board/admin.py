@@ -1,19 +1,13 @@
 """Django admin customizations."""
+from __future__ import annotations
+
 import json
-from typing import (  # pylint: disable=unused-import
-    TYPE_CHECKING,
-    Generic,
-    List,
-    Optional,
-    Sequence,
-    TypeVar,
-)
+from typing import Generic, List, Optional, Sequence, TypeVar, Union
 
 from django.contrib import admin
-from django.db.models import JSONField, Model, QuerySet  # pylint: disable=unused-import
-from django.db.models.fields.related import (  # pylint: disable=unused-import
-    RelatedField,
-)
+from django.contrib.auth.models import AnonymousUser
+from django.db.models import JSONField, Model, QuerySet  # type: ignore[attr-defined]
+from django.db.models.fields.related import RelatedField
 from django.http import HttpRequest
 from django.utils.translation import gettext_lazy as _
 from django_json_widget.widgets import JSONEditorWidget
@@ -64,7 +58,7 @@ class SphereManagersAdminMixin(admin.ModelAdmin, Generic[ModelType]):
             list_display_links.append(list_display[1])
         return list_display_links
 
-    def get_queryset(self, request: HttpRequest) -> "QuerySet[ModelType]":
+    def get_queryset(self, request: HttpRequest) -> QuerySet[ModelType]:
         """Limit querset to show only spheres that user is managing."""
         queryset = super().get_queryset(request)
 
@@ -73,9 +67,9 @@ class SphereManagersAdminMixin(admin.ModelAdmin, Generic[ModelType]):
     def get_field_queryset(
         self,
         db: None,
-        db_field: "RelatedField[ModelType, RelatedModelType]",
+        db_field: RelatedField[ModelType, RelatedModelType],
         request: Optional[HttpRequest],
-    ) -> "Optional[QuerySet[RelatedModelType]]":
+    ) -> Optional[QuerySet[RelatedModelType]]:
         queryset = super().get_field_queryset(db, db_field, request)
 
         if queryset is None:
@@ -89,8 +83,11 @@ class SphereManagersAdminMixin(admin.ModelAdmin, Generic[ModelType]):
         )
 
     def _get_queryset(
-        self, user: User, queryset: "QuerySet[SomeModelType]", model_name: str
-    ) -> "QuerySet[SomeModelType]":
+        self,
+        user: Union[User, AnonymousUser],
+        queryset: QuerySet[SomeModelType],
+        model_name: str,
+    ) -> QuerySet[SomeModelType]:
         if not user.is_superuser:
             key = self.permission_keys[model_name]
             if key and key != "*":
@@ -143,9 +140,8 @@ class MeetingParticipantsInline(admin.TabularInline):
     model = MeetingParticipant
 
 
-class MeetingAdmin(
-    SphereManagersAdminMixin[Meeting], admin.ModelAdmin
-):  # pylint: disable=unsubscriptable-object
+# pylint: disable=unsubscriptable-object
+class MeetingAdmin(SphereManagersAdminMixin[Meeting], admin.ModelAdmin):
     fieldsets = (
         (
             _("Basic info"),
@@ -206,9 +202,8 @@ class MeetingAdmin(
     inlines = (MeetingParticipantsInline,)
 
 
-class SphereAdmin(
-    SphereManagersAdminMixin[Sphere], SimpleHistoryAdmin
-):  # pylint: disable=unsubscriptable-object
+# pylint: disable=unsubscriptable-object
+class SphereAdmin(SphereManagersAdminMixin[Sphere], SimpleHistoryAdmin):
     formfield_overrides = {
         JSONField: {
             "widget": JSONEditorWidget(options={"schema": SETTINGS_JSON_SCHEMA})

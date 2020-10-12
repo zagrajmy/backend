@@ -5,7 +5,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 
-class User(AbstractUser):
+class User(AbstractUser):  # type: ignore[misc]
     """Zagrajmy user model."""
 
     auth0_id = models.CharField(

@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Deploy on prod only after published release
+- Fix type hints
+- Added `email` field to `users` API
+- Rewritten API tests
 - Rewritten Makefile
 - Added `email` field to `users` API
 - Rewritten API tests

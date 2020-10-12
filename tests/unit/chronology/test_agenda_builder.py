@@ -16,8 +16,13 @@ class DummyMeeting:
 
 
 @dataclass(frozen=True)
+class DummyRoom:
+    name: str
+
+
+@dataclass(frozen=True)
 class DummyAgendaItem:
-    room: str
+    room: DummyRoom
     meeting: DummyMeeting
 
 
@@ -39,10 +44,10 @@ def test_init_empty():
 
 def test_init(hour):
     agenda_items = [
-        DummyAgendaItem(room="1", meeting=DummyMeeting(start_time=hour(0))),
-        DummyAgendaItem(room="2", meeting=DummyMeeting(start_time=hour(0))),
-        DummyAgendaItem(room="3", meeting=DummyMeeting(start_time=hour(0))),
-        DummyAgendaItem(room="4", meeting=DummyMeeting(start_time=hour(0))),
+        DummyAgendaItem(room=DummyRoom("1"), meeting=DummyMeeting(start_time=hour(0))),
+        DummyAgendaItem(room=DummyRoom("2"), meeting=DummyMeeting(start_time=hour(0))),
+        DummyAgendaItem(room=DummyRoom("3"), meeting=DummyMeeting(start_time=hour(0))),
+        DummyAgendaItem(room=DummyRoom("4"), meeting=DummyMeeting(start_time=hour(0))),
     ]
 
     agenda_builder = AgendaBuilder(
@@ -56,55 +61,55 @@ def test_init(hour):
 def test_init_build(hour):
     agenda_items = [
         DummyAgendaItem(
-            room="A1",
+            room=DummyRoom("A1"),
             meeting=DummyMeeting(
                 proposal=DummyProposal(duration_minutes=30), start_time=hour(-7)
             ),
         ),
         DummyAgendaItem(
-            room="A1",
+            room=DummyRoom("A1"),
             meeting=DummyMeeting(
                 proposal=DummyProposal(duration_minutes=30), start_time=hour(0)
             ),
         ),
         DummyAgendaItem(
-            room="A1",
+            room=DummyRoom("A1"),
             meeting=DummyMeeting(
                 proposal=DummyProposal(duration_minutes=30), start_time=hour(6)
             ),
         ),
         DummyAgendaItem(
-            room="A2",
+            room=DummyRoom("A2"),
             meeting=DummyMeeting(
                 proposal=DummyProposal(duration_minutes=30), start_time=hour(0)
             ),
         ),
         DummyAgendaItem(
-            room="B2",
+            room=DummyRoom("B2"),
             meeting=DummyMeeting(
                 proposal=DummyProposal(duration_minutes=30), start_time=hour(-4)
             ),
         ),
         DummyAgendaItem(
-            room="A2",
+            room=DummyRoom("A2"),
             meeting=DummyMeeting(
                 proposal=DummyProposal(duration_minutes=420), start_time=hour(-4)
             ),
         ),
         DummyAgendaItem(
-            room="B2",
+            room=DummyRoom("B2"),
             meeting=DummyMeeting(
                 proposal=DummyProposal(duration_minutes=120), start_time=hour(-5)
             ),
         ),
         DummyAgendaItem(
-            room="B1",
+            room=DummyRoom("B1"),
             meeting=DummyMeeting(
                 proposal=DummyProposal(duration_minutes=60), start_time=hour(3)
             ),
         ),
         DummyAgendaItem(
-            room="A1",
+            room=DummyRoom("A1"),
             meeting=DummyMeeting(
                 proposal=DummyProposal(duration_minutes=15), start_time=hour(3)
             ),
@@ -116,7 +121,12 @@ def test_init_build(hour):
     ]
     agenda_builder = AgendaBuilder(
         agenda_items=agenda_items,
-        rooms=["A1", "A2", "B1", "B2"],
+        rooms=[
+            {"name": "A1", "pk": 1},
+            {"name": "A2", "pk": 2},
+            {"name": "B1", "pk": 3},
+            {"name": "B2", "pk": 4},
+        ],
         time_slots=time_slots,
         unassigned_meetings=[
             {
@@ -149,8 +159,8 @@ def test_init_build(hour):
                 {"item": None, "room": "B2", "rowspan": 1},
                 {
                     "item": [
-                        {"name": "Meeting 1", "pk": 1},
-                        {"name": "Meeting 2", "pk": 2},
+                        {"name": "Meeting 1", "pk": 1, "proposal__time_slots": 1},
+                        {"name": "Meeting 2", "pk": 2, "proposal__time_slots": 1},
                     ],
                     "room": "unassigned",
                     "rowspan": 6,
@@ -174,7 +184,7 @@ def test_init_build(hour):
                 {"item": None, "room": "B1", "rowspan": 1},
                 {
                     "item": DummyAgendaItem(
-                        room="B2",
+                        room=DummyRoom("B2"),
                         meeting=DummyMeeting(
                             start_time=hour(-5),
                             proposal=DummyProposal(duration_minutes=120),
@@ -200,7 +210,7 @@ def test_init_build(hour):
                 {"item": None, "room": "A1", "rowspan": 1},
                 {
                     "item": DummyAgendaItem(
-                        room="A2",
+                        room=DummyRoom("A2"),
                         meeting=DummyMeeting(
                             start_time=hour(-4),
                             proposal=DummyProposal(duration_minutes=420),
@@ -230,7 +240,7 @@ def test_init_build(hour):
                 {"item": None, "room": "B1", "rowspan": 1},
                 {"item": None, "room": "B2", "rowspan": 1},
                 {
-                    "item": [{"name": "Meeting 2", "pk": 2}],
+                    "item": [{"name": "Meeting 2", "pk": 2, "proposal__time_slots": 2}],
                     "room": "unassigned",
                     "rowspan": 6,
                 },
@@ -252,7 +262,7 @@ def test_init_build(hour):
                 None,
                 {
                     "item": DummyAgendaItem(
-                        room="B1",
+                        room=DummyRoom("B1"),
                         meeting=DummyMeeting(
                             start_time=hour(3),
                             proposal=DummyProposal(duration_minutes=60),

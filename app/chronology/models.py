@@ -1,9 +1,11 @@
-from typing import Any, Collection, Dict, Optional, Sequence, TypedDict, Union
+from __future__ import annotations
+
+from typing import Collection, Dict, Iterable, List, Optional, TypedDict, Union
 
 from computedfields.models import ComputedFieldsModel, computed
 from django.core.exceptions import ValidationError
 from django.db import models
-from django.db.models import F, JSONField, Q, QuerySet  # pylint: disable=unused-import
+from django.db.models import F, JSONField, Q, QuerySet  # type: ignore[attr-defined]
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import gettext_lazy as _
@@ -13,7 +15,7 @@ from crowd.models import User
 from notice_board.models import Meeting, Sphere
 
 
-def default_festival_settings() -> Dict[str, Any]:
+def default_festival_settings() -> Dict[str, Union[List[str], Dict[str, str]]]:
     return {"theme": {}, "forms": []}
 
 
@@ -116,7 +118,7 @@ class Festival(ComputedFieldsModel):
             return Festival.PAST
         return Festival.DRAFT
 
-    def agenda_items(self) -> "QuerySet[AgendaItem]":
+    def agenda_items(self) -> QuerySet[AgendaItem]:
         return AgendaItem.objects.filter(room__festival=self)
 
 
@@ -144,7 +146,7 @@ class Room(models.Model):
         return f"{self.name} ({self.id})"
 
 
-class TimeSlot(models.Model):
+class TimeSlot(models.Model):  # type: ignore[misc]
     end_time = models.DateTimeField(verbose_name=_("end time"))
     start_time = models.DateTimeField(verbose_name=_("start time"))
     festival = models.ForeignKey(
@@ -181,7 +183,7 @@ class TimeSlot(models.Model):
         force_insert: bool = False,
         force_update: bool = False,
         using: Optional[str] = None,
-        update_fields: Optional[Union[Sequence[str], str]] = None,
+        update_fields: Optional[Iterable[str]] = None,
     ) -> None:
         self.full_clean()
         super().save(force_insert, force_update, using, update_fields)
@@ -275,7 +277,8 @@ class AgendaItem(ComputedFieldsModel):
         return AgendaItem.UNCONFIRMED
 
     def __str__(self) -> str:
-        return (  # pylint: disable=no-member
+        return (
+            # pylint: disable=no-member
             f"{self.meeting.name} by {self.meeting.proposal.speaker_name} "
             f"({self.status})"
         )
@@ -311,7 +314,7 @@ def default_json_field() -> EmptyDict:
     return {}
 
 
-class Proposal(models.Model):
+class Proposal(models.Model):  # type: ignore[misc]
     CREATED = "CREATED"
     ACCEPTED = "ACCEPTED"
     REJECTED = "REJECTED"

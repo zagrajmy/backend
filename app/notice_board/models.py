@@ -1,9 +1,9 @@
-from typing import Any, Dict, Optional, Sequence, Union
+from typing import Dict, Iterable, List, Optional, Union
 
 from computedfields.models import ComputedFieldsModel, computed
 from django.contrib.sites.models import Site
 from django.db import models
-from django.db.models import F, JSONField, Q
+from django.db.models import F, JSONField, Q  # type: ignore[attr-defined]
 from django.utils import timezone
 from django.utils.text import slugify
 from django.utils.translation import gettext_lazy as _
@@ -12,7 +12,7 @@ from simple_history.models import HistoricalRecords
 from crowd.models import User
 
 
-class DescribedModel(models.Model):
+class DescribedModel(models.Model):  # type: ignore[misc]
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("created at"))
     description = models.TextField(
         default="", blank=True, verbose_name=_("description")
@@ -42,14 +42,14 @@ class DescribedModel(models.Model):
         force_insert: bool = False,
         force_update: bool = False,
         using: Optional[str] = None,
-        update_fields: Optional[Union[Sequence[str], str]] = None,
+        update_fields: Optional[Iterable[str]] = None,
     ) -> None:
         if not self.slug:
             self.slug = self._get_unique_slug()
         super().save(force_insert, force_update, using, update_fields)
 
 
-class Guild(DescribedModel):
+class Guild(DescribedModel):  # type: ignore[misc]
     """Small group of users for a small club or team."""
 
     is_public = models.BooleanField(default=True, verbose_name=_("is public"))
@@ -97,7 +97,7 @@ class GuildMember(models.Model):
         ]
 
 
-def default_sphere_settings() -> Dict[str, Any]:
+def default_sphere_settings() -> Dict[str, Union[List[str], Dict[str, str]]]:
     return {"theme": {}, "forms": []}
 
 
@@ -128,7 +128,7 @@ class Sphere(models.Model):
         return self.name
 
 
-class Meeting(DescribedModel, ComputedFieldsModel):
+class Meeting(DescribedModel, ComputedFieldsModel):  # type: ignore[misc]
     """Meeting model."""
 
     DRAFT = "draft"
@@ -219,12 +219,12 @@ class Meeting(DescribedModel, ComputedFieldsModel):
             return Meeting.ONGOING
         return Meeting.PAST
 
-    def save(  # pylint: disable=arguments-differ,too-many-arguments
+    def save(  # pylint: disable=arguments-differ, too-many-arguments
         self,
         force_insert: bool = False,
         force_update: bool = False,
         using: Optional[str] = None,
-        update_fields: Optional[Union[Sequence[str], str]] = None,
+        update_fields: Optional[Iterable[str]] = None,
         skip_computedfields: bool = False,
     ) -> None:
         del skip_computedfields
