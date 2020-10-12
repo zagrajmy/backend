@@ -19,3 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fix type hints
 - Added `email` field to `users` API
 - Rewritten API tests
+- Rewritten Makefile
+- Added `email` field to `users` API
+- Rewritten API tests
+
+### Removed
+
+- removed tox from configs, packages and deployments
