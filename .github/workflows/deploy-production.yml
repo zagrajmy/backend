@@ -1,12 +1,9 @@
 name: Deploy on production
 
 on:
+  release:
+    types: [published]
   workflow_dispatch: {}
-  push:
-    branches:
-      - master
-      - release/*
-      - new-deploy
 
 jobs:
 

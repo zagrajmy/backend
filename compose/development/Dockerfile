@@ -8,19 +8,18 @@ WORKDIR /usr/src
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH /usr/src/app/
-ENV DJANGO_SETTINGS_MODULE zagrajmy.settings.development
 
-# install psycopg2 dependencies
+# install dependencies
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
 	bash \
 	build-essential \
+	gettext \
 	graphviz \
 	libgraphviz-dev \
 	libjpeg-dev \
 	libpq-dev \
 	netcat \
-	python3-dev \
-	gettext
+	python3-dev
 
 # install dependencies
 RUN pip install --upgrade pip

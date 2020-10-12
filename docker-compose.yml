@@ -25,6 +25,8 @@ services:
       - ./compose/development/.env.web
     depends_on:
       - postgres
+    environment:
+      - DJANGO_SETTINGS_MODULE=zagrajmy.settings.development
   graphql-engine:
     image: hasura/graphql-engine:v1.3.2.cli-migrations-v2
     ports:
