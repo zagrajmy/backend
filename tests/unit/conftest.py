@@ -1,7 +1,8 @@
-from datetime import datetime, timedelta
+from datetime import timedelta, datetime
+import pytz
+from django.utils import timezone
 
 import pytest
-import pytz
 
 
 @pytest.fixture
@@ -10,5 +11,13 @@ def hour():
         return datetime(2020, 8, 1, 10, 0, 0, tzinfo=pytz.UTC) + timedelta(
             minutes=hours * 60
         )
+
+    return _dt
+
+
+@pytest.fixture
+def hournow():
+    def _dt(hours: int = 0):
+        return timezone.localtime(timezone.now()) + timedelta(hours=hours)
 
     return _dt

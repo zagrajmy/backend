@@ -14,14 +14,6 @@ from .serializers import ProposalSerializer
 
 class ProposalAPIView(CreateModelMixin, UpdateModelMixin, GenericViewSet):
 
+    queryset = Proposal.objects.all()
     serializer_class: Type[ProposalSerializer] = ProposalSerializer
     lookup_url_kwarg: str = "id"
-
-    def get_queryset(self) -> QuerySet[Proposal]:
-        return Proposal.objects.all()
-
-    def put(self, request: Request, partial: bool = False) -> Response:
-        return self.update(request, partial=partial)
-
-    def patch(self, request: Request, partial: bool = True) -> Response:
-        return self.partial_update(request, partial=partial)

@@ -3,13 +3,12 @@ from unittest.mock import Mock
 
 import pytest
 from django.contrib import admin
-from django.utils import timezone
 from rest_framework.serializers import ValidationError
 
 from chronology.models import AgendaItem
 from notice_board.admin import SphereManagersAdminMixin
 from notice_board.apps import NoticeBoardConfig
-from notice_board.models import DescribedModel, Guild, Sphere
+from notice_board.models import DescribedModel, Guild, Sphere, Meeting
 from notice_board.serializers import (
     MeetingCreateSerializer,
     MeetingReadSerializer,
@@ -200,7 +199,7 @@ def test_get_field_queryset(set_remote_model_mock, empty_request):
 )
 def test_popup_permissions(method, model, expected):
     request = Mock()
-    if not isinstance(model, AgendaItem):
+    if model != AgendaItem:
         request.resolver_match = Mock(url_name="chronology_agendaitem_add")
 
     sphere_managers_admin = SphereManagersAdmin(model=model, admin_site=Mock())
@@ -286,8 +285,8 @@ def test_meeting_create_serializer_validate_organizer():
 
 
 @pytest.mark.django_db
-def test_meeting_create_serializer_validate_start_time_error():
-    start_time = timezone.localtime(timezone.now()) - timedelta(days=1)
+def test_meeting_create_serializer_validate_start_time_error(hournow):
+    start_time = hournow(-1)
     serializer = MeetingCreateSerializer()
 
     with pytest.raises(ValidationError) as exc_info:
@@ -297,10 +296,92 @@ def test_meeting_create_serializer_validate_start_time_error():
 
 
 @pytest.mark.django_db
-def test_meeting_create_serializer_validate_start_time():
-    start_time = timezone.localtime(timezone.now()) + timedelta(days=1)
+def test_meeting_create_serializer_validate_start_time(hournow):
+    start_time = hournow(1)
     serializer = MeetingCreateSerializer()
 
     result = serializer.validate_start_time(start_time)
 
     assert result == start_time
+
+
+@pytest.mark.parametrize(
+    "field,hours_diff,new_value",
+    (
+        ("start_time", (1, 3, 5), 1),
+        ("end_time", (1, 3, 5), 1),
+        ("publication_time", (1, 3, 5), 1),
+        ("start_time", (-5, -3, -1), 0),
+        ("end_time", (-5, -3, -1), 0),
+        ("publication_time", (-5, -3, -1), 0),
+    ),
+)
+@pytest.mark.django_db
+def test_meeting_update_serializer_validate_start_time(
+    field, hours_diff, new_value, hournow
+):
+    kwargs = {
+        "publication_time": hournow(hours_diff[0]),
+        "start_time": hournow(hours_diff[1]),
+        "end_time": hournow(hours_diff[2]),
+    }
+    serializer = MeetingUpdateSerializer(instance=MeetingFactory(**kwargs))
+    new_value = kwargs[field] + timedelta(hours=1 * new_value)
+
+    result = getattr(serializer, "validate_" + field)(new_value)
+
+    assert result == new_value
+
+
+@pytest.mark.parametrize(
+    "field",
+    (
+        "start_time",
+        "end_time",
+        "publication_time",
+    ),
+)
+@pytest.mark.django_db
+def test_meeting_update_serializer_validate_start_time_past_error(field, hournow):
+    kwargs = {
+        "publication_time": hournow(-5),
+        "start_time": hournow(-3),
+        "end_time": hournow(-1),
+    }
+    serializer = MeetingUpdateSerializer(instance=MeetingFactory(**kwargs))
+    new_value = kwargs[field] - timedelta(minutes=1)
+
+    with pytest.raises(ValidationError) as exc_info:
+        getattr(serializer, "validate_" + field)(new_value)
+
+    assert (
+        str(exc_info.value.detail[0]) == "You cannot change the time of a past event!"
+    )
+
+
+@pytest.mark.parametrize(
+    "times,status",
+    (
+        ((None, 1, 1), Meeting.DRAFT),
+        ((1, None, 1), Meeting.DRAFT),
+        ((1, 1, None), Meeting.DRAFT),
+        ((None, None, 1), Meeting.DRAFT),
+        ((1, None, None), Meeting.DRAFT),
+        ((None, 1, None), Meeting.DRAFT),
+        ((None, None, None), Meeting.DRAFT),
+        ((1, 2, 3), Meeting.PLANNED),
+        ((-1, 1, 2), Meeting.PUBLISHED),
+        ((-2, -1, 1), Meeting.ONGOING),
+        ((-3, -2, -1), Meeting.PAST),
+    ),
+)
+@pytest.mark.django_db
+def test_meeting_status(times, status, hournow):
+    kwargs = {
+        "publication_time": hournow(times[0]) if times[0] else None,
+        "start_time": hournow(times[1]) if times[1] else None,
+        "end_time": hournow(times[2]) if times[2] else None,
+    }
+    meeting = MeetingFactory(**kwargs)
+
+    assert meeting.status == status

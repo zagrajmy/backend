@@ -4,13 +4,7 @@ from rest_framework import serializers
 
 from crowd.models import User
 
-from .models import Proposal, WaitList
-
-
-class WaitListSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = WaitList
-        fields = "__all__"
+from .models import Proposal
 
 
 class ProposalTypedDict(TypedDict):
