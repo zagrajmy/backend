@@ -2,9 +2,6 @@
 
 from django.db import migrations, models
 
-import chronology.models
-import common.json_field
-
 
 class Migration(migrations.Migration):
 

@@ -4,9 +4,9 @@ import django.db.models.deletion
 import simple_history.models
 from django.conf import settings
 from django.db import migrations, models
+from django.db.models import JSONField
 
 import chronology.models
-import common.json_field
 
 
 class Migration(migrations.Migration):
@@ -32,9 +32,7 @@ class Migration(migrations.Migration):
                 ("name", models.CharField(max_length=255)),
                 (
                     "settings",
-                    common.json_field.PostgreSQLJSONField(
-                        default=chronology.models.default_festival_settings
-                    ),
+                    JSONField(default=chronology.models.default_festival_settings),
                 ),
                 ("slug", models.SlugField(blank=True)),
                 ("start_proposal", models.DateTimeField()),

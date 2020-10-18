@@ -3,9 +3,9 @@
 import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
+from django.db.models import JSONField
 
 import chronology.models
-import common.json_field
 
 
 class Migration(migrations.Migration):
@@ -98,7 +98,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="proposal",
             name="other_contact",
-            field=common.json_field.JSONField(
+            field=JSONField(
                 blank=True,
                 default=chronology.models.default_json_field,
                 verbose_name="other contact",
@@ -107,7 +107,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="proposal",
             name="other_data",
-            field=common.json_field.JSONField(
+            field=JSONField(
                 blank=True,
                 default=chronology.models.default_json_field,
                 verbose_name="other data",

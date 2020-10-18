@@ -3,9 +3,9 @@
 import django.db.models.deletion
 from django.conf import settings
 from django.db import migrations, models
+from django.db.models import JSONField
 
 import chronology.models
-import common.json_field
 
 
 class Migration(migrations.Migration):
@@ -101,7 +101,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="festival",
             name="settings",
-            field=common.json_field.PostgreSQLJSONField(
+            field=JSONField(
                 default=chronology.models.default_festival_settings,
                 verbose_name="settings",
             ),
@@ -173,7 +173,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="historicalfestival",
             name="settings",
-            field=common.json_field.PostgreSQLJSONField(
+            field=JSONField(
                 default=chronology.models.default_festival_settings,
                 verbose_name="settings",
             ),
@@ -265,7 +265,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="proposal",
             name="other_contact",
-            field=common.json_field.PostgreSQLJSONField(
+            field=JSONField(
                 default=chronology.models.default_json_field,
                 null=True,
                 verbose_name="other contact",
@@ -274,7 +274,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name="proposal",
             name="other_data",
-            field=common.json_field.PostgreSQLJSONField(
+            field=JSONField(
                 default=chronology.models.default_json_field,
                 null=True,
                 verbose_name="other data",

@@ -4,8 +4,8 @@ import django.db.models.deletion
 import simple_history.models
 from django.conf import settings
 from django.db import migrations, models
+from django.db.models import JSONField
 
-import common.json_field
 import notice_board.models
 
 
@@ -13,30 +13,62 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('sites', '0002_update_default_site'),
-        ('notice_board', '0007_alter_sphere_site_related_name'),
+        ("sites", "0002_update_default_site"),
+        ("notice_board", "0007_alter_sphere_site_related_name"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='HistoricalSphere',
+            name="HistoricalSphere",
             fields=[
-                ('id', models.IntegerField(auto_created=True, blank=True, db_index=True, verbose_name='ID')),
-                ('history_change_reason', models.TextField(null=True)),
-                ('is_open', models.BooleanField(default=True)),
-                ('name', models.CharField(max_length=255)),
-                ('settings', common.json_field.PostgreSQLJSONField(default=notice_board.models.default_sphere_settings)),
-                ('history_id', models.AutoField(primary_key=True, serialize=False)),
-                ('history_date', models.DateTimeField()),
-                ('history_type', models.CharField(choices=[('+', 'Created'), ('~', 'Changed'), ('-', 'Deleted')], max_length=1)),
-                ('history_user', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='+', to=settings.AUTH_USER_MODEL)),
-                ('site', models.ForeignKey(blank=True, db_constraint=False, null=True, on_delete=django.db.models.deletion.DO_NOTHING, related_name='+', to='sites.Site')),
+                (
+                    "id",
+                    models.IntegerField(
+                        auto_created=True, blank=True, db_index=True, verbose_name="ID"
+                    ),
+                ),
+                ("history_change_reason", models.TextField(null=True)),
+                ("is_open", models.BooleanField(default=True)),
+                ("name", models.CharField(max_length=255)),
+                (
+                    "settings",
+                    JSONField(default=notice_board.models.default_sphere_settings),
+                ),
+                ("history_id", models.AutoField(primary_key=True, serialize=False)),
+                ("history_date", models.DateTimeField()),
+                (
+                    "history_type",
+                    models.CharField(
+                        choices=[("+", "Created"), ("~", "Changed"), ("-", "Deleted")],
+                        max_length=1,
+                    ),
+                ),
+                (
+                    "history_user",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="+",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "site",
+                    models.ForeignKey(
+                        blank=True,
+                        db_constraint=False,
+                        null=True,
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        related_name="+",
+                        to="sites.Site",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'historical sphere',
-                'db_table': 'nb_sphere_history',
-                'ordering': ('-history_date', '-history_id'),
-                'get_latest_by': 'history_date',
+                "verbose_name": "historical sphere",
+                "db_table": "nb_sphere_history",
+                "ordering": ("-history_date", "-history_id"),
+                "get_latest_by": "history_date",
             },
             bases=(simple_history.models.HistoricalChanges, models.Model),
         ),
