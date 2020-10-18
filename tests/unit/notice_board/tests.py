@@ -1,13 +1,22 @@
+from datetime import timedelta
 from unittest.mock import Mock
 
 import pytest
 from django.contrib import admin
+from django.utils import timezone
+from rest_framework.serializers import ValidationError
 
 from chronology.models import AgendaItem
 from notice_board.admin import SphereManagersAdminMixin
 from notice_board.apps import NoticeBoardConfig
 from notice_board.models import DescribedModel, Guild, Sphere
-from tests.factories import MeetingFactory, SphereFactory
+from notice_board.serializers import (
+    MeetingCreateSerializer,
+    MeetingReadSerializer,
+    MeetingUpdateSerializer,
+)
+from notice_board.viewsets import MeetingViewSet
+from tests.factories import GuildFactory, MeetingFactory, SphereFactory, UserFactory
 
 
 class SphereManagersAdmin(SphereManagersAdminMixin, admin.ModelAdmin):
@@ -197,3 +206,101 @@ def test_popup_permissions(method, model, expected):
     sphere_managers_admin = SphereManagersAdmin(model=model, admin_site=Mock())
 
     assert (getattr(sphere_managers_admin, method)(request) is False) is expected
+
+
+@pytest.mark.parametrize(
+    "action,serializer",
+    (
+        ("create", MeetingCreateSerializer),
+        ("read", MeetingReadSerializer),
+        ("custom_action", MeetingReadSerializer),
+        ("destroy", MeetingReadSerializer),
+        ("list", MeetingReadSerializer),
+        ("update", MeetingUpdateSerializer),
+    ),
+)
+def test_meeting_viewset_get_serializer_class(action, serializer):
+    viewset = MeetingViewSet()
+    viewset.action = action
+
+    serializer_class = viewset.get_serializer_class()
+
+    assert serializer_class == serializer
+
+
+@pytest.mark.django_db
+def test_meeting_create_serializer_validate_guild_none():
+    serializer = MeetingCreateSerializer()
+
+    assert serializer.validate_guild(None) is None
+
+
+@pytest.mark.django_db
+def test_meeting_create_serializer_validate_guild_error():
+    guild = GuildFactory()
+    serializer = MeetingCreateSerializer(context={"request": Mock(user=UserFactory())})
+
+    with pytest.raises(ValidationError) as exc_info:
+        serializer.validate_guild(guild)
+
+    assert (
+        str(exc_info.value.detail[0])
+        == "You cannot add a meeting to a guild you don't belong!"
+    )
+
+
+@pytest.mark.django_db
+def test_meeting_create_serializer_validate_guild():
+    user = UserFactory()
+    guild = GuildFactory()
+    guild.members.add(user)
+    serializer = MeetingCreateSerializer(context={"request": Mock(user=user)})
+
+    result = serializer.validate_guild(guild)
+
+    assert result == guild
+
+
+@pytest.mark.django_db
+def test_meeting_create_serializer_validate_organizer_error():
+    organizer = UserFactory()
+    serializer = MeetingCreateSerializer(context={"request": Mock(user=UserFactory())})
+
+    with pytest.raises(ValidationError) as exc_info:
+        serializer.validate_organizer(organizer)
+
+    assert (
+        str(exc_info.value.detail[0])
+        == "You cannot add a meeting as a different person!"
+    )
+
+
+@pytest.mark.django_db
+def test_meeting_create_serializer_validate_organizer():
+    user = UserFactory()
+    serializer = MeetingCreateSerializer(context={"request": Mock(user=user)})
+
+    result = serializer.validate_organizer(user)
+
+    assert result == user
+
+
+@pytest.mark.django_db
+def test_meeting_create_serializer_validate_start_time_error():
+    start_time = timezone.localtime(timezone.now()) - timedelta(days=1)
+    serializer = MeetingCreateSerializer()
+
+    with pytest.raises(ValidationError) as exc_info:
+        serializer.validate_start_time(start_time)
+
+    assert str(exc_info.value.detail[0]) == "You cannot add a meeting in the past!"
+
+
+@pytest.mark.django_db
+def test_meeting_create_serializer_validate_start_time():
+    start_time = timezone.localtime(timezone.now()) + timedelta(days=1)
+    serializer = MeetingCreateSerializer()
+
+    result = serializer.validate_start_time(start_time)
+
+    assert result == start_time

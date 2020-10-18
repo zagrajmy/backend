@@ -23,7 +23,7 @@ class TestProposals(APITestCase):
                 status=MeetingParticipant.CONFIRMED,
             )
         self.add_participant_url = reverse(
-            "v1:notice_board:meeting-add-participant",
+            "v1:notice_board:meetings-add-participant",
             kwargs={"pk": self.meeting_1.pk},
         )
         self.client.force_authenticate(user=self.user)  # pylint: disable=no-member
@@ -42,7 +42,7 @@ class TestProposals(APITestCase):
     def test_add_participant_full_meeting(self):
         res = self.client.post(
             reverse(
-                "v1:notice_board:meeting-add-participant",
+                "v1:notice_board:meetings-add-participant",
                 kwargs={"pk": self.meeting_2.pk},
             ),
             data={},
@@ -56,7 +56,7 @@ class TestProposals(APITestCase):
     def test_add_participant_unlimited_meeting(self):
         res = self.client.post(
             reverse(
-                "v1:notice_board:meeting-add-participant",
+                "v1:notice_board:meetings-add-participant",
                 kwargs={"pk": self.meeting_3.pk},
             ),
             data={},
@@ -70,7 +70,7 @@ class TestProposals(APITestCase):
     def test_trying_add_participant_not_applicable_none(self):
         res = self.client.post(
             reverse(
-                "v1:notice_board:meeting-add-participant",
+                "v1:notice_board:meetings-add-participant",
                 kwargs={"pk": self.meeting_4.pk},
             ),
             data={},
@@ -84,7 +84,7 @@ class TestProposals(APITestCase):
     def test_trying_add_participant_not_applicable_zero(self):
         res = self.client.post(
             reverse(
-                "v1:notice_board:meeting-add-participant",
+                "v1:notice_board:meetings-add-participant",
                 kwargs={"pk": self.meeting_4.pk},
             ),
             data={},
@@ -104,7 +104,7 @@ class TestProposals(APITestCase):
         )
         self.client.force_authenticate(user=self.user)  # pylint: disable=no-member
         remove_participant_url = reverse(
-            "v1:notice_board:meeting-remove-participant",
+            "v1:notice_board:meetings-remove-participant",
             kwargs={"pk": meeting.pk},
         )
         res = self.client.post(

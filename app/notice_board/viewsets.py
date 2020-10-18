@@ -1,20 +1,41 @@
+from __future__ import annotations
+
+from typing import Optional, Type
+
+from django.db.models import QuerySet  # pylint: disable=unused-import
+from rest_framework import serializers
 from rest_framework.decorators import action
+from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, UpdateModelMixin
 from rest_framework.request import Request
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import GenericViewSet
 
-from notice_board.models import Meeting, MeetingParticipant
-from notice_board.serializers import MeetingSerializer
+from .models import Meeting, MeetingParticipant
+from .serializers import (
+    MeetingCreateSerializer,
+    MeetingReadSerializer,
+    MeetingUpdateSerializer,
+)
 
 
-class MeetingViewSet(ModelViewSet):
+class MeetingViewSet(
+    CreateModelMixin, UpdateModelMixin, DestroyModelMixin, GenericViewSet
+):
+    queryset: QuerySet[Meeting] = Meeting.objects.all()
+    serializer_classes = {
+        "create": MeetingCreateSerializer,
+        "update": MeetingUpdateSerializer,
+    }
+    serializer_class: Type[MeetingReadSerializer] = MeetingReadSerializer
+    lookup_url_kwarg: str = "pk"
+    lookup_field: str = "pk"
 
-    queryset = Meeting.objects.all()
-    serializer_class = MeetingSerializer
+    def get_serializer_class(self) -> Type[serializers.BaseSerializer]:
+        return self.serializer_classes.get(self.action, super().get_serializer_class())
 
     # pylint: disable=unused-argument
     @action(detail=True, methods=["post"])
-    def add_participant(self, request: Request, pk=None):
+    def add_participant(self, request: Request, pk: Optional[int] = None) -> Response:
         meeting = self.get_object()
         if meeting.participants_limit is None or meeting.participants_limit == 0:
             return Response({"status": None})
@@ -43,7 +64,9 @@ class MeetingViewSet(ModelViewSet):
 
     # pylint: disable=unused-argument
     @action(detail=True, methods=["post"])
-    def remove_participant(self, request: Request, pk=None):
+    def remove_participant(
+        self, request: Request, pk: Optional[int] = None
+    ) -> Response:
         meeting = self.get_object()
         meeting.participants.remove(request.user)
         return Response({"status": "OK"})

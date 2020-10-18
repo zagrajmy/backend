@@ -136,3 +136,10 @@ CORS_ORIGIN_REGEX_WHITELIST = [
     r"^http://localhost:3000$",
     r"^https://[a-zA-Z0-9_\-]+.zagrajmy.vercel.app$",
 ]
+
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+    ]
+}

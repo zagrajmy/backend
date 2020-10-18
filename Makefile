@@ -53,7 +53,7 @@ fmt-black:
 	black app tests stubs
 
 fmt-isort:
-	isort --recursive app tests stubs
+	isort app tests stubs
 
 format: fmt-black fmt-isort
 
@@ -66,7 +66,7 @@ lint-black:
 	black --check app tests stubs
 
 lint-isort:
-	isort --recursive --check-only --diff app tests stubs
+	isort --check-only --diff app tests stubs
 
 lint-pylint:
 	pylint app/contrib app/notice_board app/common app/crowd app/chronology app/zagrajmy

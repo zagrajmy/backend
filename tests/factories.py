@@ -140,7 +140,7 @@ class FestivalFactory(DjangoModelFactory):
     def _after_postgeneration(cls, instance, create, results=None):
         start, end = instance.start_time, instance.end_time
         if start and end:
-            time_slots_count = ceil((end - start).seconds / (60 * 240))
+            time_slots_count = max(ceil((end - start).seconds / (60 * 240)), 1)
 
             for i in range(time_slots_count):
                 time_slot = TimeSlot.objects.create(
