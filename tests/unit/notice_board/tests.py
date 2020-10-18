@@ -245,7 +245,7 @@ def test_meeting_create_serializer_validate_guild_error():
 
     assert (
         str(exc_info.value.detail[0])
-        == "You cannot add meeting to a guild you don't belong!"
+        == "You cannot add a meeting to a guild you don't belong!"
     )
 
 
@@ -270,7 +270,8 @@ def test_meeting_create_serializer_validate_organizer_error():
         serializer.validate_organizer(organizer)
 
     assert (
-        str(exc_info.value.detail[0]) == "You cannot add meeting as a different person!"
+        str(exc_info.value.detail[0])
+        == "You cannot add a meeting as a different person!"
     )
 
 

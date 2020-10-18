@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deployment on staging server (Django settings, Docker, Docker compose)
 - Trigger deployment on staging after push to master
 - This changelog
+- Meeting CUD API
 
 ### Changed
 

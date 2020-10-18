@@ -25,7 +25,7 @@ def step_impl(context):
     context.sphere = SphereFactory()
 
 
-@given("there is guild I {belong} belong to")
+@given("there is a guild I {belong} belong to")
 def step_impl(context, belong):
     context.guild = GuildFactory()
     if belong == "do":

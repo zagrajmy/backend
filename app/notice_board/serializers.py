@@ -27,14 +27,14 @@ class MeetingCreateSerializer(serializers.ModelSerializer):
             ).exists()
         ):
             raise serializers.ValidationError(
-                _("You cannot add meeting to a guild you don't belong!")
+                _("You cannot add a meeting to a guild you don't belong!")
             )
         return guild
 
     def validate_organizer(self, organizer: Optional[User]) -> Optional[User]:
         if organizer != self.context["request"].user:
             raise serializers.ValidationError(
-                _("You cannot add meeting as a different person!")
+                _("You cannot add a meeting as a different person!")
             )
         return organizer
 
@@ -82,7 +82,7 @@ class MeetingUpdateSerializer(serializers.ModelSerializer):
             and self.instance.status == "past"
         ):
             raise serializers.ValidationError(
-                _("You cannot change time of past event!")
+                _("You cannot change the time of a past event!")
             )
         return value
 
