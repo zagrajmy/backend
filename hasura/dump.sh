@@ -14,20 +14,11 @@
 
 type=${type:-data-only}
 
-. ./read-args.sh
+. "${0%/*}/read-args.sh"
+. "${0%/*}/hasura-endpoint.sh"
 
-endpoint=""
 opts=""
 
-if [[ $env = "production" ]]; then
-  endpoint="db.wiezamaga.net"
-elif [[ $env = "local" ]]; then
-  endpoint="localhost:8081"
-else
-  echo "env=$env"
-  echo "not implemented"
-  exit 1
-fi
 
 if [[ $type = "data-only" ]]; then
   opts='["-O", "-x", "--data-only", "--column-inserts", "--schema", "public"]'

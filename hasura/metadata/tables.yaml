@@ -2,338 +2,338 @@
     schema: public
     name: ch_agenda_item
   object_relationships:
-    - name: ch_helper
-      using:
-        foreign_key_constraint_on: helper_id
-    - name: ch_room
-      using:
-        foreign_key_constraint_on: room_id
-    - name: nb_meeting
-      using:
-        foreign_key_constraint_on: meeting_id
+  - name: helper
+    using:
+      foreign_key_constraint_on: helper_id
+  - name: meeting
+    using:
+      foreign_key_constraint_on: meeting_id
+  - name: room
+    using:
+      foreign_key_constraint_on: room_id
 - table:
     schema: public
     name: ch_festival
   object_relationships:
-    - name: nb_sphere
-      using:
-        foreign_key_constraint_on: sphere_id
+  - name: sphere
+    using:
+      foreign_key_constraint_on: sphere_id
   array_relationships:
-    - name: ch_helpers
-      using:
-        foreign_key_constraint_on:
-          column: festival_id
-          table:
-            schema: public
-            name: ch_helper
-    - name: ch_rooms
-      using:
-        foreign_key_constraint_on:
-          column: festival_id
-          table:
-            schema: public
-            name: ch_room
-    - name: ch_wait_lists
-      using:
-        foreign_key_constraint_on:
-          column: festival_id
-          table:
-            schema: public
-            name: ch_wait_list
-    - name: time_slots
-      using:
-        foreign_key_constraint_on:
-          column: festival_id
-          table:
-            schema: public
-            name: ch_time_slot
+  - name: helpers
+    using:
+      foreign_key_constraint_on:
+        column: festival_id
+        table:
+          schema: public
+          name: ch_helper
+  - name: rooms
+    using:
+      foreign_key_constraint_on:
+        column: festival_id
+        table:
+          schema: public
+          name: ch_room
+  - name: time_slots
+    using:
+      foreign_key_constraint_on:
+        column: festival_id
+        table:
+          schema: public
+          name: ch_time_slot
+  - name: wait_lists
+    using:
+      foreign_key_constraint_on:
+        column: festival_id
+        table:
+          schema: public
+          name: ch_wait_list
 - table:
     schema: public
     name: ch_helper
   object_relationships:
-    - name: ch_festival
-      using:
-        foreign_key_constraint_on: festival_id
-    - name: cr_user
-      using:
-        foreign_key_constraint_on: user_id
+  - name: festival
+    using:
+      foreign_key_constraint_on: festival_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
   array_relationships:
-    - name: ch_agenda_items
-      using:
-        foreign_key_constraint_on:
-          column: helper_id
-          table:
-            schema: public
-            name: ch_agenda_item
-    - name: ch_helper_time_slots
-      using:
-        foreign_key_constraint_on:
-          column: helper_id
-          table:
-            schema: public
-            name: ch_helper_time_slots
+  - name: agenda_items
+    using:
+      foreign_key_constraint_on:
+        column: helper_id
+        table:
+          schema: public
+          name: ch_agenda_item
+  - name: time_slots
+    using:
+      foreign_key_constraint_on:
+        column: helper_id
+        table:
+          schema: public
+          name: ch_helper_time_slots
 - table:
     schema: public
     name: ch_helper_time_slots
   object_relationships:
-    - name: ch_helper
-      using:
-        foreign_key_constraint_on: helper_id
-    - name: ch_time_slot
-      using:
-        foreign_key_constraint_on: timeslot_id
+  - name: helper
+    using:
+      foreign_key_constraint_on: helper_id
+  - name: time_slot
+    using:
+      foreign_key_constraint_on: timeslot_id
 - table:
     schema: public
     name: ch_proposal
   object_relationships:
-    - name: ch_wait_list
-      using:
-        foreign_key_constraint_on: waitlist_id
-    - name: meeting
-      using:
-        foreign_key_constraint_on: meeting_id
-    - name: speaker
-      using:
-        foreign_key_constraint_on: speaker_user_id
+  - name: meeting
+    using:
+      foreign_key_constraint_on: meeting_id
+  - name: speaker
+    using:
+      foreign_key_constraint_on: speaker_user_id
+  - name: wait_list
+    using:
+      foreign_key_constraint_on: waitlist_id
   array_relationships:
-    - name: ch_proposal_time_slots
-      using:
-        foreign_key_constraint_on:
-          column: proposal_id
-          table:
-            schema: public
-            name: ch_proposal_time_slots
+  - name: time_slots
+    using:
+      foreign_key_constraint_on:
+        column: proposal_id
+        table:
+          schema: public
+          name: ch_proposal_time_slots
 - table:
     schema: public
     name: ch_proposal_time_slots
   object_relationships:
-    - name: ch_proposal
-      using:
-        foreign_key_constraint_on: proposal_id
-    - name: ch_time_slot
-      using:
-        foreign_key_constraint_on: timeslot_id
+  - name: proposal
+    using:
+      foreign_key_constraint_on: proposal_id
+  - name: time_slot
+    using:
+      foreign_key_constraint_on: timeslot_id
 - table:
     schema: public
     name: ch_room
   object_relationships:
-    - name: ch_festival
-      using:
-        foreign_key_constraint_on: festival_id
+  - name: festival
+    using:
+      foreign_key_constraint_on: festival_id
   array_relationships:
-    - name: ch_agenda_items
-      using:
-        foreign_key_constraint_on:
-          column: room_id
-          table:
-            schema: public
-            name: ch_agenda_item
+  - name: agenda_items
+    using:
+      foreign_key_constraint_on:
+        column: room_id
+        table:
+          schema: public
+          name: ch_agenda_item
 - table:
     schema: public
     name: ch_time_slot
   object_relationships:
-    - name: festival
-      using:
-        foreign_key_constraint_on: festival_id
+  - name: festival
+    using:
+      foreign_key_constraint_on: festival_id
   array_relationships:
-    - name: ch_helper_time_slots
-      using:
-        foreign_key_constraint_on:
-          column: timeslot_id
-          table:
-            schema: public
-            name: ch_helper_time_slots
-    - name: ch_proposal_time_slots
-      using:
-        foreign_key_constraint_on:
-          column: timeslot_id
-          table:
-            schema: public
-            name: ch_proposal_time_slots
+  - name: helpers
+    using:
+      foreign_key_constraint_on:
+        column: timeslot_id
+        table:
+          schema: public
+          name: ch_helper_time_slots
+  - name: proposals
+    using:
+      foreign_key_constraint_on:
+        column: timeslot_id
+        table:
+          schema: public
+          name: ch_proposal_time_slots
 - table:
     schema: public
     name: ch_wait_list
   object_relationships:
-    - name: ch_festival
-      using:
-        foreign_key_constraint_on: festival_id
+  - name: festival
+    using:
+      foreign_key_constraint_on: festival_id
   array_relationships:
-    - name: ch_proposals
-      using:
-        foreign_key_constraint_on:
-          column: waitlist_id
-          table:
-            schema: public
-            name: ch_proposal
+  - name: proposals
+    using:
+      foreign_key_constraint_on:
+        column: waitlist_id
+        table:
+          schema: public
+          name: ch_proposal
 - table:
     schema: public
     name: cr_user
   array_relationships:
-    - name: ch_helpers
-      using:
-        foreign_key_constraint_on:
-          column: user_id
-          table:
-            schema: public
-            name: ch_helper
-    - name: guilds
-      using:
-        foreign_key_constraint_on:
-          column: user_id
-          table:
-            schema: public
-            name: nb_guild_member
-    - name: managed_spheres
-      using:
-        foreign_key_constraint_on:
-          column: user_id
-          table:
-            schema: public
-            name: nb_sphere_managers
-    - name: meetings
-      using:
-        foreign_key_constraint_on:
-          column: user_id
-          table:
-            schema: public
-            name: nb_meeting_participant
-    - name: organized_meetings
-      using:
-        foreign_key_constraint_on:
-          column: organizer_id
-          table:
-            schema: public
-            name: nb_meeting
-    - name: proposals
-      using:
-        foreign_key_constraint_on:
-          column: speaker_user_id
-          table:
-            schema: public
-            name: ch_proposal
+  - name: guilds
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: nb_guild_member
+  - name: helpers
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: ch_helper
+  - name: managed_spheres
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: nb_sphere_managers
+  - name: organized_meetings
+    using:
+      foreign_key_constraint_on:
+        column: organizer_id
+        table:
+          schema: public
+          name: nb_meeting
+  - name: participated_meetings
+    using:
+      foreign_key_constraint_on:
+        column: user_id
+        table:
+          schema: public
+          name: nb_meeting_participant
+  - name: proposals
+    using:
+      foreign_key_constraint_on:
+        column: speaker_user_id
+        table:
+          schema: public
+          name: ch_proposal
 - table:
     schema: public
     name: django_site
   object_relationships:
-    - name: nb_sphere
-      using:
-        manual_configuration:
-          remote_table:
-            schema: public
-            name: nb_sphere
-          column_mapping:
-            id: site_id
+  - name: sphere
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: nb_sphere
+        column_mapping:
+          id: site_id
 - table:
     schema: public
     name: nb_guild
   array_relationships:
-    - name: nb_guild_members
-      using:
-        foreign_key_constraint_on:
-          column: guild_id
-          table:
-            schema: public
-            name: nb_guild_member
-    - name: nb_meetings
-      using:
-        foreign_key_constraint_on:
-          column: guild_id
-          table:
-            schema: public
-            name: nb_meeting
+  - name: meetings
+    using:
+      foreign_key_constraint_on:
+        column: guild_id
+        table:
+          schema: public
+          name: nb_meeting
+  - name: members
+    using:
+      foreign_key_constraint_on:
+        column: guild_id
+        table:
+          schema: public
+          name: nb_guild_member
 - table:
     schema: public
     name: nb_guild_member
   object_relationships:
-    - name: cr_user
-      using:
-        foreign_key_constraint_on: user_id
-    - name: nb_guild
-      using:
-        foreign_key_constraint_on: guild_id
+  - name: guild
+    using:
+      foreign_key_constraint_on: guild_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
 - table:
     schema: public
     name: nb_meeting
   object_relationships:
-    - name: guild
-      using:
-        foreign_key_constraint_on: guild_id
-    - name: organizer
-      using:
-        foreign_key_constraint_on: organizer_id
-    - name: proposal
-      using:
-        manual_configuration:
-          remote_table:
-            schema: public
-            name: ch_proposal
-          column_mapping:
-            id: meeting_id
-    - name: sphere
-      using:
-        foreign_key_constraint_on: sphere_id
-    - name: time_table
-      using:
-        manual_configuration:
-          remote_table:
-            schema: public
-            name: ch_agenda_item
-          column_mapping:
-            id: meeting_id
+  - name: guild
+    using:
+      foreign_key_constraint_on: guild_id
+  - name: organizer
+    using:
+      foreign_key_constraint_on: organizer_id
+  - name: proposal
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: ch_proposal
+        column_mapping:
+          id: meeting_id
+  - name: sphere
+    using:
+      foreign_key_constraint_on: sphere_id
+  - name: time_table
+    using:
+      manual_configuration:
+        remote_table:
+          schema: public
+          name: ch_agenda_item
+        column_mapping:
+          id: meeting_id
   array_relationships:
-    - name: participants
-      using:
-        foreign_key_constraint_on:
-          column: meeting_id
-          table:
-            schema: public
-            name: nb_meeting_participant
+  - name: participants
+    using:
+      foreign_key_constraint_on:
+        column: meeting_id
+        table:
+          schema: public
+          name: nb_meeting_participant
 - table:
     schema: public
     name: nb_meeting_participant
   object_relationships:
-    - name: meeting
-      using:
-        foreign_key_constraint_on: meeting_id
-    - name: user
-      using:
-        foreign_key_constraint_on: user_id
+  - name: meeting
+    using:
+      foreign_key_constraint_on: meeting_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id
 - table:
     schema: public
     name: nb_sphere
   object_relationships:
-    - name: django_site
-      using:
-        foreign_key_constraint_on: site_id
+  - name: django_site
+    using:
+      foreign_key_constraint_on: site_id
   array_relationships:
-    - name: ch_festivals
-      using:
-        foreign_key_constraint_on:
-          column: sphere_id
-          table:
-            schema: public
-            name: ch_festival
-    - name: nb_meetings
-      using:
-        foreign_key_constraint_on:
-          column: sphere_id
-          table:
-            schema: public
-            name: nb_meeting
-    - name: nb_sphere_managers
-      using:
-        foreign_key_constraint_on:
-          column: sphere_id
-          table:
-            schema: public
-            name: nb_sphere_managers
+  - name: festivals
+    using:
+      foreign_key_constraint_on:
+        column: sphere_id
+        table:
+          schema: public
+          name: ch_festival
+  - name: managers
+    using:
+      foreign_key_constraint_on:
+        column: sphere_id
+        table:
+          schema: public
+          name: nb_sphere_managers
+  - name: meetings
+    using:
+      foreign_key_constraint_on:
+        column: sphere_id
+        table:
+          schema: public
+          name: nb_meeting
 - table:
     schema: public
     name: nb_sphere_managers
   object_relationships:
-    - name: cr_user
-      using:
-        foreign_key_constraint_on: user_id
-    - name: nb_sphere
-      using:
-        foreign_key_constraint_on: sphere_id
+  - name: sphere
+    using:
+      foreign_key_constraint_on: sphere_id
+  - name: user
+    using:
+      foreign_key_constraint_on: user_id

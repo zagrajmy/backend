@@ -10,8 +10,8 @@ env=${env:-production}
 # reads all optional args `--abc` to variables `abc`
 while [ $# -gt 0 ]; do
   if [[ $1 == *"--"* ]]; then
-        param="${1/--/}"
-        declare $param="$2"
+    param="${1/--/}"
+    declare $param="$2"
   fi
   shift
 done
