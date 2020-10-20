@@ -33,6 +33,13 @@
           table:
             schema: public
             name: ch_room
+    - name: ch_time_slots
+      using:
+        foreign_key_constraint_on:
+          column: festival_id
+          table:
+            schema: public
+            name: ch_time_slot
     - name: ch_wait_lists
       using:
         foreign_key_constraint_on:
@@ -40,13 +47,6 @@
           table:
             schema: public
             name: ch_wait_list
-    - name: time_slots
-      using:
-        foreign_key_constraint_on:
-          column: festival_id
-          table:
-            schema: public
-            name: ch_time_slot
 - table:
     schema: public
     name: ch_helper
@@ -132,7 +132,7 @@
     schema: public
     name: ch_time_slot
   object_relationships:
-    - name: festival
+    - name: ch_festival
       using:
         foreign_key_constraint_on: festival_id
   array_relationships:
@@ -176,6 +176,13 @@
           table:
             schema: public
             name: ch_helper
+    - name: ch_proposals
+      using:
+        foreign_key_constraint_on:
+          column: speaker_user_id
+          table:
+            schema: public
+            name: ch_proposal
     - name: guilds
       using:
         foreign_key_constraint_on:
@@ -190,7 +197,7 @@
           table:
             schema: public
             name: nb_sphere_managers
-    - name: meetings
+    - name: nb_meeting_participants
       using:
         foreign_key_constraint_on:
           column: user_id
@@ -204,13 +211,6 @@
           table:
             schema: public
             name: nb_meeting
-    - name: proposals
-      using:
-        foreign_key_constraint_on:
-          column: speaker_user_id
-          table:
-            schema: public
-            name: ch_proposal
 - table:
     schema: public
     name: django_site
@@ -292,12 +292,12 @@
     schema: public
     name: nb_meeting_participant
   object_relationships:
-    - name: meeting
-      using:
-        foreign_key_constraint_on: meeting_id
-    - name: user
+    - name: cr_user
       using:
         foreign_key_constraint_on: user_id
+    - name: nb_meeting
+      using:
+        foreign_key_constraint_on: meeting_id
 - table:
     schema: public
     name: nb_sphere

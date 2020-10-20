@@ -8,15 +8,8 @@
 #   bash console.sh --env local
 #
 
-. ./read-args.sh
-
-endpoint=""
-
-if [[ $env = "production" ]]; then
-  endpoint="https://db.wiezamaga.net"
-elif [[ $env = "local" ]]; then
-  endpoint="http://localhost:8081"
-fi
+. "${0%/*}/read-args.sh"
+. "${0%/*}/hasura-endpoint.sh"
 
 echo "hasura console \ --endpoint $endpoint \ --admin-secret $adminSecret"
 
