@@ -69,7 +69,7 @@ lint-isort:
 	isort --check-only --diff app tests stubs
 
 lint-pylint:
-	pylint app/contrib app/notice_board app/common app/crowd app/chronology app/zagrajmy
+	pylint app/contrib app/notice_board app/crowd app/chronology app/zagrajmy
 	pylint --rcfile=tests/.pylintrc tests
 
 lint-pycodestyle:

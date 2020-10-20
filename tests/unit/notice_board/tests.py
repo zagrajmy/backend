@@ -8,7 +8,7 @@ from rest_framework.serializers import ValidationError
 from chronology.models import AgendaItem
 from notice_board.admin import SphereManagersAdminMixin
 from notice_board.apps import NoticeBoardConfig
-from notice_board.models import DescribedModel, Guild, Sphere, Meeting
+from notice_board.models import DescribedModel, Guild, Meeting, Sphere
 from notice_board.serializers import (
     MeetingCreateSerializer,
     MeetingReadSerializer,

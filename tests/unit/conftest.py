@@ -1,8 +1,8 @@
-from datetime import timedelta, datetime
-import pytz
-from django.utils import timezone
+from datetime import datetime, timedelta
 
 import pytest
+import pytz
+from django.utils import timezone
 
 
 @pytest.fixture
