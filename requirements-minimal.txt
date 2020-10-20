@@ -1,3 +1,4 @@
+dj-rest-auth[with_social]
 Django
 django-computedfields
 django-cors-headers

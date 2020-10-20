@@ -41,6 +41,14 @@ INSTALLED_APPS = [
     "django_json_widget",
     "simple_history",
     "rest_framework",
+    "rest_framework.authtoken",
+    "dj_rest_auth",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.facebook",
+    "allauth.socialaccount.providers.google",
+    "dj_rest_auth.registration",
     # Project apps
     "chronology.apps.ChronologyConfig",
     "crowd.apps.CrowdConfig",
@@ -143,3 +151,11 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     ]
 }
+
+
+# Django Allauth
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "allauth.account.auth_backends.AuthenticationBackend",
+]

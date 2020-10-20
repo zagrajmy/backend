@@ -16,4 +16,6 @@ urlpatterns = [
         get_schema_view(title="Zagrajmy", version="1.0.0"),
         name="openapi-schema",
     ),
+    path("social/", include("dj_rest_auth.urls")),
+    path("social/registration/", include("dj_rest_auth.registration.urls")),
 ]
